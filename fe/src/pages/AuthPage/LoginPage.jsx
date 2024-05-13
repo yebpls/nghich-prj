@@ -1,5 +1,69 @@
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+
 const LoginPage = () => {
-  return <div>LoginPage</div>;
+  const form = useForm();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    control,
+    reset,
+  } = form;
+  const onSubmit = (data) => {
+    console.log(data);
+    // reset();
+  };
+  return (
+    <div className="w-full h-screen px-40 py-4">
+      <div className="ml-40 mb-10">
+        <Link to="/">
+          <img className="h-14" src="/logo_nghich.png" alt="" />
+        </Link>
+      </div>
+
+      <div className="flex justify-between">
+        <div className="w-1/2 h-full ">
+          <img
+            src="/images/login_img.png
+        "
+            alt=""
+          />
+        </div>
+        <div className="w-1/2 h-full">
+          <form>
+            <h2 className="text-3xl text-black font-semibold mb-4">Log In</h2>
+            <p className="mb-4">
+              Dont have an account yet?{" "}
+              <Link to="/sign-up" className="text-pink_1">
+                Sign Up
+              </Link>{" "}
+            </p>
+            <div className="mb-4 w-full relative">
+              <input
+                className="w-full h-[50px] py-1 px-4  border-black border-b-2 rounded-[6px]  placeholder-gray_3  focus:placeholder-transparent focus:outline-none  focus:ring-1 "
+                type="text"
+                placeholder="Your username or email address"
+                {...register("email", { required: true })}
+              />
+            </div>
+            <div className=" mb-4 w-full relative">
+              <input
+                className="w-full h-[50px] py-1 px-4 rounded-[6px]  placeholder-gray_3  focus:placeholder-transparent focus:outline-none  focus:ring-1"
+                type="password"
+                placeholder="Password"
+                {...register("password", { required: true })}
+              />
+            </div>
+            <Link className="text-black font-bold mb-4">Forgot Password?</Link>
+            <button className="bg-green_1 w-full py-3 rounded-md text-black font-semibold">
+              Log In
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default LoginPage;

@@ -38,7 +38,7 @@ const Header = () => {
             </Link>
           </>
         )}
-        <Link>Login</Link>
+        <Link to="/login">Login</Link>
       </div>
     </div>
   );

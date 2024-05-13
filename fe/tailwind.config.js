@@ -8,6 +8,10 @@ module.exports = {
       },
       colors: {
         gray_1: "#6C7275",
+
+        green_1: "#CEF53D",
+
+        pink_1: "#FF78C5",
       },
     },
   },
