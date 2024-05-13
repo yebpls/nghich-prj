@@ -1,39 +1,44 @@
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { useState } from "react";
 
 const Header = () => {
+  const [isLogin, setIsLogin] = useState(false);
   return (
-    <div className="flex w-[1440px] items-center justify-between px-[160px] py-[16px] relative bg-[#ffffff]">
+    <div className="flex w-full items-center justify-between px-[160px] py-[16px] relative bg-[#ffffff]">
       <img
         className="relative w-[98px] h-[37px] object-cover"
         alt="Logo copy"
         src="/logo_nghich.png"
       />
       <div className="flex gap-20">
-        <Link>Home</Link>
-        <Link>Product</Link>
-        <Link>Custom</Link>
-        <Link>Contact Us</Link>
-        {/* <ElementsNavigation className="!flex-[0_0_auto]" /> */}
-        {/* <div className="inline-flex items-center gap-[2px] relative flex-[0_0_auto]">
-          <button className="all-[unset] box-border inline-flex items-center gap-[2px] relative flex-[0_0_auto] border-0 border-none border-neutral-04100">
-            <div className="inline-flex items-center gap-[4px] relative flex-[0_0_auto]">
-              <div className="text-neutral-04100 relative w-fit mt-[-1.00px] font-button-xsmall font-[number:var(--button-xsmall-font-weight)] text-[length:var(--button-xsmall-font-size)] tracking-[var(--button-xsmall-letter-spacing)] leading-[var(--button-xsmall-line-height)] whitespace-nowrap [font-style:var(--button-xsmall-font-style)]">
-                Product
-              </div>
-            </div>
-          </button>
-        </div>
-        <div className="inline-flex items-center gap-[4px] relative flex-[0_0_auto]">
-          <div className="text-neutral-04100 relative w-fit mt-[-1.00px] font-button-xsmall font-[number:var(--button-xsmall-font-weight)] text-[length:var(--button-xsmall-font-size)] tracking-[var(--button-xsmall-letter-spacing)] leading-[var(--button-xsmall-line-height)] whitespace-nowrap [font-style:var(--button-xsmall-font-style)]">
-            Custom
-          </div>
-        </div> */}
-        {/* <ElementsNavigationWrapper className="!flex-[0_0_auto]" /> */}
+        <Link className="text-gray_1 font-medium">Home</Link>
+        <Link className="text-gray_1 font-medium">Product</Link>
+        <Link className="text-gray_1 font-medium">Custom</Link>
+        <Link className="text-gray_1 font-medium">Contact Us</Link>
       </div>
-      <div className="inline-flex items-center justify-end gap-[16px] relative flex-[0_0_auto]">
-        {/* <Search02 className="!relative !w-[24px] !h-[24px]" />
-        <UserCircle className="!relative !w-[24px] !h-[24px]" />
-        <DivWrapper text="5" /> */}
+      <div className="flex items-center gap-6">
+        <Link className="h-8 w-8">
+          <img className="w-full h-full" src="images/Vector.png" />
+        </Link>
+        {isLogin && (
+          <>
+            <Link className="h-8 w-8 flex items-center justify-center border-2 border-black rounded-full">
+              <FontAwesomeIcon size="lg" icon={faUser} />
+            </Link>
+            <Link className="h-8 flex items-center">
+              <img
+                className="inline-block w-8 h-full"
+                src="images/shopping bag.png"
+              />
+              <span className=" border border-black rounded-full bg-black text-white w-6 h-6 flex items-center justify-center">
+                5
+              </span>
+            </Link>
+          </>
+        )}
+        <Link>Login</Link>
       </div>
     </div>
   );
