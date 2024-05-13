@@ -5,20 +5,20 @@ const LoginPage = () => {
   const form = useForm();
   const {
     register,
-    formState: { errors },
+    // formState: { errors },
     handleSubmit,
-    control,
-    reset,
+    // control,
+    // reset,
   } = form;
   const onSubmit = (data) => {
     console.log(data);
     // reset();
   };
   return (
-    <div className="w-full h-screen px-40 py-4">
-      <div className="ml-40 mb-10">
+    <div className="w-full h-screen px-56 py-7">
+      <div className="ml-44 mb-10">
         <Link to="/">
-          <img className="h-14" src="/logo_nghich.png" alt="" />
+          <img className="h-14" src="/logo_nghich_lg.png" alt="" />
         </Link>
       </div>
 
@@ -31,32 +31,35 @@ const LoginPage = () => {
           />
         </div>
         <div className="w-1/2 h-full">
-          <form>
-            <h2 className="text-3xl text-black font-semibold mb-4">Log In</h2>
-            <p className="mb-4">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <h2 className="text-4xl text-black font-semibold mb-5">Log In</h2>
+            <p className="mb-5">
               Dont have an account yet?{" "}
-              <Link to="/sign-up" className="text-pink_1">
+              <Link to="/sign-up" className="text-pink_1 font-bold">
                 Sign Up
               </Link>{" "}
             </p>
-            <div className="mb-4 w-full relative">
+            <div className="mb-5 w-full relative">
               <input
-                className="w-full h-[50px] py-1 px-4  border-black border-b-2 rounded-[6px]  placeholder-gray_3  focus:placeholder-transparent focus:outline-none  focus:ring-1 "
+                className="w-full h-[50px] py-1 px-4  border-gray_1 border-b-2  placeholder-gray_3  focus:placeholder-transparent  "
                 type="text"
                 placeholder="Your username or email address"
                 {...register("email", { required: true })}
               />
             </div>
-            <div className=" mb-4 w-full relative">
+            <div className=" mb-5 w-full relative">
               <input
-                className="w-full h-[50px] py-1 px-4 rounded-[6px]  placeholder-gray_3  focus:placeholder-transparent focus:outline-none  focus:ring-1"
+                className="w-full h-[50px] py-1 px-4  border-gray_1 border-b-2 placeholder-gray_3  focus:placeholder-transparent  "
                 type="password"
                 placeholder="Password"
                 {...register("password", { required: true })}
               />
             </div>
-            <Link className="text-black font-bold mb-4">Forgot Password?</Link>
-            <button className="bg-green_1 w-full py-3 rounded-md text-black font-semibold">
+            <Link className="text-black font-bold mb-5">Forgot Password?</Link>
+            <button
+              type="submit"
+              className="bg-green_1 w-full py-3 rounded-md text-black font-semibold"
+            >
               Log In
             </button>
           </form>

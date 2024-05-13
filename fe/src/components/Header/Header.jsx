@@ -4,41 +4,52 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   return (
     <div className="flex w-full items-center justify-between px-[160px] py-[16px] relative bg-[#ffffff]">
-      <img
-        className="relative w-[98px] h-[37px] object-cover"
-        alt="Logo copy"
-        src="/logo_nghich.png"
-      />
+      <Link to="/">
+        <img
+          className="relative w-[98px] h-[37px] object-cover"
+          alt="Logo copy"
+          src="/logo_nghich.png"
+        />
+      </Link>
+
       <div className="flex gap-20">
-        <Link className="text-gray_1 font-medium">Home</Link>
-        <Link className="text-gray_1 font-medium">Product</Link>
-        <Link className="text-gray_1 font-medium">Custom</Link>
-        <Link className="text-gray_1 font-medium">Contact Us</Link>
+        <Link to="/" className="text-gray_2 font-medium">
+          Home
+        </Link>
+        <Link className="text-gray_2 font-medium">Product</Link>
+        <Link className="text-gray_2 font-medium">Custom</Link>
+        <Link className="text-gray_2 font-medium">Contact Us</Link>
       </div>
       <div className="flex items-center gap-6">
-        <Link className="h-8 w-8">
-          <img className="w-full h-full" src="images/Vector.png" />
+        <Link className="h-5 w-5">
+          <img
+            alt="search"
+            className="w-full h-full"
+            src="images/search_icon.png"
+          />
         </Link>
-        {isLogin && (
+        {isLogin ? (
           <>
-            <Link className="h-8 w-8 flex items-center justify-center border-2 border-black rounded-full">
-              <FontAwesomeIcon size="lg" icon={faUser} />
+            <Link className="h-6 w-6 flex items-center justify-center border border-black rounded-full">
+              <FontAwesomeIcon size="1x" className="text-black" icon={faUser} />
             </Link>
-            <Link className="h-8 flex items-center">
+            <Link className="h-6 flex items-center">
               <img
-                className="inline-block w-8 h-full"
-                src="images/shopping bag.png"
+                alt="cart"
+                className="inline-block w-6 h-full mr-1"
+                src="images/cart_icon.png"
               />
-              <span className=" border border-black rounded-full bg-black text-white w-6 h-6 flex items-center justify-center">
+              <span className="text-xs border border-black rounded-full bg-black text-white w-5 h-5 flex items-center justify-center">
                 5
               </span>
             </Link>
           </>
+        ) : (
+          <Link to="/login">Login</Link>
         )}
-        <Link to="/login">Login</Link>
       </div>
     </div>
   );
