@@ -164,12 +164,7 @@ usersRouter.patch(
   accessTokenValidator,
   verifiedUserValidator,
   updateProfileValidator,
-  filterMiddleware<UpdateProfileReqBody>([
-    "name",
-    "date_of_birth",
-    "username",
-    "avatar",
-  ]),
+  filterMiddleware<UpdateProfileReqBody>(["name", "date_of_birth", "username"]),
   wrapRequestHandler(updateMyProfileController)
 );
 

@@ -486,21 +486,6 @@ export const updateProfileValidator = validate(
         optional: true,
       },
 
-      // address: {
-      //   optional: true,
-      //   isString: {
-      //     errorMessage: USERS_MESSAGES.LOCATION_MUST_BE_STRING,
-      //   },
-      //   trim: true,
-      //   isLength: {
-      //     options: {
-      //       min: 1,
-      //       max: 200,
-      //     },
-      //     errorMessage: USERS_MESSAGES.LOCATION_LENGTH,
-      //   },
-      // },
-
       username: {
         optional: true,
         isString: {
@@ -522,7 +507,6 @@ export const updateProfileValidator = validate(
         },
       },
       avatar: imageUrlSchema,
-      cover_photo: imageUrlSchema,
     },
     ["body"]
   )

@@ -22,7 +22,6 @@ const options: swaggerJsdoc.Options = {
   apis: ["./swagger/*.yaml"],
 };
 const openapiSpecification = swaggerJsdoc(options);
-// const swaggerDocument = YAML.parse(file);
 
 const app = express();
 const port = 8080;

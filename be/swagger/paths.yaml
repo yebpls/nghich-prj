@@ -39,3 +39,59 @@ paths:
                     $ref: "#/components/schemas/SuccessAuthentication"
         "422":
           description: Invalid input
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Register user
+      operationId: register
+      requestBody:
+        description: The user that needs to be registered
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterBody"
+        required: true
+      responses:
+        "200":
+          description: Register Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Register Successfully
+                  result:
+                    $ref: "#/components/schemas/SuccessAuthentication"
+        "422":
+          description: Invalid input
+  /users/logout:
+    post:
+      tags:
+        - users
+      summary: Logs out current logged in user session
+      operationId: logout
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: The user that needs to be logged out
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LogoutBody"
+        required: true
+      responses:
+        "200":
+          description: Logout Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Logout Successfully
+        "422":
+          description: Invalid input

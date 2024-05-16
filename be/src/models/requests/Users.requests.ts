@@ -45,7 +45,6 @@ export interface UpdateProfileReqBody {
   name?: string;
   date_of_birth?: string;
   username?: string;
-  avatar?: string;
 }
 
 export interface GetProfileReqParams {
