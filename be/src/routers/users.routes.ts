@@ -1,30 +1,46 @@
 import { wrapRequestHandler } from "./../utils/handlers";
 import { Router } from "express";
 import {
+  changePassWordController,
   emailVerifyController,
   forgotPassWordController,
+  getMyProfileController,
+  getUserProfileController,
   loginController,
   logoutControler,
   registerController,
   resendVerifyEmailController,
+  resetPasswordController,
+  updateMyProfileController,
   verifyForgotPasswordController,
 } from "~/controllers/users.controllers";
+import { filterMiddleware } from "~/middlewares/common.middlewares";
 import {
   accessTokenValidator,
+  changePasswordValidator,
   emailVerifyTokenValidator,
   forgotPassWordValidator,
   loginValidator,
   refreshTokenValidator,
   registerValidator,
+  resetPasswordValidator,
+  updateProfileValidator,
+  verifiedUserValidator,
   verifyForgotPasswordTokenValidator,
 } from "~/middlewares/users.middlewares";
+import { UpdateProfileReqBody } from "~/models/requests/Users.requests";
 
 const usersRouter = Router();
 
-/*
- * Description: Register a new user
- * Route: [POST] /users/register
- * Body: { name:string, email: string, password: string, confirm_password: string, date_of_birth: ISO8061 }
+/**
+ * @openapi
+ * /users/register:
+ *  post:
+ *    description: Register a new user
+ *    tags:
+ *     - Users
+ *    requestBody:
+ *      description: Thong tin dang ky
  */
 usersRouter.post(
   "/register",
@@ -78,7 +94,7 @@ usersRouter.post(
 
 /**
  * Description: forgot password
- * Route: [POST] /users/resend-verify-email
+ * Route: [POST] /users/forgot-password
  * Header: { Authorization: Bearer <access_token> }
  * Body: {email: string}
  */
@@ -98,6 +114,73 @@ usersRouter.post(
   "/verify-fotgot-password",
   verifyForgotPasswordTokenValidator,
   wrapRequestHandler(verifyForgotPasswordController)
+);
+
+/**
+ * Description: Reset Password
+ * Route: [POST] /users/reset-password
+ * Body: {forgot_password_token: string, password: string, confirm_password: string}
+ */
+usersRouter.post(
+  "/reset-password",
+  resetPasswordValidator,
+  wrapRequestHandler(resetPasswordController)
+);
+
+/**
+ * Description: Change password
+ * Route: [PUT] /users/change-password
+ * Header: {Authorization: Bearer <access_token>}
+ * Body: {old_password: string, password: string, confirm_password: string}
+ */
+usersRouter.put(
+  "/change-password",
+  accessTokenValidator,
+  verifiedUserValidator,
+  changePasswordValidator,
+  wrapRequestHandler(changePassWordController)
+);
+
+/**
+ * Description: Get my profile
+ * Route: [GET] /users/profile
+ * Header: {Authorization: Bearer <access_token>}
+ * Body: {}
+ */
+usersRouter.get(
+  "/profile",
+  accessTokenValidator,
+  wrapRequestHandler(getMyProfileController)
+);
+
+/**
+ * Description: Update my profile
+ * Route: [PATCH] /users/profile
+ * Header: {Authorization: Bearer <access_token>}
+ * Body: UserSchema
+ */
+usersRouter.patch(
+  "/profile",
+  accessTokenValidator,
+  verifiedUserValidator,
+  updateProfileValidator,
+  filterMiddleware<UpdateProfileReqBody>([
+    "name",
+    "date_of_birth",
+    "username",
+    "avatar",
+  ]),
+  wrapRequestHandler(updateMyProfileController)
+);
+
+/**
+ * Description: Get user profile
+ * Route: [GET] /users/profile/:user_id
+ * Body: {}
+ */
+usersRouter.get(
+  "/profile/:username",
+  wrapRequestHandler(getUserProfileController)
 );
 
 export default usersRouter;

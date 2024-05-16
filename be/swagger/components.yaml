@@ -1,0 +1,25 @@
+components:
+  schemas:
+    LoginBody:
+      type: object
+      properties:
+        email:
+          type: string
+          # example: user1@gmail.com
+        password:
+          type: string
+          example: Password1.
+    SuccessAuthentication:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjYyMTE5MzczNjgxMjg2MjY0ZDhjNmJkIiwidG9rZW5fdHlwZSI6MCwiaWF0IjoxNzE1NjE4MzY2LCJleHAiOjE3MTU2MTkyNjZ9.HaYhDhj-aIzWMeEEf5p0piyYOE7WmVKlUxh2vq0sF9o
+        refresh_token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjYyMTE5MzczNjgxMjg2MjY0ZDhjNmJkIiwidG9rZW5fdHlwZSI6MCwiaWF0IjoxNzE1NjE4MzY2LCJleHAiOjE3MTU2MTkyNjZ9.HaYhDhj-aIzWMeEEf5p0piyYOE7WmVKlUxh2vq0sF9o
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

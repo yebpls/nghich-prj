@@ -3,7 +3,8 @@ import { config } from "dotenv";
 import User from "~/models/schemas/User.schema";
 import RefreshToken from "~/models/schemas/RefreshToken.schema";
 config();
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@twitter.31fkklt.mongodb.net/?retryWrites=true&w=majority&appName=Twitter`;
+
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@nghich.wlx2lor.mongodb.net/?retryWrites=true&w=majority&appName=nghich`;
 
 class DatabaseService {
   private client: MongoClient;

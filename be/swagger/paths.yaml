@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Swagger Nghich - OpenAPI 3.0
+  description: |-
+    API for Nghich Project
+  version: 1.0.11
+
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: users
+    description: API cho Users
+paths:
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Logs user into the system
+      operationId: login
+      requestBody:
+        description: The user that needs to be logged in
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginBody"
+        required: true
+      responses:
+        "200":
+          description: Login Successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Login Successfully
+                  result:
+                    $ref: "#/components/schemas/SuccessAuthentication"
+        "422":
+          description: Invalid input

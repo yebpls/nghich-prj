@@ -1,6 +1,9 @@
 import User from "~/models/schemas/User.schema";
 import databaseService from "./database.services";
-import { RegisterRequestBody } from "~/models/requests/Users.requests";
+import {
+  RegisterRequestBody,
+  UpdateProfileReqBody,
+} from "~/models/requests/Users.requests";
 import { hashPassword } from "~/utils/crypto";
 import { signToken } from "~/utils/jwt";
 import { TokenType, UserVerifyStatus } from "~/constants/enum";
@@ -8,11 +11,55 @@ import RefreshToken from "~/models/schemas/RefreshToken.schema";
 import { ObjectId } from "mongodb";
 import { USERS_MESSAGES } from "~/constants/messages";
 import { update } from "lodash";
+import HTTP_STATUS from "~/constants/httpStatus";
+import { ErrorWithStatus } from "~/models/Errors";
+
+const projection = {
+  password: 0,
+  email_verify_token: 0,
+  forgot_password_token: 0,
+};
 
 class UserService {
-  private signAccessToken(user_id: string) {
+  async register(payload: RegisterRequestBody) {
+    const user_id = new ObjectId();
+    const email_verify_token = await this.signEmailVerifyToken({
+      user_id: user_id.toString(),
+      verify: UserVerifyStatus.Unverified,
+    });
+    await databaseService.users.insertOne(
+      new User({
+        ...payload,
+        _id: user_id,
+        email_verify_token,
+        date_of_birth: null,
+        verify: UserVerifyStatus.Verified,
+        password: hashPassword(payload.password),
+      })
+    );
+
+    const [access_token, refresh_token] = await this.signAccessAndRefreshToken({
+      user_id: user_id.toString(),
+      verify: UserVerifyStatus.Unverified,
+    });
+    await databaseService.refreshTokens.insertOne(
+      new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token })
+    );
+    return { access_token, refresh_token };
+  }
+  private signAccessToken({
+    user_id,
+    verify,
+  }: {
+    user_id: string;
+    verify: UserVerifyStatus;
+  }) {
     return signToken({
-      payload: { user_id, token_type: TokenType.AccessToken },
+      payload: {
+        user_id: user_id,
+        token_type: TokenType.AccessToken,
+        verify: verify,
+      },
       options: {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
       },
@@ -20,9 +67,19 @@ class UserService {
     });
   }
 
-  private signRefreshToken(user_id: string) {
+  private signRefreshToken({
+    user_id,
+    verify,
+  }: {
+    user_id: string;
+    verify: UserVerifyStatus;
+  }) {
     return signToken({
-      payload: { user_id: user_id, token_type: TokenType.RefreshToken },
+      payload: {
+        user_id: user_id,
+        token_type: TokenType.RefreshToken,
+        verify: verify,
+      },
       options: {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
       },
@@ -30,16 +87,28 @@ class UserService {
     });
   }
 
-  private signAccessAndRefreshToken(user_id: string) {
+  private signAccessAndRefreshToken({
+    user_id,
+    verify,
+  }: {
+    user_id: string;
+    verify: UserVerifyStatus;
+  }) {
     return Promise.all([
-      this.signAccessToken(user_id),
-      this.signRefreshToken(user_id),
+      this.signAccessToken({ user_id, verify }),
+      this.signRefreshToken({ user_id, verify }),
     ]);
   }
 
-  private signEmailVerifyToken(user_id: string) {
+  private signEmailVerifyToken({
+    user_id,
+    verify,
+  }: {
+    user_id: string;
+    verify: UserVerifyStatus;
+  }) {
     return signToken({
-      payload: { user_id, token_type: TokenType.EmailVerifyToken },
+      payload: { user_id, token_type: TokenType.EmailVerifyToken, verify },
       options: {
         expiresIn: process.env.EMAIL_VERIFY_TOKEN_EXPIRES_IN,
       },
@@ -47,9 +116,15 @@ class UserService {
     });
   }
 
-  private signForgotPassWordToken(user_id: string) {
+  private signForgotPassWordToken({
+    user_id,
+    verify,
+  }: {
+    user_id: string;
+    verify: UserVerifyStatus;
+  }) {
     return signToken({
-      payload: { user_id, token_type: TokenType.ForgotPasswordToken },
+      payload: { user_id, token_type: TokenType.ForgotPasswordToken, verify },
       options: {
         expiresIn: process.env.FORGOT_PASSWORD_TOKEN_EXPIRES_IN,
       },
@@ -61,34 +136,17 @@ class UserService {
     const user = await databaseService.users.findOne({ email });
     return Boolean(user);
   }
-
-  async register(payload: RegisterRequestBody) {
-    const user_id = new ObjectId();
-    const email_verify_token = await this.signEmailVerifyToken(
-      user_id.toString()
-    );
-    await databaseService.users.insertOne(
-      new User({
-        ...payload,
-        _id: user_id,
-        email_verify_token,
-        date_of_birth: new Date(payload.date_of_birth),
-        password: hashPassword(payload.password),
-      })
-    );
-
-    const [access_token, refresh_token] = await this.signAccessAndRefreshToken(
-      user_id.toString()
-    );
-    await databaseService.refreshTokens.insertOne(
-      new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token })
-    );
-    return { access_token, refresh_token };
-  }
-
-  async login(user_id: string) {
-    const [access_token, refresh_token] =
-      await this.signAccessAndRefreshToken(user_id);
+  async login({
+    user_id,
+    verify,
+  }: {
+    user_id: string;
+    verify: UserVerifyStatus;
+  }) {
+    const [access_token, refresh_token] = await this.signAccessAndRefreshToken({
+      user_id,
+      verify,
+    });
     await databaseService.refreshTokens.insertOne(
       new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token })
     );
@@ -117,9 +175,18 @@ class UserService {
     };
   }
 
-  async resendEmailVerify(user_id: string) {
+  async resendEmailVerify({
+    user_id,
+    verify,
+  }: {
+    user_id: string;
+    verify: UserVerifyStatus;
+  }) {
     //Giả vờ gửi email
-    const email_verify_token = await this.signEmailVerifyToken(user_id);
+    const email_verify_token = await this.signEmailVerifyToken({
+      user_id,
+      verify,
+    });
     console.log("Send email to user_id: ", email_verify_token);
 
     //Cập nhật lại email_verify_token
@@ -137,8 +204,17 @@ class UserService {
     };
   }
 
-  async forgotPassword(user_id: string) {
-    const forgot_password_token = await this.signForgotPassWordToken(user_id);
+  async forgotPassword({
+    user_id,
+    verify,
+  }: {
+    user_id: string;
+    verify: UserVerifyStatus;
+  }) {
+    const forgot_password_token = await this.signForgotPassWordToken({
+      user_id,
+      verify,
+    });
     await databaseService.users.updateOne(
       { _id: new ObjectId(user_id) },
       {
@@ -152,6 +228,86 @@ class UserService {
     return {
       message: "Check your email for reset password!!!",
     };
+  }
+
+  async resetPassword(user_id: string, new_password: string) {
+    databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          forgot_password_token: "",
+          password: hashPassword(new_password),
+          verify: UserVerifyStatus.Verified,
+        },
+        $currentDate: { updated_at: true },
+      }
+    );
+
+    return {
+      message: USERS_MESSAGES.RESET_PASSWORD_SUCCESS,
+    };
+  }
+  async changePassword(user_id: string, new_password: string) {
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          password: hashPassword(new_password),
+        },
+        $currentDate: { updated_at: true },
+      }
+    );
+    return {
+      message: USERS_MESSAGES.CHANGE_PASSWORD_SUCCESS,
+    };
+  }
+  async getMyProfile(user_id: string) {
+    const user = await databaseService.users.findOne(
+      {
+        _id: new ObjectId(user_id),
+      },
+      {
+        projection: projection,
+      }
+    );
+    return user;
+  }
+  async updateMyProfile(user_id: string, body: UpdateProfileReqBody) {
+    const _body = body.date_of_birth
+      ? { ...body, date_of_birth: new Date(body.date_of_birth) }
+      : body;
+
+    const user = await databaseService.users.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          ...(_body as UpdateProfileReqBody & { date_of_birth?: Date }),
+        },
+        $currentDate: { updated_at: true },
+      },
+      {
+        returnDocument: "after",
+        projection: projection,
+      }
+    );
+    return user;
+  }
+  async getUserProfile(username: string) {
+    const user = await databaseService.users.findOne(
+      {
+        username,
+      },
+      {
+        projection: { ...projection, created_at: 0, updated_at: 0, verify: 0 },
+      }
+    );
+    if (user === null) {
+      throw new ErrorWithStatus(
+        USERS_MESSAGES.USER_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+    return user;
   }
 }
 

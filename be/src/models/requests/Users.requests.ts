@@ -6,7 +6,7 @@ export interface RegisterRequestBody {
   email: string;
   password: string;
   confirm_password: string;
-  date_of_birth: string;
+  username: string;
 }
 
 export interface LoginRequestBody {
@@ -33,4 +33,35 @@ export interface ForgotPassWordRequestBody {
 
 export interface VerifyForgotPassWordTokenRequestBody {
   forgot_password_token: string;
+}
+
+export interface ResetPasswordReqBody {
+  password: string;
+  confirm_password: string;
+  forgot_password_token: string;
+}
+
+export interface UpdateProfileReqBody {
+  name?: string;
+  date_of_birth?: string;
+  username?: string;
+  avatar?: string;
+}
+
+export interface GetProfileReqParams {
+  username: string;
+}
+
+// export interface FollowReqBody {
+//   follow_user_id: string;
+// }
+
+// export interface UnFollowReqParams extends ParamsDictionary {
+//   follow_user_id: string;
+// }
+
+export interface ChangePasswordReqBody {
+  old_password: string;
+  password: string;
+  confirm_password: string;
 }
