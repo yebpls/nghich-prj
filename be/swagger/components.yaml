@@ -1,5 +1,64 @@
 components:
   schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: ObjectId
+        name:
+          type: string
+        email:
+          type: string
+        date_of_birth:
+          type: string
+          format: date-time
+        password:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        email_verify_token:
+          type: string
+        forgot_password_token:
+          type: string
+        verify:
+          $ref: "#/components/schemas/UserVerifyStatus"
+        address:
+          type: array
+          items:
+            type: string
+        username:
+          type: string
+        avatar:
+          type: string
+
+    UserProfile:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: ObjectId
+        name:
+          type: string
+        email:
+          type: string
+        date_of_birth:
+          type: string
+          format: date-time
+        verify:
+          $ref: "#/components/schemas/UserVerifyStatus"
+        address:
+          type: array
+          items:
+            type: string
+        username:
+          type: string
+        avatar:
+          type: string
     LoginBody:
       type: object
       properties:
@@ -9,6 +68,9 @@ components:
         password:
           type: string
           example: Password123.
+      required:
+        - email
+        - password
     RegisterBody:
       type: object
       properties:
