@@ -1,4 +1,6 @@
 import { JwtPayload } from "jsonwebtoken";
+import { ParamsDictionary } from "express-serve-static-core";
+import { extend } from "lodash";
 import { TokenType } from "~/constants/enum";
 
 export interface RegisterRequestBody {
@@ -63,4 +65,24 @@ export interface ChangePasswordReqBody {
   old_password: string;
   password: string;
   confirm_password: string;
+}
+
+export interface AddAddressReqBody {
+  address: string;
+  phoneNumber: string;
+}
+
+export interface UpdateAddressReqBody {
+  [key: string]: any;
+  address_id: string;
+  address?: string;
+  phoneNumber?: string;
+}
+
+export interface UpdateAddressReqParams extends ParamsDictionary {
+  address_id: string;
+}
+
+export interface DeleteAddressReqParams extends ParamsDictionary {
+  address_id: string;
 }

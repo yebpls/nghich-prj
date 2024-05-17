@@ -6,7 +6,9 @@ import { UserVerifyStatus } from "~/constants/enum";
 import HTTP_STATUS from "~/constants/httpStatus";
 import { USERS_MESSAGES } from "~/constants/messages";
 import {
+  AddAddressReqBody,
   ChangePasswordReqBody,
+  DeleteAddressReqParams,
   EmailVerifyRequestBody,
   ForgotPassWordRequestBody,
   GetProfileReqParams,
@@ -15,6 +17,8 @@ import {
   RegisterRequestBody,
   ResetPasswordReqBody,
   TokenPayload,
+  UpdateAddressReqBody,
+  UpdateAddressReqParams,
   UpdateProfileReqBody,
   VerifyForgotPassWordTokenRequestBody,
 } from "~/models/requests/Users.requests";
@@ -204,4 +208,45 @@ export const getUserProfileController = async (
     message: USERS_MESSAGES.GET_USER_PROFILE_SUCCESS,
     result: user,
   });
+};
+
+export const addAddressController = async (
+  req: Request<ParamsDictionary, any, AddAddressReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const { address, phoneNumber } = req.body;
+  const result = await userService.addAddress(user_id, address, phoneNumber);
+  return res.json({
+    message: USERS_MESSAGES.ADD_ADDRESS_SUCCESS,
+    result,
+  });
+};
+
+export const updateAddressController = async (
+  req: Request<UpdateAddressReqParams, any, UpdateAddressReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const { address_id } = req.params;
+  const body = req.body;
+
+  const result = await userService.updateAddress(user_id, address_id, body);
+  return res.json({
+    message: USERS_MESSAGES.UPDATE_ADDRESS_SUCCESS,
+    result,
+  });
+};
+
+export const deleteAddressController = async (
+  req: Request<DeleteAddressReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const { address_id } = req.params;
+  const result = await userService.deleteAddress(user_id, address_id);
+  return res.json(result);
 };

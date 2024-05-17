@@ -1,7 +1,9 @@
-import User from "~/models/schemas/User.schema";
+import User, { AddressType } from "~/models/schemas/User.schema";
 import databaseService from "./database.services";
 import {
   RegisterRequestBody,
+  UpdateAddressReqBody,
+  UpdateAddressReqParams,
   UpdateProfileReqBody,
 } from "~/models/requests/Users.requests";
 import { hashPassword } from "~/utils/crypto";
@@ -33,6 +35,7 @@ class UserService {
         _id: user_id,
         email_verify_token,
         date_of_birth: null,
+        addresses: [],
         verify: UserVerifyStatus.Verified,
         password: hashPassword(payload.password),
       })
@@ -308,6 +311,70 @@ class UserService {
       );
     }
     return user;
+  }
+
+  async addAddress(user_id: string, address: string, phoneNumber: string) {
+    const newAddress: AddressType = {
+      _id: new ObjectId(),
+      address,
+      phoneNumber,
+    };
+    const user = await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $push: {
+          addresses: newAddress,
+        },
+        $currentDate: { updated_at: true },
+      }
+    );
+    return user;
+  }
+
+  async updateAddress(
+    user_id: string,
+    address_id: string,
+    body: UpdateAddressReqBody
+  ) {
+    const updateFields: any = {};
+
+    // Dynamically add fields to updateFields
+    for (const key in body) {
+      if (key !== "address_id" && body[key] !== undefined) {
+        updateFields[`addresses.$.${key}`] = body[key];
+      }
+    }
+
+    const user = await databaseService.users.findOneAndUpdate(
+      {
+        _id: new ObjectId(user_id),
+        "addresses._id": new ObjectId(address_id),
+      },
+      { $set: updateFields, $currentDate: { updated_at: true } },
+      {
+        returnDocument: "after",
+        projection: projection,
+      }
+    );
+    return user;
+  }
+
+  async deleteAddress(user_id: string, address_id: string) {
+    const address = await databaseService.users.findOne({
+      _id: new ObjectId(user_id),
+      "addresses._id": new ObjectId(address_id),
+    });
+
+    if (address === null) {
+      return { message: USERS_MESSAGES.ADDRESS_NOT_FOUND };
+    }
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      { $pull: { addresses: { _id: new ObjectId(address_id) } } }
+    );
+    return {
+      message: USERS_MESSAGES.DELETE_ADDRESS_SUCCESS,
+    };
   }
 }
 

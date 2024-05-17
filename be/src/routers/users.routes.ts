@@ -1,7 +1,9 @@
 import { wrapRequestHandler } from "./../utils/handlers";
 import { Router } from "express";
 import {
+  addAddressController,
   changePassWordController,
+  deleteAddressController,
   emailVerifyController,
   forgotPassWordController,
   getMyProfileController,
@@ -11,12 +13,14 @@ import {
   registerController,
   resendVerifyEmailController,
   resetPasswordController,
+  updateAddressController,
   updateMyProfileController,
   verifyForgotPasswordController,
 } from "~/controllers/users.controllers";
 import { filterMiddleware } from "~/middlewares/common.middlewares";
 import {
   accessTokenValidator,
+  addAddressValidator,
   changePasswordValidator,
   emailVerifyTokenValidator,
   forgotPassWordValidator,
@@ -24,11 +28,15 @@ import {
   refreshTokenValidator,
   registerValidator,
   resetPasswordValidator,
+  updateAddressValidator,
   updateProfileValidator,
   verifiedUserValidator,
   verifyForgotPasswordTokenValidator,
 } from "~/middlewares/users.middlewares";
-import { UpdateProfileReqBody } from "~/models/requests/Users.requests";
+import {
+  UpdateAddressReqBody,
+  UpdateProfileReqBody,
+} from "~/models/requests/Users.requests";
 
 const usersRouter = Router();
 
@@ -176,6 +184,50 @@ usersRouter.patch(
 usersRouter.get(
   "/profile/:username",
   wrapRequestHandler(getUserProfileController)
+);
+
+/**
+ * Description: Add new address
+ * Path: /address
+ * Method: POST
+ * Header: { Authorization: Bearer <access_token> }
+ * Body: {address: string}
+ */
+usersRouter.post(
+  "/address",
+  accessTokenValidator,
+  verifiedUserValidator,
+  addAddressValidator,
+  wrapRequestHandler(addAddressController)
+);
+
+/**
+ * Description: Update address
+ * Path: /address
+ * Method: PATCH
+ * Header: { Authorization: Bearer <access_token> }
+ * Body: {address: string}
+ */
+usersRouter.patch(
+  "/address/:address_id",
+  accessTokenValidator,
+  verifiedUserValidator,
+  updateAddressValidator,
+  wrapRequestHandler(updateAddressController)
+);
+
+// /**
+//  * Description: Delete address
+//  * Path: /address/:address_id
+//  * Method: DELETE
+//  * Header: { Authorization: Bearer <access_token> }
+//  * Body: {address: string}
+//  */
+usersRouter.delete(
+  "/address/:address_id",
+  accessTokenValidator,
+  verifiedUserValidator,
+  wrapRequestHandler(deleteAddressController)
 );
 
 export default usersRouter;

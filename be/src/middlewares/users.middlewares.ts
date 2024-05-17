@@ -10,7 +10,7 @@ import HTTP_STATUS from "~/constants/httpStatus";
 import { JsonWebTokenError } from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 import { ObjectId } from "mongodb";
-import { REGEX_USERNAME } from "~/constants/regex";
+import { REGEX_PHONENUMBER_VN, REGEX_USERNAME } from "~/constants/regex";
 import { TokenPayload } from "~/models/requests/Users.requests";
 import { UserVerifyStatus } from "~/constants/enum";
 
@@ -188,6 +188,32 @@ const emailSchema: ParamSchema = {
   },
   trim: true,
 };
+const addressSchema: ParamSchema = {
+  isString: {
+    errorMessage: USERS_MESSAGES.LOCATION_MUST_BE_STRING,
+  },
+  isLength: {
+    options: {
+      min: 1,
+      max: 200,
+    },
+    errorMessage: USERS_MESSAGES.LOCATION_LENGTH,
+  },
+  trim: true,
+};
+const phoneNumberSchema: ParamSchema = {
+  isString: {
+    errorMessage: USERS_MESSAGES.PHONENUMBER_MUST_BE_STRING,
+  },
+  trim: true,
+  custom: {
+    options: async (value, { req }) => {
+      if (!REGEX_PHONENUMBER_VN.test(value)) {
+        throw new Error(USERS_MESSAGES.PHONENUMBER_INVALID);
+      }
+    },
+  },
+};
 
 export const loginValidator = validate(
   checkSchema(
@@ -265,6 +291,8 @@ export const accessTokenValidator = validate(
         custom: {
           options: async (value, { req }) => {
             const access_token = (value || "").split(" ")[1];
+            // console.log(access_token);
+
             if (!access_token) {
               throw new ErrorWithStatus(
                 USERS_MESSAGES.ACCESS_TOKEN_IS_REQUIRED,
@@ -507,6 +535,42 @@ export const updateProfileValidator = validate(
         },
       },
       avatar: imageUrlSchema,
+    },
+    ["body"]
+  )
+);
+
+export const addAddressValidator = validate(
+  checkSchema(
+    {
+      address: {
+        notEmpty: {
+          errorMessage: USERS_MESSAGES.ADDRESS_IS_REQUIRED,
+        },
+        ...addressSchema,
+      },
+      phoneNumber: {
+        notEmpty: {
+          errorMessage: USERS_MESSAGES.PHONENUMBER_IS_REQUIRED,
+        },
+        ...phoneNumberSchema,
+      },
+    },
+    ["body"]
+  )
+);
+
+export const updateAddressValidator = validate(
+  checkSchema(
+    {
+      address: {
+        optional: true,
+        ...addressSchema,
+      },
+      phoneNumber: {
+        optional: true,
+        ...phoneNumberSchema,
+      },
     },
     ["body"]
   )

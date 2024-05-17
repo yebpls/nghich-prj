@@ -1,6 +1,12 @@
 import { ObjectId } from "mongodb";
 import { UserVerifyStatus } from "~/constants/enum";
 
+export interface AddressType {
+  _id?: ObjectId;
+  address: string;
+  phoneNumber: string;
+}
+
 interface UserType {
   _id?: ObjectId;
   name: string;
@@ -12,7 +18,7 @@ interface UserType {
   email_verify_token?: string; // jwt hoặc '' nếu đã xác thực email
   forgot_password_token?: string; // jwt hoặc '' nếu đã xác thực email
   verify?: UserVerifyStatus;
-  address?: string[]; // optional
+  addresses?: AddressType[]; // optional
   username?: string; // optional
   avatar?: string; // optional
 }
@@ -28,7 +34,7 @@ export default class User {
   email_verify_token: string;
   forgot_password_token: string;
   verify: UserVerifyStatus;
-  address: string[];
+  addresses: AddressType[];
   username: string;
   avatar: string;
 
@@ -44,7 +50,7 @@ export default class User {
     this.email_verify_token = user.email_verify_token || "";
     this.forgot_password_token = user.forgot_password_token || "";
     this.verify = user.verify || UserVerifyStatus.Unverified;
-    this.address = user.address || [];
+    this.addresses = user.addresses || [];
     this.username = user.username || "";
     this.avatar = user.avatar || "";
   }

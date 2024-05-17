@@ -15,3 +15,8 @@ export enum CollectionStatus {
   Active,
   Inactive,
 }
+
+export enum ProductStatus {
+  Active,
+  Inactive,
+}

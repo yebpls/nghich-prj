@@ -51,4 +51,13 @@ export const USERS_MESSAGES = {
   OLD_PASSWORD_INCORRECT: "Old password is incorrect",
   LOCATION_MUST_BE_STRING: "Location must be a string",
   LOCATION_LENGTH: "Location must be between 1 and 200 characters",
+  ADD_ADDRESS_SUCCESS: "Add address success",
+  PHONENUMBER_MUST_BE_STRING: "Phone number must be a string",
+  PHONENUMBER_INVALID:
+    "Phone number must be 10 digits, start with 0 and second digit is 3, 5, 7, 8, 9",
+  ADDRESS_IS_REQUIRED: "Address is required",
+  PHONENUMBER_IS_REQUIRED: "Phone number is required",
+  UPDATE_ADDRESS_SUCCESS: "Update address success",
+  ADDRESS_NOT_FOUND: "Address not found",
+  DELETE_ADDRESS_SUCCESS: "Delete address success",
 } as const;
