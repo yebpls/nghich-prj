@@ -3,6 +3,7 @@ import databaseService from "./database.services";
 import { ObjectId } from "mongodb";
 import { CollectionStatus } from "~/constants/enum";
 import { UpdateCollectionReqBody } from "~/models/requests/Collections.requests";
+import { COLLECTIONS_MESSAGES } from "~/constants/messages";
 
 class CollectionService {
   async addCollection(name: string) {
@@ -42,6 +43,20 @@ class CollectionService {
       }
     );
     return collection;
+  }
+
+  async deleteCollection(collection_id: string) {
+    const collection = await databaseService.collections.findOne({
+      _id: new ObjectId(collection_id),
+    });
+
+    if (collection === null) {
+      return { message: COLLECTIONS_MESSAGES.COLLECTION_NOT_FOUND };
+    }
+    await databaseService.collections.deleteOne(collection);
+    return {
+      message: COLLECTIONS_MESSAGES.DELETE_COLLECTION_SUCCESS,
+    };
   }
 }
 

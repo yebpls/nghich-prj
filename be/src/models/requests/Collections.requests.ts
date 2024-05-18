@@ -13,3 +13,7 @@ export interface UpdateCollectionReqBody {
 export interface UpdateCollectionReqParams extends ParamsDictionary {
   collection_id: string;
 }
+
+export interface DeleteCollectionReqParams extends ParamsDictionary {
+  collection_id: string;
+}

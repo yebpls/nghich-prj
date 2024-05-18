@@ -71,4 +71,6 @@ export const COLLECTIONS_MESSAGES = {
   GET_ALL_COLLECTIONS_SUCCESS: "Get all collections success",
   STATUS_MUST_BE_NUMBER: "Status must be a number",
   UPDATE_COLLECTION_SUCCESS: "Update Collection Success",
+  COLLECTION_NOT_FOUND: "Collection not found",
+  DELETE_COLLECTION_SUCCESS: "Delete collection success",
 } as const;

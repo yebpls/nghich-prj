@@ -2,6 +2,7 @@ import { ParamsDictionary } from "express-serve-static-core";
 import { NextFunction, Request, Response } from "express";
 import {
   AddCollectionReqBody,
+  DeleteCollectionReqParams,
   UpdateCollectionReqBody,
   UpdateCollectionReqParams,
 } from "~/models/requests/Collections.requests";
@@ -49,4 +50,14 @@ export const updateCollectionController = async (
     message: COLLECTIONS_MESSAGES.UPDATE_COLLECTION_SUCCESS,
     data: collection,
   });
+};
+
+export const deleteCollectionController = async (
+  req: Request<DeleteCollectionReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { collection_id } = req.params;
+  const result = await collectionsService.deleteCollection(collection_id);
+  return res.json(result);
 };

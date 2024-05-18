@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   addCollectionController,
+  deleteCollectionController,
   getAllCollectionController,
   updateCollectionController,
 } from "~/controllers/collections.controllers";
@@ -53,6 +54,18 @@ collectionsRouter.patch(
   updateCollectionValidator,
   filterMiddleware<UpdateCollectionReqBody>(["name", "status"]),
   wrapRequestHandler(updateCollectionController)
+);
+
+/**
+ * Description: Update collection
+ * Route: [DELETE] /:collection_id
+ * Header: {Authorization: Bearer <access_token>}
+ */
+collectionsRouter.delete(
+  "/:collection_id",
+  accessTokenValidator,
+  roleAdminValidator,
+  wrapRequestHandler(deleteCollectionController)
 );
 
 export default collectionsRouter;
