@@ -11,6 +11,7 @@ import {
   DeleteAddressReqParams,
   EmailVerifyRequestBody,
   ForgotPassWordRequestBody,
+  GetAddressReqParams,
   GetProfileReqParams,
   LoginRequestBody,
   LogoutRequestBody,
@@ -48,10 +49,11 @@ export const loginController = async (
   const result = await userService.login({
     user_id: user_id.toString(),
     verify: user.verify,
+    role: user.role,
   });
   return res.json({
     message: USERS_MESSAGES.LOGIN_SUCCESS,
-    result,
+    data: result,
   });
 };
 
@@ -62,7 +64,7 @@ export const logoutControler = async (
 ) => {
   const { refresh_token } = req.body;
   const result = await userService.logout(refresh_token);
-  return res.json(result);
+  return res.json({ data: result });
 };
 
 export const emailVerifyController = async (
@@ -90,7 +92,7 @@ export const emailVerifyController = async (
   const result = await userService.verifyEmail(user_id);
   return res.json({
     message: USERS_MESSAGES.EMAIL_VERIFY_SUCCESS,
-    result,
+    data: result,
   });
 };
 
@@ -166,7 +168,7 @@ export const changePassWordController = async (
   const { user_id } = req.decoded_authorization as TokenPayload;
   const { password } = req.body;
   const result = await userService.changePassword(user_id, password);
-  return res.json(result);
+  return res.json({ data: result });
 };
 
 export const getMyProfileController = async (
@@ -178,7 +180,7 @@ export const getMyProfileController = async (
   const user = await userService.getMyProfile(user_id);
   return res.json({
     message: USERS_MESSAGES.GET_MY_PROFILE_SUCCESS,
-    result: user,
+    data: user,
   });
 };
 
@@ -192,7 +194,7 @@ export const updateMyProfileController = async (
   const user = await userService.updateMyProfile(user_id, body);
   return res.json({
     message: USERS_MESSAGES.UPDATE_PROFILE_SUCCESS,
-    result: user,
+    data: user,
   });
 };
 
@@ -206,7 +208,21 @@ export const getUserProfileController = async (
   const user = await userService.getUserProfile(username);
   return res.json({
     message: USERS_MESSAGES.GET_USER_PROFILE_SUCCESS,
-    result: user,
+    data: user,
+  });
+};
+
+export const getMyAddressController = async (
+  req: Request<GetAddressReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const { address_id } = req.params;
+  const address = await userService.getMyAddress(user_id, address_id);
+  return res.json({
+    message: USERS_MESSAGES.GET_MY_ADDRESS_SUCCESS,
+    data: address,
   });
 };
 
@@ -220,7 +236,7 @@ export const addAddressController = async (
   const result = await userService.addAddress(user_id, address, phoneNumber);
   return res.json({
     message: USERS_MESSAGES.ADD_ADDRESS_SUCCESS,
-    result,
+    data: result,
   });
 };
 
@@ -236,7 +252,7 @@ export const updateAddressController = async (
   const result = await userService.updateAddress(user_id, address_id, body);
   return res.json({
     message: USERS_MESSAGES.UPDATE_ADDRESS_SUCCESS,
-    result,
+    data: result,
   });
 };
 

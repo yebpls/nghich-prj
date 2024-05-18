@@ -60,4 +60,15 @@ export const USERS_MESSAGES = {
   UPDATE_ADDRESS_SUCCESS: "Update address success",
   ADDRESS_NOT_FOUND: "Address not found",
   DELETE_ADDRESS_SUCCESS: "Delete address success",
+  GET_MY_ADDRESS_SUCCESS: "Get address success",
+  YOU_DONT_HAVE_PERMISSION:
+    "You don't have permission to do this action. Just admin can do this",
+} as const;
+
+export const COLLECTIONS_MESSAGES = {
+  ADD_COLLECTION_SUCCESS: "Add collection success",
+  COLLECTION_IS_EXISTED: "Collection is existed",
+  GET_ALL_COLLECTIONS_SUCCESS: "Get all collections success",
+  STATUS_MUST_BE_NUMBER: "Status must be a number",
+  UPDATE_COLLECTION_SUCCESS: "Update Collection Success",
 } as const;

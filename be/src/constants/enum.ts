@@ -20,3 +20,8 @@ export enum ProductStatus {
   Active,
   Inactive,
 }
+
+export enum Role {
+  Admin,
+  User,
+}

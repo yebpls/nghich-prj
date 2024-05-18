@@ -67,6 +67,10 @@ export interface ChangePasswordReqBody {
   confirm_password: string;
 }
 
+export interface GetAddressReqParams extends ParamsDictionary {
+  address_id: string;
+}
+
 export interface AddAddressReqBody {
   address: string;
   phoneNumber: string;

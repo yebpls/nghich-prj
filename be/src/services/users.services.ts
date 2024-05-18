@@ -3,16 +3,14 @@ import databaseService from "./database.services";
 import {
   RegisterRequestBody,
   UpdateAddressReqBody,
-  UpdateAddressReqParams,
   UpdateProfileReqBody,
 } from "~/models/requests/Users.requests";
 import { hashPassword } from "~/utils/crypto";
 import { signToken } from "~/utils/jwt";
-import { TokenType, UserVerifyStatus } from "~/constants/enum";
+import { Role, TokenType, UserVerifyStatus } from "~/constants/enum";
 import RefreshToken from "~/models/schemas/RefreshToken.schema";
 import { ObjectId } from "mongodb";
 import { USERS_MESSAGES } from "~/constants/messages";
-import { update } from "lodash";
 import HTTP_STATUS from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/models/Errors";
 
@@ -38,12 +36,14 @@ class UserService {
         addresses: [],
         verify: UserVerifyStatus.Verified,
         password: hashPassword(payload.password),
+        role: Role.User,
       })
     );
 
     const [access_token, refresh_token] = await this.signAccessAndRefreshToken({
       user_id: user_id.toString(),
-      verify: UserVerifyStatus.Unverified,
+      verify: UserVerifyStatus.Verified,
+      role: Role.User,
     });
     await databaseService.refreshTokens.insertOne(
       new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token })
@@ -53,15 +53,18 @@ class UserService {
   private signAccessToken({
     user_id,
     verify,
+    role,
   }: {
     user_id: string;
     verify: UserVerifyStatus;
+    role: Role;
   }) {
     return signToken({
       payload: {
         user_id: user_id,
         token_type: TokenType.AccessToken,
         verify: verify,
+        role,
       },
       options: {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
@@ -93,12 +96,14 @@ class UserService {
   private signAccessAndRefreshToken({
     user_id,
     verify,
+    role,
   }: {
     user_id: string;
     verify: UserVerifyStatus;
+    role: Role;
   }) {
     return Promise.all([
-      this.signAccessToken({ user_id, verify }),
+      this.signAccessToken({ user_id, verify, role }),
       this.signRefreshToken({ user_id, verify }),
     ]);
   }
@@ -142,13 +147,16 @@ class UserService {
   async login({
     user_id,
     verify,
+    role,
   }: {
     user_id: string;
     verify: UserVerifyStatus;
+    role: Role;
   }) {
     const [access_token, refresh_token] = await this.signAccessAndRefreshToken({
       user_id,
       verify,
+      role,
     });
     await databaseService.refreshTokens.insertOne(
       new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token })
@@ -375,6 +383,22 @@ class UserService {
     return {
       message: USERS_MESSAGES.DELETE_ADDRESS_SUCCESS,
     };
+  }
+
+  async getMyAddress(user_id: string, address_id: string) {
+    const address = await databaseService.users.findOne({
+      _id: new ObjectId(user_id),
+      "addresses._id": new ObjectId(address_id),
+    });
+
+    if (address === null) {
+      throw new ErrorWithStatus(
+        USERS_MESSAGES.ADDRESS_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+
+    return address.addresses;
   }
 }
 

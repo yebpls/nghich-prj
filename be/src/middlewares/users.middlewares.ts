@@ -12,7 +12,7 @@ import { NextFunction, Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import { REGEX_PHONENUMBER_VN, REGEX_USERNAME } from "~/constants/regex";
 import { TokenPayload } from "~/models/requests/Users.requests";
-import { UserVerifyStatus } from "~/constants/enum";
+import { Role, UserVerifyStatus } from "~/constants/enum";
 
 const passwordSchema: ParamSchema = {
   isString: {
@@ -575,3 +575,21 @@ export const updateAddressValidator = validate(
     ["body"]
   )
 );
+
+export const roleAdminValidator = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { role } = req.decoded_authorization as TokenPayload;
+
+  if (role !== Role.Admin) {
+    return next(
+      new ErrorWithStatus(
+        USERS_MESSAGES.YOU_DONT_HAVE_PERMISSION,
+        HTTP_STATUS.UNAUTHORIZED
+      )
+    );
+  }
+  next();
+};

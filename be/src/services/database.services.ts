@@ -2,6 +2,8 @@ import { MongoClient, ServerApiVersion, Db, Collection } from "mongodb";
 import { config } from "dotenv";
 import User from "~/models/schemas/User.schema";
 import RefreshToken from "~/models/schemas/RefreshToken.schema";
+import Product from "~/models/schemas/Product.chema";
+import Collections from "~/models/schemas/Collection.schema";
 config();
 
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@nghich.wlx2lor.mongodb.net/?retryWrites=true&w=majority&appName=nghich`;
@@ -40,6 +42,18 @@ class DatabaseService {
   get refreshTokens(): Collection<RefreshToken> {
     return this.db.collection("refreshTokens");
   }
+
+  get products(): Collection<Product> {
+    return this.db.collection("products");
+  }
+
+  get collections(): Collection<Collections> {
+    return this.db.collection("collections");
+  }
+
+  // get orders(): Collection<Order> {
+  //   return this.db.collection("orders");
+  // }
 }
 
 const databaseService = new DatabaseService();

@@ -6,6 +6,7 @@ import {
   deleteAddressController,
   emailVerifyController,
   forgotPassWordController,
+  getMyAddressController,
   getMyProfileController,
   getUserProfileController,
   loginController,
@@ -184,6 +185,18 @@ usersRouter.patch(
 usersRouter.get(
   "/profile/:username",
   wrapRequestHandler(getUserProfileController)
+);
+
+/**
+ * Description: Get user address by address_id
+ * Route: [GET] /users/address
+ * Header: {Authorization: Bearer <access_token>}
+ * Body: {}
+ */
+usersRouter.get(
+  "/address/:address_id",
+  accessTokenValidator,
+  wrapRequestHandler(getMyAddressController)
 );
 
 /**

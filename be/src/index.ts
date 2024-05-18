@@ -1,15 +1,17 @@
 import express from "express";
 import usersRouter from "./routers/users.routes";
+import productsRouter from "./routers/products.routes";
+import collectionsRouter from "./routers/collections.routes";
+import ordersRouter from "./routers/orders.routes";
 import databaseService from "~/services/database.services";
 import { defaultErrorHandler } from "./middlewares/errors.middlewares";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
-import YAML from "yaml";
-// import fs from "fs";
-// import path from "path";
+import { config } from "dotenv";
 
-// const file = fs.readFileSync(path.resolve("swagger.yaml"), "utf8");
+config();
+
 const options: swaggerJsdoc.Options = {
   definition: {
     openapi: "3.0.0",
@@ -33,6 +35,9 @@ app.use(express.json());
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.use("/users", usersRouter);
+app.use("/products", productsRouter);
+app.use("/collections", collectionsRouter);
+app.use("/orders", ordersRouter);
 
 app.use(defaultErrorHandler);
 

@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { UserVerifyStatus } from "~/constants/enum";
+import { Role, UserVerifyStatus } from "~/constants/enum";
 
 export interface AddressType {
   _id?: ObjectId;
@@ -21,6 +21,7 @@ interface UserType {
   addresses?: AddressType[]; // optional
   username?: string; // optional
   avatar?: string; // optional
+  role?: Role;
 }
 
 export default class User {
@@ -37,6 +38,7 @@ export default class User {
   addresses: AddressType[];
   username: string;
   avatar: string;
+  role: Role;
 
   constructor(user: UserType) {
     const date = new Date();
@@ -53,5 +55,6 @@ export default class User {
     this.addresses = user.addresses || [];
     this.username = user.username || "";
     this.avatar = user.avatar || "";
+    this.role = user.role || Role.User;
   }
 }
