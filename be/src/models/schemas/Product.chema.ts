@@ -1,5 +1,11 @@
 import { ObjectId } from "mongodb";
 import { ProductStatus } from "~/constants/enum";
+
+type ProductImage = {
+  _id: ObjectId;
+  url: string;
+};
+
 interface ProductType {
   _id: ObjectId;
   name: string;
@@ -8,6 +14,7 @@ interface ProductType {
   colection_id: ObjectId;
   created_at?: Date;
   updated_at?: Date;
+  images: ProductImage[];
   width: number;
   length: number;
   color: string[];
@@ -22,6 +29,7 @@ export default class Product {
   colection_id: ObjectId;
   created_at: Date;
   updated_at: Date;
+  images: ProductImage[];
   width: number;
   length: number;
   color: string[];
@@ -36,6 +44,7 @@ export default class Product {
     this.colection_id = product.colection_id;
     this.created_at = product.created_at || date;
     this.updated_at = product.updated_at || date;
+    this.images = product.images || [];
     this.width = product.width || 0;
     this.length = product.length || 0;
     this.color = product.color || [];
