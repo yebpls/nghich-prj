@@ -37,6 +37,7 @@ class UserService {
         verify: UserVerifyStatus.Verified,
         password: hashPassword(payload.password),
         role: Role.User,
+        wishList: { _id: new ObjectId(), products: [] },
       })
     );
 
@@ -399,6 +400,80 @@ class UserService {
     }
 
     return address.addresses;
+  }
+
+  async getMyWishList(user_id: string) {
+    const user = await databaseService.users.findOne(
+      { _id: new ObjectId(user_id) },
+      {
+        projection: { wishList: 1 },
+      }
+    );
+    return user?.wishList;
+  }
+
+  async addProductToWishList(user_id: string, product_id: string) {
+    const product = await databaseService.products.findOne({
+      _id: new ObjectId(product_id),
+    });
+    if (product === null) {
+      throw new ErrorWithStatus("Product not found", HTTP_STATUS.NOT_FOUND);
+    }
+    const wishList = await this.getMyWishList(user_id);
+
+    const productExists = wishList?.products.some(
+      (product) => product._id.toString() === product_id
+    );
+
+    if (productExists) {
+      return { message: USERS_MESSAGES.PRODUCT_IS_EXISTED_IN_WISHLIST };
+    } else {
+      const user = await databaseService.users.findOneAndUpdate(
+        { _id: new ObjectId(user_id) },
+        {
+          $push: {
+            "wishList.products": product,
+          },
+        },
+        {
+          returnDocument: "after",
+        }
+      );
+      return {
+        message: USERS_MESSAGES.ADD_TO_WISHLIST_SUCCESS,
+        data: user?.wishList,
+      };
+    }
+  }
+
+  async deleteProductFromWishList(user_id: string, product_id: string) {
+    const wishList = await this.getMyWishList(user_id);
+
+    const productExists = wishList?.products.some(
+      (product) => product._id.toString() === product_id
+    );
+
+    if (!productExists) {
+      throw new ErrorWithStatus(
+        USERS_MESSAGES.PRODUCT_IS_NOT_EXISTED_IN_WISHLIST,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+    const user = await databaseService.users.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $pull: {
+          "wishList.products": { _id: new ObjectId(product_id) },
+        },
+      },
+      {
+        returnDocument: "after",
+      }
+    );
+    return {
+      message: "Delete product from wish list success",
+      data: user?.wishList,
+    };
   }
 }
 

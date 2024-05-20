@@ -1,10 +1,16 @@
 import { ObjectId } from "mongodb";
 import { Role, UserVerifyStatus } from "~/constants/enum";
+import Product from "./Product.chema";
 
 export interface AddressType {
   _id?: ObjectId;
   address: string;
   phoneNumber: string;
+}
+
+interface WishListType {
+  _id: ObjectId;
+  products: Product[];
 }
 
 interface UserType {
@@ -22,6 +28,7 @@ interface UserType {
   username?: string; // optional
   avatar?: string; // optional
   role?: Role;
+  wishList?: WishListType;
 }
 
 export default class User {
@@ -39,6 +46,7 @@ export default class User {
   username: string;
   avatar: string;
   role: Role;
+  wishList: WishListType;
 
   constructor(user: UserType) {
     const date = new Date();
@@ -56,5 +64,6 @@ export default class User {
     this.username = user.username || "";
     this.avatar = user.avatar || "";
     this.role = user.role || Role.User;
+    this.wishList = user.wishList || { _id: new ObjectId(), products: [] };
   }
 }

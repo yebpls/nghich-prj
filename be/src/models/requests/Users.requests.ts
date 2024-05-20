@@ -90,3 +90,11 @@ export interface UpdateAddressReqParams extends ParamsDictionary {
 export interface DeleteAddressReqParams extends ParamsDictionary {
   address_id: string;
 }
+
+export interface AddProductToWishListReqParams extends ParamsDictionary {
+  product_id: string;
+}
+
+export interface DeleteProductFromWishListReqParams extends ParamsDictionary {
+  product_id: string;
+}

@@ -2,12 +2,15 @@ import { wrapRequestHandler } from "./../utils/handlers";
 import { Router } from "express";
 import {
   addAddressController,
+  addProductToWishListController,
   changePassWordController,
   deleteAddressController,
+  deleteProductFromWishListController,
   emailVerifyController,
   forgotPassWordController,
   getMyAddressController,
   getMyProfileController,
+  getMyWishListController,
   getUserProfileController,
   loginController,
   logoutControler,
@@ -241,6 +244,44 @@ usersRouter.delete(
   accessTokenValidator,
   verifiedUserValidator,
   wrapRequestHandler(deleteAddressController)
+);
+
+/**
+ * Description: Get my wish list
+ * Route: [GET] /users/wishlist
+ * Header: {Authorization: Bearer <access_token>}
+ * Body: {}
+ */
+usersRouter.get(
+  "/wishlist",
+  accessTokenValidator,
+  wrapRequestHandler(getMyWishListController)
+);
+
+/**
+ * Description: Add product to wish list
+ * Path: /users/wishlist/product_id
+ * Method: POST
+ * Header: { Authorization: Bearer <access_token> }
+ */
+usersRouter.post(
+  "/wishlist/:product_id",
+  accessTokenValidator,
+  verifiedUserValidator,
+  wrapRequestHandler(addProductToWishListController)
+);
+
+// /**
+//  * Description: Delete product from wish list
+//  * Path: /users/wishlist/:product_id
+//  * Method: DELETE
+//  * Header: { Authorization: Bearer <access_token> }
+//  */
+usersRouter.delete(
+  "/wishlist/:product_id",
+  accessTokenValidator,
+  verifiedUserValidator,
+  wrapRequestHandler(deleteProductFromWishListController)
 );
 
 export default usersRouter;

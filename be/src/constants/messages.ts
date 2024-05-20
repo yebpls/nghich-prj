@@ -63,6 +63,10 @@ export const USERS_MESSAGES = {
   GET_MY_ADDRESS_SUCCESS: "Get address success",
   YOU_DONT_HAVE_PERMISSION:
     "You don't have permission to do this action. Just admin can do this",
+  GET_WISH_LIST_SUCCESS: "Get wish list success",
+  PRODUCT_IS_EXISTED_IN_WISHLIST: "Product is existed in wish list",
+  ADD_TO_WISHLIST_SUCCESS: "Add to wish list success",
+  PRODUCT_IS_NOT_EXISTED_IN_WISHLIST: "Product is not existed in wish list",
 } as const;
 
 export const COLLECTIONS_MESSAGES = {

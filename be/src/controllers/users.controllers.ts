@@ -7,8 +7,10 @@ import HTTP_STATUS from "~/constants/httpStatus";
 import { USERS_MESSAGES } from "~/constants/messages";
 import {
   AddAddressReqBody,
+  AddProductToWishListReqParams,
   ChangePasswordReqBody,
   DeleteAddressReqParams,
+  DeleteProductFromWishListReqParams,
   EmailVerifyRequestBody,
   ForgotPassWordRequestBody,
   GetAddressReqParams,
@@ -264,5 +266,42 @@ export const deleteAddressController = async (
   const { user_id } = req.decoded_authorization as TokenPayload;
   const { address_id } = req.params;
   const result = await userService.deleteAddress(user_id, address_id);
+  return res.json(result);
+};
+export const getMyWishListController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const wishList = await userService.getMyWishList(user_id);
+  return res.json({
+    message: USERS_MESSAGES.GET_WISH_LIST_SUCCESS,
+    data: wishList,
+  });
+};
+
+export const addProductToWishListController = async (
+  req: Request<AddProductToWishListReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const { product_id } = req.params;
+  const result = await userService.addProductToWishList(user_id, product_id);
+  return res.json(result);
+};
+
+export const deleteProductFromWishListController = async (
+  req: Request<DeleteProductFromWishListReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const { product_id } = req.params;
+  const result = await userService.deleteProductFromWishList(
+    user_id,
+    product_id
+  );
   return res.json(result);
 };
