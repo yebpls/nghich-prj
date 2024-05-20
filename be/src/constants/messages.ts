@@ -74,3 +74,14 @@ export const COLLECTIONS_MESSAGES = {
   COLLECTION_NOT_FOUND: "Collection not found",
   DELETE_COLLECTION_SUCCESS: "Delete collection success",
 } as const;
+
+export const PRODUCTS_MESSAGES = {
+  MUST_BE_STRING: " must be a string",
+  NAME_LENGTH: "Name must be between 1 and 100 characters",
+  NAME_IS_REQUIRED: "Name is required",
+  DESCRIPTION_LENGTH: "Description must be between 1 and 500 characters",
+  DESCRIPTION_IS_REQUIRED: "Description is required",
+  ADD_PRODUCT_SUCCESS: "Add product success",
+  GET_ALL_PRODUCTS_SUCCESS: "Get all products success",
+  GET_PRODUCT_DETAIL_SUCCESS: "Get product detail success",
+};

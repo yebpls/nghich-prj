@@ -6,6 +6,11 @@ type ProductImage = {
   url: string;
 };
 
+type ProductColor = {
+  _id: ObjectId;
+  name: string;
+};
+
 interface ProductType {
   _id: ObjectId;
   name: string;
@@ -17,8 +22,9 @@ interface ProductType {
   images: ProductImage[];
   width: number;
   length: number;
-  color: string[];
+  color: ProductColor[];
   status: ProductStatus;
+  detail: string;
 }
 
 export default class Product {
@@ -32,8 +38,9 @@ export default class Product {
   images: ProductImage[];
   width: number;
   length: number;
-  color: string[];
+  color: ProductColor[];
   status: ProductStatus;
+  detail: string;
 
   constructor(product: ProductType) {
     const date = new Date();
@@ -49,5 +56,6 @@ export default class Product {
     this.length = product.length || 0;
     this.color = product.color || [];
     this.status = product.status || ProductStatus.Active;
+    this.detail = product.detail || "";
   }
 }
