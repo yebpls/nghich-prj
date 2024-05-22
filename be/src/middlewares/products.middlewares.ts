@@ -105,6 +105,11 @@ export const addProductValidator = validate(
           errorMessage: "Detail is required",
         },
       },
+      material_id: {
+        isString: {
+          errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,
+        },
+      },
     },
     ["body"]
   )

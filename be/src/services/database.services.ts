@@ -4,6 +4,7 @@ import User from "~/models/schemas/User.schema";
 import RefreshToken from "~/models/schemas/RefreshToken.schema";
 import Product from "~/models/schemas/Product.chema";
 import Collections from "~/models/schemas/Collection.schema";
+import Material from "~/models/schemas/Material.schema";
 config();
 
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@nghich.wlx2lor.mongodb.net/?retryWrites=true&w=majority&appName=nghich`;
@@ -49,6 +50,10 @@ class DatabaseService {
 
   get collections(): Collection<Collections> {
     return this.db.collection("collections");
+  }
+
+  get materials(): Collection<Material> {
+    return this.db.collection("materials");
   }
 
   // get orders(): Collection<Order> {
