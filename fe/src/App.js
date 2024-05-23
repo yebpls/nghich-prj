@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/AuthPage/LoginPage";
 import RegisterPage from "./pages/AuthPage/RegisterPage";
 import "./App.css";
+import CustomBag from "./pages/Custorm/CustormPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         {/* Main routes */}
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
+        <Route path="/custom" element={<CustomBag />} />
         </Route>
 
         {/* Authentication routes */}
