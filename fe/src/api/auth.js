@@ -1,9 +1,10 @@
 import { useMutation } from "react-query";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import http from "../config/http";
 import { API_ENDPOINTS } from "./api-endpoint";
 import Cookies from "js-cookie";
 
+//LOGIN FUNCTION
 async function login(input) {
   console.log(input, "login input");
 
@@ -13,6 +14,7 @@ async function login(input) {
   return data.data;
 }
 
+//LOGIN MUTATION BY USE LOGIN FUNCTION
 export const useLoginMutation = () => {
   return useMutation((input) => login(input), {
     onSuccess: (data) => {
@@ -24,6 +26,40 @@ export const useLoginMutation = () => {
     onError: (error) => {
       toast.error("login fail");
       console.log(error, "login fail");
+    },
+  });
+};
+
+//REGISTER FUNCTION
+//   {
+//     "name": "baotest1",
+//     "username": "baotest1",
+//     "email": "baotest1@gmail.com",
+//     "password": "Bao0105*",
+//     "confirm_password": "Bao0105*"
+// }
+async function registerAccount(input) {
+  console.log(input, "register input");
+
+  const { data } = await http.post(API_ENDPOINTS.REGISTER, input);
+  console.log("register response", data);
+
+  return data.data;
+}
+//REGISTER MUTATION BY USE REGISTER FUNCTION
+export const useRegisterMutation = () => {
+  return useMutation((input) => registerAccount(input), {
+    onSuccess: (data) => {
+      console.log(data, "register success");
+      toast.success("register success");
+      Cookies.set("auth_token", data.access_token);
+
+      console.log(data, "register success");
+    },
+    onError: (error) => {
+      console.log(error.response.data.errors, "register fail");
+      toast.error("register fail");
+      // console.log(error, "register fail");
     },
   });
 };

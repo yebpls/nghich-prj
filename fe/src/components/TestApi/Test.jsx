@@ -3,6 +3,8 @@ import { useGetProducts } from "../../api/product";
 import { useGetWishlist } from "../../api/user";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../../api/auth";
+import Register from "./Register";
+import toast from "react-hot-toast";
 
 export default function Test() {
   const { data, isFetching } = useGetWishlist();
@@ -26,13 +28,19 @@ export default function Test() {
 
     console.log(email, password, "data");
   }
+  const notify = () => toast.success("Here is your toast.");
+
   return (
     <div>
+      <button onClick={notify}>Pop up</button>
+      {/* Register */}
+      <Register />
       <div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col justify-center"
+          className="flex flex-col justify-center bg-green-200 w-full lg:w-1/2 border-s-lime-500"
         >
+          <label>Email</label>
           <input
             type="email"
             {...register("email", {
@@ -43,14 +51,17 @@ export default function Test() {
                 message: "khong phai dinh dang email",
               },
             })}
+            className=" p-3 m-3 w-2/3 border-2 rounded-md border-gray-400 h-11 md:h-12 mt-2 tracking-normal font-15px md:font-15px"
             error={errors.email?.message}
           />
+          <label>Password</label>
 
           <input
             type="text"
             {...register("password", {
               required: "Yeu cau nhap mat khau",
             })}
+            className=" p-3 m-3 w-2/3 border-2 rounded-md border-gray-400 h-11 md:h-12 mt-2 tracking-normal font-15px md:font-15px"
             error={errors.password?.message}
           />
           <button

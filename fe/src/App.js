@@ -4,21 +4,34 @@ import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/AuthPage/LoginPage";
 import RegisterPage from "./pages/AuthPage/RegisterPage";
 import "./App.css";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Main routes */}
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<HomePage />} />
-        </Route>
+    <div>
+      <Toaster position="top-right" />
 
-        {/* Authentication routes */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/sign-up" element={<RegisterPage />} />
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          {/* Main routes */}
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<HomePage />} />
+          </Route>
+
+          {/* <Route path="/products" element={<MainLayout />}>
+            <Route index element={<ProductPage />} />
+          </Route>
+
+          <Route path="/cart" element={<MainLayout />}>
+            <Route index element={<CartPage />} />
+          </Route> */}
+
+          {/* Authentication routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/sign-up" element={<RegisterPage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

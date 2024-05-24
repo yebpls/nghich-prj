@@ -26,7 +26,7 @@ http.interceptors.request.use(
       config.headers = {
         ...config.headers,
         // Authorization: `Bearer ${token}`,
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjY0ZDkxOTBhY2VkNzExMGViOTA3Yjk1IiwidG9rZW5fdHlwZSI6MCwidmVyaWZ5IjoxLCJyb2xlIjoxLCJpYXQiOjE3MTYzNTk1NjgsImV4cCI6MTcxNjM2MTM2OH0.r-zwEa_gEBHi1THCOVvd7E2LzoXv4WZ9KTVoANLC_ow`,
+        Authorization: `Bearer ${token}`,
       };
     }
     return config;
