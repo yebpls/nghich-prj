@@ -1,0 +1,60 @@
+import React, { useState } from "react";
+import { Tooltip } from "antd";
+
+const BagSelector = ({ bags }) => {
+  const [selectedBag, setSelectedBag] = useState(bags[0]);
+
+  return (
+    <div>
+      <div className="flex justify-center">
+        <div>
+          <div className="text-center w-[300px]">
+            <h3 className=" text-xl font-bold my-2">FORM OF THE BAG</h3>
+            <p className="mb-6">
+              The simplest route is to focus on the strap of your bag. Straps
+              are often interchangeable, allowing you to mix and match them
+              according to your mood or outfit
+            </p>
+          </div>
+          <div className="grid grid-cols-3 border rounded-lg p-4 gap-4  mr-10 h-fit bg-gray-200">
+            {bags.map((bag) => (
+              <Tooltip
+                title={
+                  <div>
+                    Dimensions: {bag.dimensions}
+                    <br />
+                    Material: {bag.material}
+                    <br />
+                    Price:{" "}
+                    <span style={{ color: "#FF78C5", fontWeight: "bold" }}>
+                      {bag.price}
+                    </span>
+                  </div>
+                }
+                key={bag.id}
+                onClick={() => setSelectedBag(bag)}
+              >
+                <div className="cursor-pointer m-auto">
+                  <img
+                    src={bag.image}
+                    alt={`Bag ${bag.id}`}
+                    className="w-20 h-auto border rounded-lg hover:border-4"
+                  />
+                </div>
+              </Tooltip>
+            ))}
+          </div>
+        </div>
+        <div className="w-[600px] h-[700px]">
+          <img
+            src={selectedBag.image}
+            alt="Selected Bag"
+            className="w-full h-auto border rounded-lg border-pink-500 p-2"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BagSelector;
