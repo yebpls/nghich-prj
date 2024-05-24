@@ -3,4 +3,5 @@ export const API_ENDPOINTS = {
   ALL_PRODUCT: "/products",
   GET_WISHLIST: "/users/wishlist",
   REGISTER: "/users/register",
+  GET_USER: "/users/profile",
 };

@@ -3,6 +3,8 @@ import { toast } from "react-hot-toast";
 import http from "../config/http";
 import { API_ENDPOINTS } from "./api-endpoint";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { useLoginStore } from "../zustand-store/loginState";
 
 //LOGIN FUNCTION
 async function login(input) {
@@ -16,11 +18,15 @@ async function login(input) {
 
 //LOGIN MUTATION BY USE LOGIN FUNCTION
 export const useLoginMutation = () => {
+  const navigate = useNavigate();
+  const setLogin = useLoginStore((state) => state.login);
+
   return useMutation((input) => login(input), {
     onSuccess: (data) => {
       toast.success("login success");
       Cookies.set("auth_token", data?.access_token);
-
+      navigate("/user");
+      setLogin();
       console.log(data, "login success");
     },
     onError: (error) => {
@@ -53,7 +59,6 @@ export const useRegisterMutation = () => {
       console.log(data, "register success");
       toast.success("register success");
       Cookies.set("auth_token", data.access_token);
-
       console.log(data, "register success");
     },
     onError: (error) => {
