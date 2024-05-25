@@ -17,7 +17,7 @@ interface ProductType {
   name: string;
   price: number;
   description: string;
-  colection_id: ObjectId;
+  collection_id: ObjectId;
   created_at?: Date;
   updated_at?: Date;
   images: ProductImage[];
@@ -27,6 +27,7 @@ interface ProductType {
   status: ProductStatus;
   detail: string;
   material: Material;
+  quantity?: number;
 }
 
 export default class Product {
@@ -34,7 +35,7 @@ export default class Product {
   name: string;
   price: number;
   description: string;
-  colection_id: ObjectId;
+  collection_id: ObjectId;
   created_at: Date;
   updated_at: Date;
   images: ProductImage[];
@@ -44,6 +45,7 @@ export default class Product {
   status: ProductStatus;
   detail: string;
   material: Material;
+  quantity: number;
 
   constructor(product: ProductType) {
     const date = new Date();
@@ -51,7 +53,7 @@ export default class Product {
     this.name = product.name || "";
     this.price = product.price || 0;
     this.description = product.description || "";
-    this.colection_id = product.colection_id;
+    this.collection_id = product.collection_id;
     this.created_at = product.created_at || date;
     this.updated_at = product.updated_at || date;
     this.images = product.images || [];
@@ -61,5 +63,6 @@ export default class Product {
     this.status = product.status || ProductStatus.Active;
     this.detail = product.detail || "";
     this.material = product.material || "";
+    this.quantity = product.quantity || 0;
   }
 }

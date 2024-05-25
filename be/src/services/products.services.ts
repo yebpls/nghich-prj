@@ -22,8 +22,9 @@ class ProductServices {
       status: ProductStatus.Active,
       created_at: new Date(),
       updated_at: new Date(),
-      colection_id: new ObjectId(body.collection_id),
+      collection_id: new ObjectId(body.collection_id),
       material: material as Material,
+      quantity: 0,
     };
     await databaseService.products.insertOne(newBody);
     return newBody;
@@ -88,6 +89,17 @@ class ProductServices {
       );
     }
     return material;
+  }
+  async getProductByCollection(collection_id: string) {
+    const collectionObjectId = new ObjectId(collection_id);
+
+    const products = await databaseService.products
+      .find({
+        collection_id: collectionObjectId,
+      })
+      .toArray();
+
+    return products;
   }
 }
 

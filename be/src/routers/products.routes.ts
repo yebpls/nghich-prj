@@ -7,6 +7,7 @@ import {
   getAllMaterialsController,
   getAllProductsController,
   getMaterialByIdController,
+  getProductByCollectionController,
   getProductDetailController,
   updateMaterialController,
 } from "~/controllers/products.controllers";
@@ -97,6 +98,15 @@ productsRouter.put(
 productsRouter.delete(
   "/material/:material_id",
   wrapRequestHandler(deleteMaterialController)
+);
+
+/**
+ * Description: Get product by collectionId
+ * Route: [GET] /products/collection/:collection_id
+ */
+productsRouter.get(
+  "/collections/collection/:collection_id",
+  wrapRequestHandler(getProductByCollectionController)
 );
 
 export default productsRouter;

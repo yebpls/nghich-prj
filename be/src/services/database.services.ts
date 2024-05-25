@@ -36,6 +36,10 @@ class DatabaseService {
     }
   }
 
+  async indexProducts() {
+    this.products.createIndex({ collection_id: 1 });
+  }
+
   get users(): Collection<User> {
     return this.db.collection("users");
   }
