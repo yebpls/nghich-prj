@@ -114,3 +114,17 @@ export const addProductValidator = validate(
     ["body"]
   )
 );
+
+export const addMaterialValidator = validate(
+  checkSchema(
+    {
+      name: {
+        ...nameSchema,
+        notEmpty: {
+          errorMessage: PRODUCTS_MESSAGES.NAME_IS_REQUIRED,
+        },
+      },
+    },
+    ["body"]
+  )
+);

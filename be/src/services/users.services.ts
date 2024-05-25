@@ -10,7 +10,7 @@ import { signToken } from "~/utils/jwt";
 import { Role, TokenType, UserVerifyStatus } from "~/constants/enum";
 import RefreshToken from "~/models/schemas/RefreshToken.schema";
 import { ObjectId } from "mongodb";
-import { USERS_MESSAGES } from "~/constants/messages";
+import { PRODUCTS_MESSAGES, USERS_MESSAGES } from "~/constants/messages";
 import HTTP_STATUS from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/models/Errors";
 
@@ -417,7 +417,10 @@ class UserService {
       _id: new ObjectId(product_id),
     });
     if (product === null) {
-      throw new ErrorWithStatus("Product not found", HTTP_STATUS.NOT_FOUND);
+      throw new ErrorWithStatus(
+        PRODUCTS_MESSAGES.PRODUCT_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
     }
     const wishList = await this.getMyWishList(user_id);
 

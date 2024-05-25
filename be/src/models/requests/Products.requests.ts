@@ -25,3 +25,15 @@ export interface AddMaterialReqBody {
 export interface GetMaterialDetailReqParams extends ParamsDictionary {
   material_id: string;
 }
+
+export interface UpdateMaterialReqParams extends ParamsDictionary {
+  material_id: string;
+}
+
+export interface UpdateMaterialReqBody {
+  name: string;
+}
+
+export interface DeleteMaterialReqParams extends ParamsDictionary {
+  material_id: string;
+}

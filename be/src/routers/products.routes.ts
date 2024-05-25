@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { update } from "lodash";
+import { add, update } from "lodash";
 import {
   addMaterialController,
   addProductController,
@@ -10,7 +10,10 @@ import {
   getProductDetailController,
   updateMaterialController,
 } from "~/controllers/products.controllers";
-import { addProductValidator } from "~/middlewares/products.middlewares";
+import {
+  addMaterialValidator,
+  addProductValidator,
+} from "~/middlewares/products.middlewares";
 import { accessTokenValidator } from "~/middlewares/users.middlewares";
 import { wrapRequestHandler } from "~/utils/handlers";
 const productsRouter = Router();
@@ -63,13 +66,18 @@ productsRouter.get(
 );
 
 /**
- * Description: Add new product
+ * Description: Add new material
  * Path: /material
  * Method: POST
  * Header: { Authorization: Bearer <access_token> }
  * Body: {name: string}
  */
-productsRouter.post("/material", wrapRequestHandler(addMaterialController));
+productsRouter.post(
+  "/material",
+  accessTokenValidator,
+  addMaterialValidator,
+  wrapRequestHandler(addMaterialController)
+);
 
 /**
  * Description: Update material
@@ -78,14 +86,15 @@ productsRouter.post("/material", wrapRequestHandler(addMaterialController));
  */
 productsRouter.put(
   "/material/:material_id",
+  addMaterialValidator,
   wrapRequestHandler(updateMaterialController)
 );
 
 /**
- * Description: Get product detail by id
+ * Description: delete material
  * Route: [DELETE] /material/:material_id
  */
-productsRouter.get(
+productsRouter.delete(
   "/material/:material_id",
   wrapRequestHandler(deleteMaterialController)
 );

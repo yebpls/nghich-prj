@@ -3,8 +3,11 @@ import { Response, Request, NextFunction } from "express";
 import {
   AddMaterialReqBody,
   AddProductReqBody,
+  DeleteMaterialReqParams,
   GetMaterialDetailReqParams,
   GetProductDetailReqParams,
+  UpdateMaterialReqBody,
+  UpdateMaterialReqParams,
 } from "~/models/requests/Products.requests";
 import productServices from "~/services/products.services";
 import { PRODUCTS_MESSAGES } from "~/constants/messages";
@@ -86,13 +89,28 @@ export const getAllMaterialsController = async (
 };
 
 export const updateMaterialController = async (
-  req: Request,
+  req: Request<UpdateMaterialReqParams, any, UpdateMaterialReqBody>,
   res: Response,
   next: NextFunction
-) => {};
+) => {
+  const { material_id } = req.params;
+  const { name } = req.body;
+  const material = await productServices.updateMaterial(material_id, name);
+  return res.json({
+    message: PRODUCTS_MESSAGES.UPDATE_MATERIAL_SUCCESS,
+    data: material,
+  });
+};
 
 export const deleteMaterialController = async (
-  req: Request,
+  req: Request<DeleteMaterialReqParams>,
   res: Response,
   next: NextFunction
-) => {};
+) => {
+  const { material_id } = req.params;
+  const material = await productServices.deleteMaterial(material_id);
+  return res.json({
+    message: PRODUCTS_MESSAGES.DELETE_MATERIAL_SUCCESS,
+    data: material,
+  });
+};

@@ -4,6 +4,9 @@ import databaseService from "./database.services";
 import Product from "~/models/schemas/Product.chema";
 import { ProductStatus } from "~/constants/enum";
 import Material from "~/models/schemas/Material.schema";
+import { ErrorWithStatus } from "~/models/Errors";
+import { PRODUCTS_MESSAGES } from "~/constants/messages";
+import HTTP_STATUS from "~/constants/httpStatus";
 
 class ProductServices {
   async addProduct(body: AddProductReqBody) {
@@ -57,6 +60,34 @@ class ProductServices {
   async getAllMaterialsOfCollection() {
     const materials = await databaseService.materials.find().toArray();
     return materials;
+  }
+
+  async updateMaterial(material_id: string, name: string) {
+    const material = await databaseService.materials.findOneAndUpdate(
+      { _id: new ObjectId(material_id) },
+      { $set: { name } },
+      { returnDocument: "after" }
+    );
+    if (!material) {
+      throw new ErrorWithStatus(
+        PRODUCTS_MESSAGES.MATERIAL_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+    return material;
+  }
+
+  async deleteMaterial(material_id: string) {
+    const material = await databaseService.materials.findOneAndDelete({
+      _id: new ObjectId(material_id),
+    });
+    if (!material) {
+      throw new ErrorWithStatus(
+        PRODUCTS_MESSAGES.MATERIAL_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+    return material;
   }
 }
 
