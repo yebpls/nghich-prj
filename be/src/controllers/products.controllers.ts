@@ -5,6 +5,7 @@ import {
   AddProductReqBody,
   DeleteMaterialReqParams,
   GetMaterialDetailReqParams,
+  GetProductByCollectionReqParams,
   GetProductDetailReqParams,
   UpdateMaterialReqBody,
   UpdateMaterialReqParams,
@@ -112,5 +113,19 @@ export const deleteMaterialController = async (
   return res.json({
     message: PRODUCTS_MESSAGES.DELETE_MATERIAL_SUCCESS,
     data: material,
+  });
+};
+
+export const getProductByCollectionController = async (
+  req: Request<GetProductByCollectionReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { collection_id } = req.params;
+  const products = await productServices.getProductByCollection(collection_id);
+
+  return res.json({
+    message: PRODUCTS_MESSAGES.GET_PRODUCT_BY_COLLECTION_SUCCESS,
+    data: products,
   });
 };

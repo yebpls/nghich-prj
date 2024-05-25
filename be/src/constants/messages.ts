@@ -95,4 +95,5 @@ export const PRODUCTS_MESSAGES = {
   DELETE_MATERIAL_SUCCESS: "Delete material success",
   MATERIAL_NOT_FOUND: "Material not found",
   PRODUCT_NOT_FOUND: "Product not found",
+  GET_PRODUCT_BY_COLLECTION_SUCCESS: "Get product by collection success",
 };
