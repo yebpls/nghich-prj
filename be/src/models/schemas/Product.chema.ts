@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { ProductStatus } from "~/constants/enum";
+import Material from "./Material.schema";
 
 type ProductImage = {
   _id: ObjectId;
@@ -25,6 +26,7 @@ interface ProductType {
   color: ProductColor[];
   status: ProductStatus;
   detail: string;
+  material: Material;
 }
 
 export default class Product {
@@ -41,6 +43,7 @@ export default class Product {
   color: ProductColor[];
   status: ProductStatus;
   detail: string;
+  material: Material;
 
   constructor(product: ProductType) {
     const date = new Date();
@@ -57,5 +60,6 @@ export default class Product {
     this.color = product.color || [];
     this.status = product.status || ProductStatus.Active;
     this.detail = product.detail || "";
+    this.material = product.material || "";
   }
 }

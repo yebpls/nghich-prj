@@ -88,4 +88,11 @@ export const PRODUCTS_MESSAGES = {
   ADD_PRODUCT_SUCCESS: "Add product success",
   GET_ALL_PRODUCTS_SUCCESS: "Get all products success",
   GET_PRODUCT_DETAIL_SUCCESS: "Get product detail success",
+  ADD_MATERIAL_SUCCESS: "Add material success",
+  GET_ALL_MATERIALS_SUCCESS: "Get all materials success",
+  GET_MATERIAL_BY_ID_SUCCESS: "Get material by id success",
+  UPDATE_MATERIAL_SUCCESS: "Update material success",
+  DELETE_MATERIAL_SUCCESS: "Delete material success",
+  MATERIAL_NOT_FOUND: "Material not found",
+  PRODUCT_NOT_FOUND: "Product not found",
 };
