@@ -192,13 +192,13 @@ usersRouter.get(
 );
 
 /**
- * Description: Get user address by address_id
+ * Description: Get user address
  * Route: [GET] /users/address
  * Header: {Authorization: Bearer <access_token>}
  * Body: {}
  */
 usersRouter.get(
-  "/address/:address_id",
+  "/addresses",
   accessTokenValidator,
   wrapRequestHandler(getMyAddressController)
 );

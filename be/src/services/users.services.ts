@@ -427,20 +427,12 @@ class UserService {
     };
   }
 
-  async getMyAddress(user_id: string, address_id: string) {
-    const address = await databaseService.users.findOne({
+  async getMyAddress(user_id: string) {
+    const user = await databaseService.users.findOne({
       _id: new ObjectId(user_id),
-      "addresses._id": new ObjectId(address_id),
     });
 
-    if (address === null) {
-      throw new ErrorWithStatus(
-        USERS_MESSAGES.ADDRESS_NOT_FOUND,
-        HTTP_STATUS.NOT_FOUND
-      );
-    }
-
-    return address.addresses;
+    return user?.addresses;
   }
 
   async getMyWishList(user_id: string) {
