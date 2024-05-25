@@ -10,12 +10,7 @@ const RegisterPage = () => {
   const [isAgree, setIsAgree] = useState(false);
   const navigate = useNavigate();
 
-  const {
-    mutate: registerAccount,
-    isSuccess,
-    isError,
-    error,
-  } = useRegisterMutation();
+  const { mutate: registerAccount } = useRegisterMutation();
 
   const form = useForm({
     resolver: yupResolver(schemaRegister),
@@ -28,7 +23,6 @@ const RegisterPage = () => {
     reset,
   } = form;
   const onSubmit = (data) => {
-    toast.success("hello", data);
     console.log("log submit", data, errors);
     registerAccount({
       name: data.fullname,

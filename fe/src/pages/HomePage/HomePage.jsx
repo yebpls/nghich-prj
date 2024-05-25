@@ -6,7 +6,6 @@ import Test from "../../components/TestApi/Test";
 const HomePage = () => {
   return (
     <div>
-      <Test />
       <div className="w-7 h-7">
         <h1>
           <br />

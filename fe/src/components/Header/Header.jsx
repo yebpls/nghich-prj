@@ -96,28 +96,30 @@ const Header = () => {
                 </Link>
               </li>
               <li className="menu-item">
-                <Link className="h-6 w-6 flex items-center justify-center border border-black rounded-full">
-                  <FontAwesomeIcon
-                    size="1x"
-                    className="text-black"
-                    icon={faUser}
-                  />
-                </Link>
-              </li>
-              <li className="menu-item">
                 <Link to="/cart" className="h-6 flex items-center">
                   <img
                     alt="cart"
-                    className="inline-block w-6 h-full mr-1"
+                    className="inline-block w-6 h-full "
                     src="images/cart_icon.png"
                   />
-                  <span className="text-xs border border-black rounded-full bg-black text-white w-5 h-5 flex items-center justify-center ml-4">
+                  <span className="text-xs mb-5 border border-black rounded-full bg-black text-white w-5 h-5 flex items-center justify-center">
                     5
                   </span>
                 </Link>
               </li>
               {isLogin ? (
-                ""
+                <li className="menu-item">
+                  <Link
+                    to="/user"
+                    className="h-6 w-6 flex items-center justify-center border border-black rounded-full"
+                  >
+                    <FontAwesomeIcon
+                      size="1x"
+                      className="text-black"
+                      icon={faUser}
+                    />
+                  </Link>
+                </li>
               ) : (
                 <li className="menu-item">
                   <Link to="/login" className="text-gray_2 font-medium">
