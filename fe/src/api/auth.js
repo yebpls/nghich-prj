@@ -54,17 +54,30 @@ async function registerAccount(input) {
 }
 //REGISTER MUTATION BY USE REGISTER FUNCTION
 export const useRegisterMutation = () => {
+  const navigate = useNavigate();
+  const setLogin = useLoginStore((state) => state.login);
   return useMutation((input) => registerAccount(input), {
     onSuccess: (data) => {
       console.log(data, "register success");
       toast.success("register success");
       Cookies.set("auth_token", data.access_token);
-      console.log(data, "register success");
+      navigate("/user");
+      setLogin();
     },
     onError: (error) => {
       console.log(error.response.data.errors, "register fail");
-      toast.error("register fail");
-      // console.log(error, "register fail");
+      const loginError = error.response.data.errors;
+      if (loginError.email && loginError.username) {
+        toast.error("Register fail");
+      } else {
+        toast.error(
+          loginError.email
+            ? loginError.email.msg
+            : loginError.username
+            ? loginError.username.msg
+            : "Register fail"
+        );
+      }
     },
   });
 };

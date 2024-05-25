@@ -186,14 +186,15 @@ const ProductPage = () => {
                 {product?.map((item) => (
                   <div>
                     <div className=" text-xs text-slate-600">
-                      <Link to="/productDetail">
+                      <Link to={`/productDetail/${item._id}`}>
                         <div className="product-list-item p-6">
                           <div className="product-img">
                             {item.images[0] ? (
                               <img
                                 className="h-full"
-                                src={item.images[0]}
-                                alt="/image c.png"
+                                // src={item.images[0]}
+                                src="/image c.png"
+                                alt=""
                               />
                             ) : (
                               <img
@@ -250,107 +251,6 @@ const ProductPage = () => {
                     </div>
                   </div>
                 ))}
-
-                <Link>
-                  <div className="product-list-item p-6">
-                    <div className="product-img">
-                      <img className="h-full" src="/image c.png" alt="" />
-                    </div>
-                    <div className="product-info font-bold">
-                      <div className="product-fig flex justify-between pb-2">
-                        <div className="product-rate">
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                        </div>
-                        <div className="product-sold">
-                          0 <span className="text-gray_2">SOLD</span>
-                        </div>
-                      </div>
-                      <div className="product-name">
-                        [SPRING COLLECTION] BAG 1
-                      </div>
-                      <div className="product-price">1</div>
-                    </div>
-                  </div>
-                </Link>
-                <Link>
-                  <div className="product-list-item p-6">
-                    <div className="product-img">
-                      <img className="h-full" src="/image c.png" alt="" />
-                    </div>
-                    <div className="product-info font-bold">
-                      <div className="product-fig flex justify-between pb-2">
-                        <div className="product-rate">
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                        </div>
-                        <div className="product-sold">
-                          0 <span className="text-gray_2">SOLD</span>
-                        </div>
-                      </div>
-                      <div className="product-name">
-                        [SPRING COLLECTION] BAG 1
-                      </div>
-                      <div className="product-price">1</div>
-                    </div>
-                  </div>
-                </Link>
-                <Link>
-                  <div className="product-list-item p-6">
-                    <div className="product-img">
-                      <img className="h-full" src="/image c.png" alt="" />
-                    </div>
-                    <div className="product-info font-bold">
-                      <div className="product-fig flex justify-between pb-2">
-                        <div className="product-rate">
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                        </div>
-                        <div className="product-sold">
-                          0 <span className="text-gray_2">SOLD</span>
-                        </div>
-                      </div>
-                      <div className="product-name">
-                        [SPRING COLLECTION] BAG 1
-                      </div>
-                      <div className="product-price">1</div>
-                    </div>
-                  </div>
-                </Link>
-                <Link>
-                  <div className="product-list-item p-6">
-                    <div className="product-img">
-                      <img className="h-full" src="/image c.png" alt="" />
-                    </div>
-                    <div className="product-info font-bold">
-                      <div className="product-fig flex justify-between pb-2">
-                        <div className="product-rate">
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                          <FontAwesomeIcon icon={faStar} className="mr-2" />
-                        </div>
-                        <div className="product-sold">
-                          0 <span className="text-gray_2">SOLD</span>
-                        </div>
-                      </div>
-                      <div className="product-name">
-                        [SPRING COLLECTION] BAG 1
-                      </div>
-                      <div className="product-price">1</div>
-                    </div>
-                  </div>
-                </Link>
               </div>
               <div className="grid-records py-[50px] text-right text-black border-b">
                 showing <span className="font-bold">0</span> -{" "}
