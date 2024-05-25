@@ -37,3 +37,7 @@ export interface UpdateMaterialReqBody {
 export interface DeleteMaterialReqParams extends ParamsDictionary {
   material_id: string;
 }
+
+export interface GetProductByCollectionReqParams extends ParamsDictionary {
+  collection_id: string;
+}
