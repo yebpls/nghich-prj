@@ -1,6 +1,8 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { API_ENDPOINTS } from "./api-endpoint";
 import http from "../config/http";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 //GET USER PROFILE FUNCTION
 const getUserProfile = async () => {
@@ -27,4 +29,31 @@ export const useGetWishlist = () => {
     getWishlist
   );
   return { data, isLoading, error, isFetching };
+};
+
+//ADD WISHLIST FUNCTION
+
+async function addWishlist(id) {
+  const { data } = await http.post(API_ENDPOINTS.ADD_WISHLIST + id);
+  console.log("add wishlist:", data);
+
+  return data;
+}
+
+//ADD WISHLIST MUTATION BY USE ADD WISHLIST FUNCTION
+export const useAddWishlist = () => {
+  const navigate = useNavigate();
+  return useMutation((id) => addWishlist(id), {
+    onSuccess: () => {
+      toast.success("Add to wishlist successfully");
+    },
+    onError: (error) => {
+      if (error?.response.status === 401) {
+        toast.error("Please login to add wishlist");
+        navigate("/login");
+      } else {
+        toast.error("Add to wishlist failed");
+      }
+    },
+  });
 };

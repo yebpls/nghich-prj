@@ -1,10 +1,22 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useGetProductById } from "../../api/product";
+import toast from "react-hot-toast";
+import { useAddWishlist, useGetWishlist } from "../../api/user";
 
 const ProductDetailPage = () => {
+  const [quantity, setQuantity] = useState(1);
+  const { productId } = useParams();
+  const { data: product, isLoading, error } = useGetProductById(productId);
+  const { data: wishlist } = useGetWishlist();
+  const { mutate: addWishlist } = useAddWishlist();
+  console.log("product:", product);
+  const handleAddWishlist = (id) => {
+    addWishlist(id);
+  };
   return (
     <main className="main w-5/6 mx-auto">
       {/* <div className="path py-[30px]">
@@ -50,15 +62,17 @@ const ProductDetailPage = () => {
                 <div className="product-rate_total">1 Review(s)</div>
               </div>
               <h1 className="product-name py-3 text-black text-3xl font-bold">
-                PRODUCT NAME HERE
+                {product?.name}
               </h1>
               <p className="product-description text-xs">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Fugiat, quidem iure! Iure dolorum exercitationem natus
+                {product?.description}
               </p>
               <p className="product-price py-4 text-2xl text-black font-bold border-b">
-                100.000đ{" "}
-                <span className="text-gray_2 border-b-4 border-gray_2 text-center leading-normal ">
+                {product?.price
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                đ{" "}
+                <span className="text-gray_2 text-xl text-center leading-normal line-through">
                   900.000đ
                 </span>
               </p>
@@ -66,13 +80,19 @@ const ProductDetailPage = () => {
                 Measurement <br></br>
               </p>
               <p className="font-medium pt-2 text-black text-lg">
-                55cm(L) x 50cm (W)
+                {product?.length}cm(L) x {product?.width}cm (W)
               </p>
               <div className="product-color py-4">
                 <button className="color-btn font-bold text-sm">
                   Choose color
                 </button>
-                <p className="color text-black pt-2 text-lg">Grey</p>
+                {product?.color?.map((color) => (
+                  <div>
+                    <button className="color text-black mt-1 p-1 text-lg hover:bg-slate-100">
+                      {color?.name}
+                    </button>
+                  </div>
+                ))}
                 <div className="color-img flex mt-5">
                   {[...Array(4)].map((x, i) => (
                     <div className="color-img-item">
@@ -88,14 +108,28 @@ const ProductDetailPage = () => {
               </div>
               <div className="product-button font-bold text-sm text-black">
                 <div className="group-top flex justify-between h-9">
-                  <input
-                    className="text-center bg-gray_2 w-1/3 rounded-lg"
-                    type="number"
-                    name=""
-                    id=""
-                    value={1}
-                  />
-                  <button className="button-wishlist border border-black w-3/5 rounded-lg bg-[#FF78C5]">
+                  <div className="text-center my-auto py-1 bg-slate-200 w-1/3 rounded-lg flex">
+                    <div
+                      className="w-1/4 font-light text-xl ml-2 hover:bg-slate-300 rounded-lg cursor-pointer"
+                      onClick={() =>
+                        setQuantity(quantity <= 0 ? 0 : quantity - 1)
+                      }
+                    >
+                      -
+                    </div>
+                    <div className="w-1/2 font-light text-xl">{quantity}</div>
+                    <div
+                      className="w-1/4 font-light text-xl hover:bg-slate-300 rounded-lg cursor-pointer mr-2"
+                      onClick={() => setQuantity(quantity + 1)}
+                    >
+                      +
+                    </div>
+                  </div>
+
+                  <button
+                    className="button-wishlist border border-black w-3/5 rounded-lg bg-[#FF78C5]"
+                    onClick={() => handleAddWishlist(product?._id)}
+                  >
                     Wishlist
                   </button>
                 </div>

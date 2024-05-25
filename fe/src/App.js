@@ -22,7 +22,10 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
             <Route path="/products" element={<ProductPage />} />
-            <Route path="/productDetail" element={<ProductDetailPage />} />
+            <Route
+              path="/productDetail/:productId"
+              element={<ProductDetailPage />}
+            />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/customize" element={<CustomBag />} />
             <Route path="/user" element={<UserProfile />} />
