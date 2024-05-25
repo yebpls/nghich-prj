@@ -25,3 +25,16 @@ export enum Role {
   Admin,
   User,
 }
+
+export enum PaymentType {
+  COD,
+  MOMO,
+  STK,
+}
+
+export enum OrderStatus {
+  Pending,
+  Shipping,
+  Success,
+  Cancel,
+}
