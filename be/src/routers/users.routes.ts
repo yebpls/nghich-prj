@@ -18,6 +18,7 @@ import {
   resendVerifyEmailController,
   resetPasswordController,
   updateAddressController,
+  UpdateAddressDefaultController,
   updateMyProfileController,
   verifyForgotPasswordController,
 } from "~/controllers/users.controllers";
@@ -191,13 +192,13 @@ usersRouter.get(
 );
 
 /**
- * Description: Get user address by address_id
+ * Description: Get user address
  * Route: [GET] /users/address
  * Header: {Authorization: Bearer <access_token>}
  * Body: {}
  */
 usersRouter.get(
-  "/address/:address_id",
+  "/addresses",
   accessTokenValidator,
   wrapRequestHandler(getMyAddressController)
 );
@@ -215,6 +216,20 @@ usersRouter.post(
   verifiedUserValidator,
   addAddressValidator,
   wrapRequestHandler(addAddressController)
+);
+
+/**
+ * Description: Change Address Default
+ * Path: /address/default/:address_id
+ * Method: POST
+ * Header: { Authorization: Bearer <access_token> }
+ * Body: {address: string}
+ */
+usersRouter.post(
+  "/address/default/:address_id",
+  accessTokenValidator,
+  verifiedUserValidator,
+  wrapRequestHandler(UpdateAddressDefaultController)
 );
 
 /**

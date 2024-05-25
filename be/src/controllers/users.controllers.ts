@@ -215,16 +215,15 @@ export const getUserProfileController = async (
 };
 
 export const getMyAddressController = async (
-  req: Request<GetAddressReqParams>,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const { user_id } = req.decoded_authorization as TokenPayload;
-  const { address_id } = req.params;
-  const address = await userService.getMyAddress(user_id, address_id);
+  const addresses = await userService.getMyAddress(user_id);
   return res.json({
     message: USERS_MESSAGES.GET_MY_ADDRESS_SUCCESS,
-    data: address,
+    data: addresses,
   });
 };
 
@@ -239,6 +238,19 @@ export const addAddressController = async (
   return res.json({
     message: USERS_MESSAGES.ADD_ADDRESS_SUCCESS,
     data: result,
+  });
+};
+
+export const UpdateAddressDefaultController = async (
+  req: Request<UpdateAddressReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const { address_id } = req.params;
+  const result = await userService.updateAddressDefault(user_id, address_id);
+  return res.json({
+    message: USERS_MESSAGES.CHANGE_ADDRESS_DEFAULT_SUCCESS,
   });
 };
 

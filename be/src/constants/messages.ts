@@ -67,6 +67,8 @@ export const USERS_MESSAGES = {
   PRODUCT_IS_EXISTED_IN_WISHLIST: "Product is existed in wish list",
   ADD_TO_WISHLIST_SUCCESS: "Add to wish list success",
   PRODUCT_IS_NOT_EXISTED_IN_WISHLIST: "Product is not existed in wish list",
+  CHANGE_ADDRESS_DEFAULT_SUCCESS: "Change address default success",
+  UPDATE_ADDRESS_DEFAULT_SUCCESS: "Update address default success",
 } as const;
 
 export const COLLECTIONS_MESSAGES = {
