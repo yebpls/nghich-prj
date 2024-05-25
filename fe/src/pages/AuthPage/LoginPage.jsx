@@ -1,17 +1,23 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../../api/auth";
 
 const LoginPage = () => {
+  const { mutate: login } = useLoginMutation();
+
   const form = useForm();
+  const navigate = useNavigate();
+
   const {
     register,
-    // formState: { errors },
+    formState: { errors },
     handleSubmit,
     // control,
     // reset,
   } = form;
   const onSubmit = (data) => {
     console.log(data);
+    login(data);
     // reset();
   };
   return (
