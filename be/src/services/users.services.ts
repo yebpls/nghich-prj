@@ -323,21 +323,62 @@ class UserService {
   }
 
   async addAddress(user_id: string, address: string, phoneNumber: string) {
-    const newAddress: AddressType = {
+    let newAddress: AddressType = {
       _id: new ObjectId(),
       address,
       phoneNumber,
     };
-    const user = await databaseService.users.updateOne(
+    const user = await databaseService.users.findOne({
+      _id: new ObjectId(user_id),
+    });
+    if (user?.addresses.length === 0) {
+      newAddress.default = true;
+    } else {
+      newAddress.default = false;
+    }
+    const addressObject = await databaseService.users.findOneAndUpdate(
       { _id: new ObjectId(user_id) },
       {
         $push: {
           addresses: newAddress,
         },
-        $currentDate: { updated_at: true },
+        $currentDate: { created_at: true },
+      },
+      {
+        returnDocument: "after",
+        projection: projection,
       }
     );
-    return user;
+    return addressObject?.addresses;
+  }
+
+  async updateAddressDefault(user_id: string, address_id: string) {
+    const user = await databaseService.users.findOne({
+      _id: new ObjectId(user_id),
+      "addresses._id": new ObjectId(address_id),
+    });
+
+    if (user === null) {
+      throw new ErrorWithStatus(
+        USERS_MESSAGES.ADDRESS_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id), "addresses._id": new ObjectId(address_id) },
+      { $set: { "addresses.$.default": true } }
+    );
+
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      { $set: { "addresses.$[elem].default": false } },
+      { arrayFilters: [{ "elem._id": { $ne: new ObjectId(address_id) } }] }
+    );
+
+    return {
+      message: USERS_MESSAGES.UPDATE_ADDRESS_DEFAULT_SUCCESS,
+    };
   }
 
   async updateAddress(
@@ -365,7 +406,7 @@ class UserService {
         projection: projection,
       }
     );
-    return user;
+    return user?.addresses;
   }
 
   async deleteAddress(user_id: string, address_id: string) {

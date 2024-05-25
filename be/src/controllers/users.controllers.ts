@@ -242,6 +242,19 @@ export const addAddressController = async (
   });
 };
 
+export const UpdateAddressDefaultController = async (
+  req: Request<UpdateAddressReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const { address_id } = req.params;
+  const result = await userService.updateAddressDefault(user_id, address_id);
+  return res.json({
+    message: USERS_MESSAGES.CHANGE_ADDRESS_DEFAULT_SUCCESS,
+  });
+};
+
 export const updateAddressController = async (
   req: Request<UpdateAddressReqParams, any, UpdateAddressReqBody>,
   res: Response,

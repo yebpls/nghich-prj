@@ -6,6 +6,7 @@ export interface AddressType {
   _id?: ObjectId;
   address: string;
   phoneNumber: string;
+  default?: boolean;
 }
 
 interface WishListType {
