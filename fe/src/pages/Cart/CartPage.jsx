@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CheckBox from "../../components/Input/CheckBox";
+import { useCartStore } from "../../zustand-store/cartState";
+import CartItem from "./CartItem";
 
 const CartPage = () => {
+  const [quantity, setQuantity] = useState(1);
+  const { cartItems } = useCartStore((state) => state);
+
   return (
     <main className="main text-black w-5/6 mx-auto">
       <div className="page-name text-center py-[50px]">
@@ -45,126 +47,7 @@ const CartPage = () => {
                   <th>Price</th>
                   <th>Subtotal</th>
                 </tr>
-                <tr>
-                  <td className="py-5">
-                    <div className="product-col flex items-center">
-                      <input
-                        className="w-[16px] h-[16px]"
-                        type="checkbox"
-                        name=""
-                        id=""
-                      />
-                      <img
-                        className="w-[150px] ml-[30px]"
-                        src="/image c.png"
-                        alt=""
-                        srcset=""
-                      />
-                      <div className="product-info ml-[30px]">
-                        <h6 className="product-name text-[20px] font-bold">
-                          BAG 1
-                        </h6>
-                        <div className="product-color text-gray_2">
-                          Color: unknown
-                        </div>
-                        <button className="text-gray_2 text-[20px] font-bold">
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <input
-                      className="bg-[#CFF53E] text-center"
-                      type="number"
-                      name=""
-                      id=""
-                      value={1}
-                    />
-                  </td>
-                  <td>1</td>
-                  <td className="font-bold">1</td>
-                </tr>
-                <tr>
-                  <td className="py-5">
-                    <div className="product-col flex items-center">
-                      <input
-                        className="w-[16px] h-[16px]"
-                        type="checkbox"
-                        name=""
-                        id=""
-                      />
-                      <img
-                        className="w-[150px] ml-[30px]"
-                        src="/image c.png"
-                        alt=""
-                        srcset=""
-                      />
-                      <div className="product-info ml-[30px]">
-                        <h6 className="product-name text-[20px] font-bold">
-                          BAG 1
-                        </h6>
-                        <div className="product-color text-gray_2">
-                          Color: unknown
-                        </div>
-                        <button className="text-gray_2 text-[20px] font-bold">
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <input
-                      className="bg-[#CFF53E] text-center"
-                      type="number"
-                      name=""
-                      id=""
-                      value={1}
-                    />
-                  </td>
-                  <td>1</td>
-                  <td className="font-bold">1</td>
-                </tr>
-                <tr>
-                  <td className="py-5">
-                    <div className="product-col flex items-center">
-                      <input
-                        className="w-[16px] h-[16px]"
-                        type="checkbox"
-                        name=""
-                        id=""
-                      />
-                      <img
-                        className="w-[150px] ml-[30px]"
-                        src="/image c.png"
-                        alt=""
-                        srcset=""
-                      />
-                      <div className="product-info ml-[30px]">
-                        <h6 className="product-name text-[20px] font-bold">
-                          BAG 1
-                        </h6>
-                        <div className="product-color text-gray_2">
-                          Color: unknown
-                        </div>
-                        <button className="text-gray_2 text-[20px] font-bold">
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <input
-                      className="bg-[#CFF53E] text-center"
-                      type="number"
-                      name=""
-                      id=""
-                      value={1}
-                    />
-                  </td>
-                  <td>1</td>
-                  <td className="font-bold">1</td>
-                </tr>
+                {cartItems && cartItems.map((item) => <CartItem item={item} />)}
               </table>
             </div>
             <div className="cart-right w-1/3 border border-black rounded-lg">

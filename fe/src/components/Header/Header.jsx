@@ -6,9 +6,11 @@ import { mdiTicket } from "@mdi/js";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import "./Header.css";
 import { useLoginStore } from "../../zustand-store/loginState";
+import { useCartStore } from "../../zustand-store/cartState";
 
 const Header = () => {
   const { isLogin } = useLoginStore((state) => state);
+  const { countCart } = useCartStore((state) => state);
   console.log("isLogin", isLogin);
   return (
     <header className="header ">
@@ -100,10 +102,10 @@ const Header = () => {
                   <img
                     alt="cart"
                     className="inline-block w-6 h-full "
-                    src="images/cart_icon.png"
+                    src=" images/cart_icon.png"
                   />
                   <span className="text-xs mb-5 border border-black rounded-full bg-black text-white w-5 h-5 flex items-center justify-center">
-                    5
+                    {countCart}
                   </span>
                 </Link>
               </li>
