@@ -7,27 +7,53 @@ import Material from "~/models/schemas/Material.schema";
 import { ErrorWithStatus } from "~/models/Errors";
 import { PRODUCTS_MESSAGES } from "~/constants/messages";
 import HTTP_STATUS from "~/constants/httpStatus";
+import { Request } from "express";
+import mediasService from "./medias.services";
 
 class ProductServices {
   async addProduct(body: AddProductReqBody) {
-    const { images, color, material_id } = body;
-    const newImages = [{ url: images, _id: new ObjectId() }];
-    const newColor = [{ name: color, _id: new ObjectId() }];
+    const { material_id } = body;
     const material = await productServices.getMaterialById(material_id);
     const newBody: Product = {
       ...body,
       _id: new ObjectId(),
-      images: newImages,
-      color: newColor,
       status: ProductStatus.Active,
       created_at: new Date(),
       updated_at: new Date(),
       collection_id: new ObjectId(body.collection_id),
       material: material as Material,
       quantity: 0,
+      images: [],
+      color: [],
     };
     await databaseService.products.insertOne(newBody);
     return newBody;
+  }
+
+  async addImageToProduct(product_id: string, req: Request) {
+    const product = await databaseService.products.findOne({
+      _id: new ObjectId(product_id),
+    });
+    if (!product) {
+      return new ErrorWithStatus(
+        PRODUCTS_MESSAGES.PRODUCT_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+    const urls = await mediasService.uploadImage(req);
+    const images = urls.map((url) => ({
+      _id: new ObjectId(),
+      url: url.url,
+    }));
+
+    // Add the new images to the product
+    const result = await databaseService.products.findOneAndUpdate(
+      { _id: new ObjectId(product_id) },
+      { $push: { images: { $each: images } } },
+      { returnDocument: "after" }
+    );
+
+    return result;
   }
 
   async getAllProducts() {
@@ -100,6 +126,10 @@ class ProductServices {
       .toArray();
 
     return products;
+  }
+
+  async deleteImageFromProduct(product_id: string, image_id: string) {
+    console.log(product_id, image_id);
   }
 }
 

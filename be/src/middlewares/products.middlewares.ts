@@ -60,19 +60,6 @@ export const addProductValidator = validate(
         },
         trim: true,
       },
-      images: {
-        isString: {
-          errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,
-        },
-        isLength: {
-          options: {
-            min: 1,
-            max: 400,
-          },
-          errorMessage: USERS_MESSAGES.IMAGE_URL_LENGTH,
-        },
-        trim: true,
-      },
       width: {
         isNumeric: {
           errorMessage: "Width must be a number",
@@ -89,14 +76,14 @@ export const addProductValidator = validate(
           errorMessage: "Width is required",
         },
       },
-      color: {
-        isString: {
-          errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,
-        },
-        notEmpty: {
-          errorMessage: "Color is required",
-        },
-      },
+      // color: {
+      //   isString: {
+      //     errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,
+      //   },
+      //   notEmpty: {
+      //     errorMessage: "Color is required",
+      //   },
+      // },
       detail: {
         isString: {
           errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,

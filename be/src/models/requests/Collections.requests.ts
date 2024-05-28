@@ -17,3 +17,7 @@ export interface UpdateCollectionReqParams extends ParamsDictionary {
 export interface DeleteCollectionReqParams extends ParamsDictionary {
   collection_id: string;
 }
+
+export interface DeleteImageFromS3ReqBody {
+  link: string;
+}

@@ -6,10 +6,8 @@ export interface AddProductReqBody {
   price: number;
   description: string;
   collection_id: string;
-  images: string;
   width: number;
   length: number;
-  color: string;
   detail: string;
   material_id: string;
 }
@@ -40,4 +38,8 @@ export interface DeleteMaterialReqParams extends ParamsDictionary {
 
 export interface GetProductByCollectionReqParams extends ParamsDictionary {
   collection_id: string;
+}
+
+export interface AddImageProductReqParams extends ParamsDictionary {
+  product_id: string;
 }

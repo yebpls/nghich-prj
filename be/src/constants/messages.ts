@@ -69,6 +69,8 @@ export const USERS_MESSAGES = {
   PRODUCT_IS_NOT_EXISTED_IN_WISHLIST: "Product is not existed in wish list",
   CHANGE_ADDRESS_DEFAULT_SUCCESS: "Change address default success",
   UPDATE_ADDRESS_DEFAULT_SUCCESS: "Update address default success",
+  FILE_NOT_FOUND: "File not found",
+  UPLOAD_SUCCESS: "Upload success",
 } as const;
 
 export const COLLECTIONS_MESSAGES = {
@@ -98,4 +100,5 @@ export const PRODUCTS_MESSAGES = {
   MATERIAL_NOT_FOUND: "Material not found",
   PRODUCT_NOT_FOUND: "Product not found",
   GET_PRODUCT_BY_COLLECTION_SUCCESS: "Get product by collection success",
+  ADD_IMAGE_TO_PRODUCT_SUCCESS: "Add image to product success",
 };

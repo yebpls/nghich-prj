@@ -13,6 +13,7 @@ import { ObjectId } from "mongodb";
 import { PRODUCTS_MESSAGES, USERS_MESSAGES } from "~/constants/messages";
 import HTTP_STATUS from "~/constants/httpStatus";
 import { ErrorWithStatus } from "~/models/Errors";
+import { envConfig } from "~/constants/config";
 
 const projection = {
   password: 0,
@@ -68,9 +69,9 @@ class UserService {
         role,
       },
       options: {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN,
+        expiresIn: envConfig.accessTokenExpireTime,
       },
-      secret: process.env.JWT_SECRET_ACCESS_TOKEN as string,
+      secret: envConfig.jwtSecretAccessToken,
     });
   }
 
@@ -88,9 +89,9 @@ class UserService {
         verify: verify,
       },
       options: {
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
+        expiresIn: envConfig.refreshTokenExpireTime,
       },
-      secret: process.env.JWT_SECRET_REFRESH_TOKEN as string,
+      secret: envConfig.jwtSecretRefreshToken,
     });
   }
 
@@ -119,9 +120,9 @@ class UserService {
     return signToken({
       payload: { user_id, token_type: TokenType.EmailVerifyToken, verify },
       options: {
-        expiresIn: process.env.EMAIL_VERIFY_TOKEN_EXPIRES_IN,
+        expiresIn: envConfig.emailVerifyTokenExpireTime,
       },
-      secret: process.env.JWT_SECRET_EMAIL_VERIFY_TOKEN as string,
+      secret: envConfig.jwtSecretEmailVerifyToken,
     });
   }
 
@@ -135,9 +136,9 @@ class UserService {
     return signToken({
       payload: { user_id, token_type: TokenType.ForgotPasswordToken, verify },
       options: {
-        expiresIn: process.env.FORGOT_PASSWORD_TOKEN_EXPIRES_IN,
+        expiresIn: envConfig.forgotPasswordTokenExpireTime,
       },
-      secret: process.env.JWT_SECRET_FORGOT_PASSWORD_TOKEN as string,
+      secret: envConfig.jwtSecretForgotPasswordToken,
     });
   }
 

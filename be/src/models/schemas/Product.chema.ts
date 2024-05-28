@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import { ProductStatus } from "~/constants/enum";
 import Material from "./Material.schema";
 
-type ProductImage = {
+export type ProductImage = {
   _id: ObjectId;
   url: string;
 };
@@ -20,10 +20,10 @@ interface ProductType {
   collection_id: ObjectId;
   created_at?: Date;
   updated_at?: Date;
-  images: ProductImage[];
+  images?: ProductImage[];
   width: number;
   length: number;
-  color: ProductColor[];
+  color?: ProductColor[];
   status: ProductStatus;
   detail: string;
   material: Material;

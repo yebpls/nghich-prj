@@ -1,6 +1,7 @@
 import { ParamsDictionary } from "express-serve-static-core";
 import { Response, Request, NextFunction } from "express";
 import {
+  AddImageProductReqParams,
   AddMaterialReqBody,
   AddProductReqBody,
   DeleteMaterialReqParams,
@@ -22,6 +23,19 @@ export const addProductController = async (
   const product = await productServices.addProduct(body);
   return res.json({
     message: PRODUCTS_MESSAGES.ADD_PRODUCT_SUCCESS,
+    data: product,
+  });
+};
+
+export const addImageToProductController = async (
+  req: Request<AddImageProductReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { product_id } = req.params;
+  const product = await productServices.addImageToProduct(product_id, req);
+  return res.json({
+    message: PRODUCTS_MESSAGES.ADD_IMAGE_TO_PRODUCT_SUCCESS,
     data: product,
   });
 };
