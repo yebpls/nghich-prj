@@ -2,17 +2,20 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./be
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - uses: actions/checkout@v4
+      - name: "Create env file"
+        run: echo "${{ secrets.ENV }}" > .env.production
+      - name: Build the Docker image
+        run: docker build --progress=plain -t sontt/nghich:v2 .
