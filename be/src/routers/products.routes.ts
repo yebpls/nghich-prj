@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { add, update } from "lodash";
 import {
+  addImageToProductController,
   addMaterialController,
   addProductController,
   deleteMaterialController,
@@ -31,6 +32,19 @@ productsRouter.post(
   accessTokenValidator,
   addProductValidator,
   wrapRequestHandler(addProductController)
+);
+
+/**
+ * Description: Add image to product
+ * Path: /product
+ * Method: POST
+ * Header: { Authorization: Bearer <access_token> }
+ * Body: {address: string}
+ */
+productsRouter.post(
+  "/:product_id/images",
+  accessTokenValidator,
+  wrapRequestHandler(addImageToProductController)
 );
 
 /**
