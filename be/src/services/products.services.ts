@@ -1,5 +1,8 @@
 import { ObjectId } from "mongodb";
-import { AddProductReqBody } from "~/models/requests/Products.requests";
+import {
+  AddProductReqBody,
+  UpdateProductReqBody,
+} from "~/models/requests/Products.requests";
 import databaseService from "./database.services";
 import Product from "~/models/schemas/Product.chema";
 import { ProductStatus } from "~/constants/enum";
@@ -9,6 +12,7 @@ import { PRODUCTS_MESSAGES } from "~/constants/messages";
 import HTTP_STATUS from "~/constants/httpStatus";
 import { Request } from "express";
 import mediasService from "./medias.services";
+import { deleteFileFromS3 } from "~/utils/s3";
 
 class ProductServices {
   async addProduct(body: AddProductReqBody) {
@@ -35,7 +39,7 @@ class ProductServices {
       _id: new ObjectId(product_id),
     });
     if (!product) {
-      return new ErrorWithStatus(
+      throw new ErrorWithStatus(
         PRODUCTS_MESSAGES.PRODUCT_NOT_FOUND,
         HTTP_STATUS.NOT_FOUND
       );
@@ -130,6 +134,52 @@ class ProductServices {
 
   async deleteImageFromProduct(product_id: string, image_id: string) {
     console.log(product_id, image_id);
+  }
+
+  async deleteProduct(product_id: string) {
+    const product = await databaseService.products.findOne({
+      _id: new ObjectId(product_id),
+    });
+    if (!product) {
+      throw new ErrorWithStatus(
+        PRODUCTS_MESSAGES.PRODUCT_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+    const urls = product?.images.map((image) => image.url);
+    const filenames = urls.map((url) => url.split("/").pop());
+    filenames.map((filename) => {
+      deleteFileFromS3(filename as string);
+    });
+    await databaseService.products.deleteOne({
+      _id: new ObjectId(product_id),
+    });
+
+    return { message: PRODUCTS_MESSAGES.DELETE_PRODUCT_SUCCESS };
+  }
+
+  async updateProduct(product_id: string, body: UpdateProductReqBody) {
+    const _body = body.material_id
+      ? {
+          ...body,
+          material: await productServices.getMaterialById(body.material_id),
+        }
+      : body;
+    if (_body.material_id) {
+      delete _body.material_id;
+    }
+
+    const product = await databaseService.products.findOneAndUpdate(
+      { _id: new ObjectId(product_id) },
+      {
+        $set: {
+          ...(_body as Product),
+        },
+        $currentDate: { updated_at: true },
+      },
+      { returnDocument: "after" }
+    );
+    return product;
   }
 }
 

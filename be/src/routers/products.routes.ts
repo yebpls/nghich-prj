@@ -5,18 +5,23 @@ import {
   addMaterialController,
   addProductController,
   deleteMaterialController,
+  deleteProductController,
   getAllMaterialsController,
   getAllProductsController,
   getMaterialByIdController,
   getProductByCollectionController,
   getProductDetailController,
   updateMaterialController,
+  updateProductController,
 } from "~/controllers/products.controllers";
+import { filterMiddleware } from "~/middlewares/common.middlewares";
 import {
   addMaterialValidator,
   addProductValidator,
+  updateProductValidator,
 } from "~/middlewares/products.middlewares";
 import { accessTokenValidator } from "~/middlewares/users.middlewares";
+import { UpdateProductReqBody } from "~/models/requests/Products.requests";
 import { wrapRequestHandler } from "~/utils/handlers";
 const productsRouter = Router();
 
@@ -45,6 +50,43 @@ productsRouter.post(
   "/:product_id/images",
   accessTokenValidator,
   wrapRequestHandler(addImageToProductController)
+);
+
+/**
+ * Description: Delete Product
+ * Path: /:product_id
+ * Method: POST
+ * Header: { Authorization: Bearer <access_token> }
+ */
+productsRouter.delete(
+  "/:product_id",
+  accessTokenValidator,
+  wrapRequestHandler(deleteProductController)
+);
+
+/**
+ * Description: Update Product
+ * Path: /:product_id
+ * Method: PATCH
+ * Header: { Authorization: Bearer <access_token> }
+ * Body: UpdateProductReqBody
+ */
+productsRouter.patch(
+  "/:product_id",
+  accessTokenValidator,
+  updateProductValidator,
+  filterMiddleware<UpdateProductReqBody>([
+    "description",
+    "detail",
+    "length",
+    "material_id",
+    "name",
+    "price",
+    "quantity",
+    "status",
+    "width",
+  ]),
+  wrapRequestHandler(updateProductController)
 );
 
 /**

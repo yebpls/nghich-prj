@@ -101,4 +101,6 @@ export const PRODUCTS_MESSAGES = {
   PRODUCT_NOT_FOUND: "Product not found",
   GET_PRODUCT_BY_COLLECTION_SUCCESS: "Get product by collection success",
   ADD_IMAGE_TO_PRODUCT_SUCCESS: "Add image to product success",
+  DELETE_PRODUCT_SUCCESS: "Delete product success",
+  UPDATE_PRODUCT_SUCCESS: "Update product success",
 };

@@ -1,5 +1,6 @@
 import { ParamsDictionary } from "express-serve-static-core";
 import e from "express";
+import { ProductStatus } from "~/constants/enum";
 
 export interface AddProductReqBody {
   name: string;
@@ -42,4 +43,24 @@ export interface GetProductByCollectionReqParams extends ParamsDictionary {
 
 export interface AddImageProductReqParams extends ParamsDictionary {
   product_id: string;
+}
+
+export interface DeleteProductReqParams extends ParamsDictionary {
+  product_id: string;
+}
+
+export interface UpdateProductReqParams extends ParamsDictionary {
+  product_id: string;
+}
+
+export interface UpdateProductReqBody {
+  name?: string;
+  price?: number;
+  description?: string;
+  width?: number;
+  length?: number;
+  detail?: string;
+  material_id?: string;
+  quantity?: number;
+  status?: ProductStatus;
 }

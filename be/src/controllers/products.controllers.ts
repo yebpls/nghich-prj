@@ -5,11 +5,14 @@ import {
   AddMaterialReqBody,
   AddProductReqBody,
   DeleteMaterialReqParams,
+  DeleteProductReqParams,
   GetMaterialDetailReqParams,
   GetProductByCollectionReqParams,
   GetProductDetailReqParams,
   UpdateMaterialReqBody,
   UpdateMaterialReqParams,
+  UpdateProductReqBody,
+  UpdateProductReqParams,
 } from "~/models/requests/Products.requests";
 import productServices from "~/services/products.services";
 import { PRODUCTS_MESSAGES } from "~/constants/messages";
@@ -141,5 +144,29 @@ export const getProductByCollectionController = async (
   return res.json({
     message: PRODUCTS_MESSAGES.GET_PRODUCT_BY_COLLECTION_SUCCESS,
     data: products,
+  });
+};
+
+export const deleteProductController = async (
+  req: Request<DeleteProductReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { product_id } = req.params;
+  const result = await productServices.deleteProduct(product_id);
+  return res.json(result);
+};
+
+export const updateProductController = async (
+  req: Request<UpdateProductReqParams, any, UpdateProductReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { product_id } = req.params;
+  const body = req.body;
+  const product = productServices.updateProduct(product_id, body);
+  return res.json({
+    message: PRODUCTS_MESSAGES.UPDATE_PRODUCT_SUCCESS,
+    data: product,
   });
 };
