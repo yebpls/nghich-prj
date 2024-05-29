@@ -104,3 +104,12 @@ export const PRODUCTS_MESSAGES = {
   DELETE_PRODUCT_SUCCESS: "Delete product success",
   UPDATE_PRODUCT_SUCCESS: "Update product success",
 };
+
+export const ORDERS_MESSAGES = {
+  CREATE_ORDER_SUCCESS: "Create order success",
+  ADDRESS_IS_REQUIRED: "Address is required",
+  PAYMENT_TYPE_MUST_BE_NUMBER: "Payment type must be a number",
+  ORDER_DETAILS_MUST_BE_ARRAY: "Order details must be an array",
+  ORDER_DETAILS_INVALID: "Order details invalid",
+  PAYMENT_TYPE_IS_REQUIRED: "Payment type is required",
+};

@@ -4,19 +4,18 @@ import { OrderStatus, PaymentType } from "~/constants/enum";
 export interface OrderDetail {
   product_id: ObjectId;
   quantity: number;
-  created_at?: Date;
   price_final: number;
 }
 
 interface OrderType {
-  _id: ObjectId;
+  _id?: ObjectId;
   user_id: ObjectId;
   created_at?: Date;
   updated_at?: Date;
   address_id: ObjectId;
   payment_type: PaymentType;
-  order_status?: OrderStatus;
-  oder_details: OrderDetail[];
+  order_status: OrderStatus;
+  order_details: OrderDetail[];
 }
 
 export class Order {
@@ -26,7 +25,7 @@ export class Order {
   updated_at?: Date;
   address_id: ObjectId;
   payment_type: PaymentType;
-  order_status?: OrderStatus;
+  order_status: OrderStatus;
   order_details: OrderDetail[];
 
   constructor(order: OrderType) {
@@ -37,6 +36,6 @@ export class Order {
     this.address_id = order.address_id;
     this.payment_type = order.payment_type;
     this.order_status = order.order_status;
-    this.order_details = order.oder_details;
+    this.order_details = order.order_details;
   }
 }

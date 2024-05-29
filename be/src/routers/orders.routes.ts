@@ -2,6 +2,7 @@ import { createOrderController } from "~/controllers/orders.controllers";
 import { Router } from "express";
 import { accessTokenValidator } from "~/middlewares/users.middlewares";
 import { wrapRequestHandler } from "~/utils/handlers";
+import { createOrderValidator } from "~/middlewares/orders.middlewares";
 
 const ordersRouter = Router();
 
@@ -15,6 +16,7 @@ const ordersRouter = Router();
 ordersRouter.post(
   "/",
   accessTokenValidator,
+  createOrderValidator,
   wrapRequestHandler(createOrderController)
 );
 

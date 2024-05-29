@@ -11,7 +11,6 @@ config();
 class MediasService {
   async uploadImage(req: Request) {
     const files = await handleUploadImage(req);
-    console.log(files);
 
     const result: Media[] = await Promise.all(
       files.map(async (file) => {
