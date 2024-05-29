@@ -39,4 +39,4 @@ jobs:
             docker pull sontt382/nghichprj
             docker stop nghich
             docker rm nghich
-            docker run -dp 8080:8080 --name nghich -p 4000:4000 sontt382/nghichprj
+            docker run -dp 4000:4000 --name nghich --restart unless-stopped sontt382/nghichprj
