@@ -12,5 +12,5 @@ RUN apk add python3
 RUN npm install
 RUN npm run build
 
-EXPOSE 8080
+EXPOSE 4000
 CMD ["npm", "start"]

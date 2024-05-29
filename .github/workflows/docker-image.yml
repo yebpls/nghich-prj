@@ -37,5 +37,6 @@ jobs:
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             docker pull sontt382/nghichprj
-            docker ps -a | grep 'nghich' && docker stop nghich && docker rm nghich
-            docker run -dp 8080:8080 --name nghich -p 8080:8080 sontt382/nghichprj
+            docker stop nghich
+            docker rm nghich
+            docker run -dp 8080:8080 --name nghich -p 4000:4000 sontt382/nghichprj

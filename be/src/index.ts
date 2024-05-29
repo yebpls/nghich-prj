@@ -28,7 +28,7 @@ const options: swaggerJsdoc.Options = {
 const openapiSpecification = swaggerJsdoc(options);
 
 const app = express();
-const port = 8080;
+const port = 4000;
 databaseService.connect();
 // console.log(envConfig);
 initFolder();
