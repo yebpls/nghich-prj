@@ -20,6 +20,6 @@ jobs:
       - name: Build the Docker image
         run: docker build --progress=plain -t sontt/nghich:v2 .
       - name: Log in to Docker Hub
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Push the Docker image
         run: docker push sontt/nghich:v2
