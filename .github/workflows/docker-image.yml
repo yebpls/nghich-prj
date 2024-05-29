@@ -18,8 +18,24 @@ jobs:
       - name: "Create env file"
         run: echo "${{ secrets.ENV }}" > .env
       - name: Build the Docker image
-        run: docker build --progress=plain -t sontt382/nghich .
+        run: docker build --progress=plain -t sontt382/nghichprj .
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Push the Docker image
-        run: docker push sontt382/nghich
+        run: docker push sontt382/nghichprj
+  deploy:
+    runs-on: [self-hosted, linux]
+    needs: build
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            docker pull sontt382/nghichprj
+            docker rm nghich
+            docker run -dp 8080:8080 --name nghich -p 8080:8080 sontt382/nghichprj
