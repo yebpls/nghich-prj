@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json .
 COPY package-lock.json .
 COPY tsconfig.json .
-COPY .env .
+# COPY .env .
 COPY ./src ./src
 
 RUN apk add python3

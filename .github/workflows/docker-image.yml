@@ -16,6 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: "Create env file"
-        run: echo "${{ secrets.ENV }}" > .env.production
+        run: echo "${{ secrets.ENV }}" > .env
       - name: Build the Docker image
         run: docker build --progress=plain -t sontt/nghich:v2 .
