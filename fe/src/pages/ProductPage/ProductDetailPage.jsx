@@ -50,8 +50,8 @@ const ProductDetailPage = () => {
                   <div className="w-1/2">
                     <img
                       className="p-1"
-                      // src={product?.images[0].url}
-                      src="/image c.png"
+                      src={product?.images[0].url}
+                      // src="/image c.png"
                       alt=""
                       srcset=""
                     />
@@ -74,10 +74,10 @@ const ProductDetailPage = () => {
                   </div>
                 </div>
                 <h1 className="product-name py-1 lg:py-3 text-black text-xl lg:text-3xl font-medium">
-                  {product?.name}a
+                  {product?.name}
                 </h1>
                 <p className="product-description text-xs">
-                  {product?.description}a
+                  {product?.description}
                 </p>
                 <p className="product-price py-1 lg:py-3 text-md lg:text-2xl text-black font-bold border-b">
                   {product?.price
