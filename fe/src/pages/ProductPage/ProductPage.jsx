@@ -4,11 +4,12 @@ import { Link } from "react-router-dom";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useGetProducts } from "../../api/product";
+import { Rate } from "antd";
 
 const ProductPage = () => {
   const { data: product } = useGetProducts();
   return (
-    <main className="main w-5/6 mx-auto">
+    <main className="main w-full lg:w-5/6 mx-auto">
       <div className="path py-[30px]">
         <div className="container mx-[auto] my-0">
           <p className="path-full">
@@ -17,9 +18,9 @@ const ProductPage = () => {
         </div>
       </div>
       <div className="product pb-[30px]">
-        <div className="container mx-[auto] my-0">
-          <div className="content-wrapper flex flex-wrap">
-            <div className="product-filter w-[18%]">
+        <div className="mx-auto my-0">
+          <div className="flex">
+            <div className="product-filter lg:w-1/5 lg:h-full w-0 h-0 invisible  lg:visible">
               <h3 className="font-bold text-[23px] text-black pb-[30px]">
                 {" "}
                 FILTER BY
@@ -120,7 +121,7 @@ const ProductPage = () => {
                   </li>
                 </ul>
                 <h4 className="filter-type text-[20px]">FILTER TYPE LABEL</h4>
-                <ul className="filter">
+                <ul className="filter  ">
                   <li className="filter-item ml-5">
                     <input
                       className="w-[16px] h-[16px]"
@@ -168,41 +169,33 @@ const ProductPage = () => {
                 </ul>
               </div>
             </div>
-            <div className="product-grid w-[82%]">
-              <div className="grid-top flex justify-between items-center border-b-2 border-black pb-6">
-                <h2 className="text-[35px] font-bold text-black">
+            <div className="product-grid w-full lg:w-4/5">
+              <div className="grid-top flex justify-between items-center border-b-[1px] lg:border-b-2 border-black pb-6">
+                <h2 className="text-md md:text-lg lg:text-xl font-bold text-black">
                   NGHỊCH COLLECTION
                 </h2>
                 <div className="product-sort">
                   <span className="sort mr-3">Sort by</span>
-                  <select className="border border-black py-4 w-[180px] pl-3">
+                  <select className="border border-slate-400 py-2 rounded-md  w-full pl-3">
                     <option value="1">Sort filter 1</option>
                     <option value="2">Sort filter 2</option>
                     <option value="3">Sort filter 3</option>
                   </select>
                 </div>
               </div>
-              <div className="product-list grid grid-cols-4 text-black">
+              <div className="product-list grid grid-cols-3 lg:grid-cols-4 text-black">
                 {product?.map((item) => (
                   <div>
                     <div className=" text-xs text-slate-600">
                       <Link to={`/productDetail/${item._id}`}>
-                        <div className="product-list-item p-6">
+                        <div className="product-list-item p-3 lg:p-6">
                           <div className="product-img">
-                            {item.images[0] ? (
-                              <img
-                                className="h-full"
-                                // src={item.images[0]}
-                                src="/image c.png"
-                                alt=""
-                              />
-                            ) : (
-                              <img
-                                className="h-full"
-                                src="/image c.png"
-                                alt=""
-                              />
-                            )}
+                            <img
+                              className="h-full"
+                              src={item.images[0].url}
+                              // src="/image c.png"
+                              alt=""
+                            />
                             <img
                               className="h-full"
                               src={item.images[0]}
@@ -210,37 +203,47 @@ const ProductPage = () => {
                             />
                           </div>
                           <div className="product-info font-bold">
-                            <div className="product-fig flex justify-between pb-2">
-                              <div className="product-rate">
+                            <div className="product-fig flex justify-between py-2">
+                              {/* <div className="product-rate text-[7px] lg:text-[10px]">
                                 <FontAwesomeIcon
                                   icon={faStar}
-                                  className="mr-2"
+                                  className="mr-1 lg:mr-2"
                                 />
                                 <FontAwesomeIcon
                                   icon={faStar}
-                                  className="mr-2"
+                                  className="mr-1 lg:mr-2"
                                 />
                                 <FontAwesomeIcon
                                   icon={faStar}
-                                  className="mr-2"
+                                  className="mr-1 lg:mr-2"
                                 />
                                 <FontAwesomeIcon
                                   icon={faStar}
-                                  className="mr-2"
+                                  className="mr-1 lg:mr-2"
                                 />
                                 <FontAwesomeIcon
                                   icon={faStar}
-                                  className="mr-2"
+                                  className="mr-1 lg:mr-2"
                                 />
-                              </div>
-                              <div className="product-sold">
+                              </div> */}
+                              <Rate
+                                className="text-xs lg:text-sm text-black"
+                                disabled
+                                allowHalf
+                                defaultValue={4.5}
+                              />
+                              <div className="product-sold text-[10px] lg:text-xs">
                                 0 <span className="text-gray_2">SOLD</span>
                               </div>
                             </div>
-                            <div className="product-name">
-                              [SPRING COLLECTION] {item.name}
-                            </div>
-                            <div className="product-price">
+                            <p className="sm:text-[10px] md:text-md lg:text-md">
+                              <span className="sm:text-[9px]  md:text-md lg:text-lg">
+                                [SPRING COLLECTION]
+                              </span>
+                              <br />
+                              {item.name}
+                            </p>
+                            <div className="product-price font-medium text-lg">
                               {item.price
                                 .toString()
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}

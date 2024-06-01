@@ -7,33 +7,39 @@ import { useNavigate } from "react-router-dom";
 import { useLoginStore } from "../zustand-store/loginState";
 
 //LOGIN FUNCTION
-async function login(input) {
+const login = async (input) => {
   console.log(input, "login input");
 
   const { data } = await http.post(API_ENDPOINTS.LOGIN, input);
   console.log("login response", data);
 
   return data.data;
-}
+};
 
 //LOGIN MUTATION BY USE LOGIN FUNCTION
 export const useLoginMutation = () => {
   const navigate = useNavigate();
   const setLogin = useLoginStore((state) => state.login);
 
-  return useMutation((input) => login(input), {
-    onSuccess: (data) => {
-      toast.success("login success");
+  return useMutation(
+    async (input) => {
+      const data = await login(input);
       Cookies.set("auth_token", data?.access_token);
-      navigate("/user");
-      setLogin();
-      console.log(data, "login success");
+      return data;
     },
-    onError: (error) => {
-      toast.error("login fail");
-      console.log(error, "login fail");
-    },
-  });
+    {
+      onSuccess: (data) => {
+        toast.success("login success");
+        navigate("/user");
+        setLogin();
+        console.log(data, "login success");
+      },
+      onError: (error) => {
+        toast.error("login fail");
+        console.log(error, "login fail");
+      },
+    }
+  );
 };
 
 //REGISTER FUNCTION

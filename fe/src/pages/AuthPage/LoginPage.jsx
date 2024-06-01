@@ -6,7 +6,6 @@ const LoginPage = () => {
   const { mutate: login } = useLoginMutation();
 
   const form = useForm();
-  const navigate = useNavigate();
 
   const {
     register,
