@@ -8,9 +8,11 @@ import { defaultErrorHandler } from "./middlewares/errors.middlewares";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
-import { config } from "dotenv";
-
-config();
+import { initFolder } from "./utils/file";
+import { createServer } from "http";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import mediaRouter from "./routers/media.routes";
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -26,8 +28,13 @@ const options: swaggerJsdoc.Options = {
 const openapiSpecification = swaggerJsdoc(options);
 
 const app = express();
-const port = 8080;
+const port = 4000;
 databaseService.connect();
+// console.log(envConfig);
+initFolder();
+const httpServer = createServer(app);
+
+app.use(helmet());
 
 app.use(cors());
 
@@ -38,9 +45,10 @@ app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 app.use("/collections", collectionsRouter);
 app.use("/orders", ordersRouter);
+app.use("/medias", mediaRouter);
 
 app.use(defaultErrorHandler);
 
-app.listen(port, () => {
+httpServer.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

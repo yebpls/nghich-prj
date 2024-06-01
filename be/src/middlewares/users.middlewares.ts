@@ -13,6 +13,7 @@ import { ObjectId } from "mongodb";
 import { REGEX_PHONENUMBER_VN, REGEX_USERNAME } from "~/constants/regex";
 import { TokenPayload } from "~/models/requests/Users.requests";
 import { Role, UserVerifyStatus } from "~/constants/enum";
+import { envConfig } from "~/constants/config";
 
 const passwordSchema: ParamSchema = {
   isString: {
@@ -85,7 +86,7 @@ const forgotPassWordTokenSchema: ParamSchema = {
       try {
         const decoded_forgot_password_token = await verifyToken({
           token: value,
-          secret: process.env.JWT_SECRET_FORGOT_PASSWORD_TOKEN as string,
+          secret: envConfig.jwtSecretForgotPasswordToken,
         });
         const { user_id } = decoded_forgot_password_token;
         const user = await databaseService.users.findOne({
@@ -302,7 +303,7 @@ export const accessTokenValidator = validate(
             try {
               const decoded_authorization = await verifyToken({
                 token: access_token,
-                secret: process.env.JWT_SECRET_ACCESS_TOKEN as string,
+                secret: envConfig.jwtSecretAccessToken,
               });
               (req as Request).decoded_authorization = decoded_authorization;
             } catch (error) {
@@ -338,7 +339,7 @@ export const refreshTokenValidator = validate(
               const [decoded_refresh_token, refresh_token] = await Promise.all([
                 verifyToken({
                   token: value,
-                  secret: process.env.JWT_SECRET_REFRESH_TOKEN as string,
+                  secret: envConfig.jwtSecretRefreshToken,
                 }),
                 databaseService.refreshTokens.findOne({ token: value }),
               ]);
@@ -383,7 +384,7 @@ export const emailVerifyTokenValidator = validate(
             try {
               const decoded_email_verify_token = await verifyToken({
                 token: value,
-                secret: process.env.JWT_SECRET_EMAIL_VERIFY_TOKEN as string,
+                secret: envConfig.jwtSecretEmailVerifyToken,
               });
 
               (req as Request).decoded_email_verify_token =

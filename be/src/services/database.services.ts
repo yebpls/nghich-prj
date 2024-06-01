@@ -1,13 +1,13 @@
 import { MongoClient, ServerApiVersion, Db, Collection } from "mongodb";
-import { config } from "dotenv";
 import User from "~/models/schemas/User.schema";
 import RefreshToken from "~/models/schemas/RefreshToken.schema";
 import Product from "~/models/schemas/Product.chema";
 import Collections from "~/models/schemas/Collection.schema";
 import Material from "~/models/schemas/Material.schema";
-config();
+import { envConfig } from "~/constants/config";
+import { Order } from "~/models/schemas/Order.schema";
 
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@nghich.wlx2lor.mongodb.net/?retryWrites=true&w=majority&appName=nghich`;
+const uri = `mongodb+srv://${envConfig.dbUsername}:${envConfig.dbPassword}@nghich.wlx2lor.mongodb.net/?retryWrites=true&w=majority&appName=nghich`;
 // const uri = `mongodb+srv://sontt:Son123456@nghich.wlx2lor.mongodb.net/?retryWrites=true&w=majority&appName=nghich`;
 
 class DatabaseService {
@@ -21,7 +21,7 @@ class DatabaseService {
         deprecationErrors: true,
       },
     });
-    this.db = this.client.db(process.env.DB_NAME);
+    this.db = this.client.db(envConfig.dbName);
   }
 
   async connect() {
@@ -60,9 +60,9 @@ class DatabaseService {
     return this.db.collection("materials");
   }
 
-  // get orders(): Collection<Order> {
-  //   return this.db.collection("orders");
-  // }
+  get orders(): Collection<Order> {
+    return this.db.collection("orders");
+  }
 }
 
 const databaseService = new DatabaseService();

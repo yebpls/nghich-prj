@@ -1,5 +1,8 @@
 import { ObjectId } from "mongodb";
-import { AddProductReqBody } from "~/models/requests/Products.requests";
+import {
+  AddProductReqBody,
+  UpdateProductReqBody,
+} from "~/models/requests/Products.requests";
 import databaseService from "./database.services";
 import Product from "~/models/schemas/Product.chema";
 import { ProductStatus } from "~/constants/enum";
@@ -7,27 +10,54 @@ import Material from "~/models/schemas/Material.schema";
 import { ErrorWithStatus } from "~/models/Errors";
 import { PRODUCTS_MESSAGES } from "~/constants/messages";
 import HTTP_STATUS from "~/constants/httpStatus";
+import { Request } from "express";
+import mediasService from "./medias.services";
+import { deleteFileFromS3 } from "~/utils/s3";
 
 class ProductServices {
   async addProduct(body: AddProductReqBody) {
-    const { images, color, material_id } = body;
-    const newImages = [{ url: images, _id: new ObjectId() }];
-    const newColor = [{ name: color, _id: new ObjectId() }];
+    const { material_id } = body;
     const material = await productServices.getMaterialById(material_id);
     const newBody: Product = {
       ...body,
       _id: new ObjectId(),
-      images: newImages,
-      color: newColor,
       status: ProductStatus.Active,
       created_at: new Date(),
       updated_at: new Date(),
       collection_id: new ObjectId(body.collection_id),
       material: material as Material,
       quantity: 0,
+      images: [],
+      color: [],
     };
     await databaseService.products.insertOne(newBody);
     return newBody;
+  }
+
+  async addImageToProduct(product_id: string, req: Request) {
+    const product = await databaseService.products.findOne({
+      _id: new ObjectId(product_id),
+    });
+    if (!product) {
+      throw new ErrorWithStatus(
+        PRODUCTS_MESSAGES.PRODUCT_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+    const urls = await mediasService.uploadImage(req);
+    const images = urls.map((url) => ({
+      _id: new ObjectId(),
+      url: url.url,
+    }));
+
+    // Add the new images to the product
+    const result = await databaseService.products.findOneAndUpdate(
+      { _id: new ObjectId(product_id) },
+      { $push: { images: { $each: images } } },
+      { returnDocument: "after" }
+    );
+
+    return result;
   }
 
   async getAllProducts() {
@@ -100,6 +130,56 @@ class ProductServices {
       .toArray();
 
     return products;
+  }
+
+  async deleteImageFromProduct(product_id: string, image_id: string) {
+    console.log(product_id, image_id);
+  }
+
+  async deleteProduct(product_id: string) {
+    const product = await databaseService.products.findOne({
+      _id: new ObjectId(product_id),
+    });
+    if (!product) {
+      throw new ErrorWithStatus(
+        PRODUCTS_MESSAGES.PRODUCT_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+    const urls = product?.images.map((image) => image.url);
+    const filenames = urls.map((url) => url.split("/").pop());
+    filenames.map((filename) => {
+      deleteFileFromS3(filename as string);
+    });
+    await databaseService.products.deleteOne({
+      _id: new ObjectId(product_id),
+    });
+
+    return { message: PRODUCTS_MESSAGES.DELETE_PRODUCT_SUCCESS };
+  }
+
+  async updateProduct(product_id: string, body: UpdateProductReqBody) {
+    const _body = body.material_id
+      ? {
+          ...body,
+          material: await productServices.getMaterialById(body.material_id),
+        }
+      : body;
+    if (_body.material_id) {
+      delete _body.material_id;
+    }
+
+    const product = await databaseService.products.findOneAndUpdate(
+      { _id: new ObjectId(product_id) },
+      {
+        $set: {
+          ...(_body as Product),
+        },
+        $currentDate: { updated_at: true },
+      },
+      { returnDocument: "after" }
+    );
+    return product;
   }
 }
 

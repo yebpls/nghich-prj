@@ -1,4 +1,4 @@
-import { checkSchema, ParamSchema } from "express-validator";
+import { check, checkSchema, ParamSchema } from "express-validator";
 import { PRODUCTS_MESSAGES, USERS_MESSAGES } from "~/constants/messages";
 import { validate } from "~/utils/validation";
 
@@ -60,19 +60,6 @@ export const addProductValidator = validate(
         },
         trim: true,
       },
-      images: {
-        isString: {
-          errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,
-        },
-        isLength: {
-          options: {
-            min: 1,
-            max: 400,
-          },
-          errorMessage: USERS_MESSAGES.IMAGE_URL_LENGTH,
-        },
-        trim: true,
-      },
       width: {
         isNumeric: {
           errorMessage: "Width must be a number",
@@ -89,14 +76,14 @@ export const addProductValidator = validate(
           errorMessage: "Width is required",
         },
       },
-      color: {
-        isString: {
-          errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,
-        },
-        notEmpty: {
-          errorMessage: "Color is required",
-        },
-      },
+      // color: {
+      //   isString: {
+      //     errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,
+      //   },
+      //   notEmpty: {
+      //     errorMessage: "Color is required",
+      //   },
+      // },
       detail: {
         isString: {
           errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,
@@ -123,6 +110,52 @@ export const addMaterialValidator = validate(
         notEmpty: {
           errorMessage: PRODUCTS_MESSAGES.NAME_IS_REQUIRED,
         },
+      },
+    },
+    ["body"]
+  )
+);
+
+export const updateProductValidator = validate(
+  checkSchema(
+    {
+      name: {
+        ...nameSchema,
+        optional: true,
+      },
+      price: {
+        isNumeric: {
+          errorMessage: "Price must be a number",
+        },
+        optional: true,
+      },
+      description: {
+        ...descriptionSchema,
+        optional: true,
+      },
+      width: {
+        isNumeric: {
+          errorMessage: "Width must be a number",
+        },
+        optional: true,
+      },
+      length: {
+        isNumeric: {
+          errorMessage: "Width must be a number",
+        },
+        optional: true,
+      },
+      detail: {
+        isString: {
+          errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,
+        },
+        optional: true,
+      },
+      material_id: {
+        isString: {
+          errorMessage: PRODUCTS_MESSAGES.MUST_BE_STRING,
+        },
+        optional: true,
       },
     },
     ["body"]
