@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Tooltip } from "antd";
 
-const BagSelector = ({ bags, onSelectBag }) => {
-  const [selectedBag, setSelectedBag] = useState(bags[0]);
+const BagSelector = ({ bags, onSelectBag, selectedBag }) => {
+  // const [selectedBag, setSelectedBag] = useState(null);
   //   console.log("selectedBag", selectedBag);
 
   const handleSelectBag = (bag) => {
-    setSelectedBag(bag);
+    // setSelectedBag(bag);
     onSelectBag(bag);
   };
 
@@ -22,7 +22,7 @@ const BagSelector = ({ bags, onSelectBag }) => {
               according to your mood or outfit
             </p>
           </div>
-          <div className="grid grid-cols-3 border rounded-lg p-4 gap-4  mr-10 h-fit bg-gray-200">
+          <div className="grid grid-cols-3 border rounded-lg p-4 gap-4  mr-10 h-fit ">
             {bags.map((bag) => (
               <Tooltip
                 title={
@@ -52,17 +52,30 @@ const BagSelector = ({ bags, onSelectBag }) => {
           </div>
         </div>
         <div className="w-[600px] h-[700px]">
-          <img
-            src={selectedBag.image}
-            alt="Selected Bag"
-            className="w-full h-auto border rounded-lg border-pink-500 p-2"
-          />
-          <p className="uppercase text-right mt-4" style={{ color: "#4A2BED" }}>
-            temporary price:{" "}
-            <span className="font-bold " style={{ color: "#4A2BED" }}>
-              {selectedBag.price}
-            </span>
-          </p>
+          {selectedBag ? (
+            <>
+              <img
+                src={selectedBag.image}
+                alt="Selected Bag"
+                className="w-full h-auto border rounded-lg border-pink-500 p-2"
+              />
+              <p
+                className="uppercase text-right mt-4"
+                style={{ color: "#4A2BED" }}
+              >
+                temporary price:{" "}
+                <span className="font-bold" style={{ color: "#4A2BED" }}>
+                  {selectedBag.price}
+                </span>
+              </p>
+            </>
+          ) : (
+            <div className="w-full h-full border rounded-lg border-pink-500 p-2 flex items-center justify-center">
+              <p className="text-gray-500">
+                Please select a bag to see the details here.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
