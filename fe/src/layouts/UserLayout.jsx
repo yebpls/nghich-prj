@@ -21,7 +21,7 @@ export default function UserLayout() {
         <div className="visible lg:invisible lg:w-0">
           <UserNavMobi />
         </div>
-        <div className=" w-full lg:w-3/4 mx-5 px-5 pt-16 lg:pt-0 ">
+        <div className=" w-full lg:w-3/4 lg:mx-5 px-5 pt-16 lg:pt-0 ">
           <Outlet />
         </div>
       </div>
