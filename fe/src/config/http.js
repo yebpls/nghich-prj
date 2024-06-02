@@ -9,7 +9,8 @@ const getToken = () => {
 };
 
 const http = axios.create({
-  baseURL: "http://localhost:8080/",
+  // baseURL: "http://localhost:8080/",
+  baseURL: "https://nghich.id.vn",
 
   timeout: 30000,
   headers: {

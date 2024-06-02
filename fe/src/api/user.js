@@ -12,8 +12,12 @@ const getUserProfile = async () => {
 };
 //GET USER PROFILE MUTATION BY USE GET USER PROFILE FUNCTION
 export const useGetUserProfile = () => {
-  const { data, isLoading, error } = useQuery("user", getUserProfile);
-  return { data, isLoading, error };
+  const { data, isLoading, isFetching, error } = useQuery(
+    "user",
+    getUserProfile
+  );
+
+  return { data, isLoading, isFetching, error };
 };
 //GET WISHLIST FUNCTION
 
