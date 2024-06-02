@@ -87,5 +87,4 @@ const bags = [
   // Thêm các túi khác tương tự
 ];
 
-
 export default bags;
