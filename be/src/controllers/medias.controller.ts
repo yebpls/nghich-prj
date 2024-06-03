@@ -24,7 +24,7 @@ export const serveImageController = (
   next: NextFunction
 ) => {
   const { filename } = req.params;
-  console.log(filename);
+  // console.log(filename);
   return res.sendFile(path.resolve(UPLOAD_DIR, filename), (err) => {
     if (err) {
       res

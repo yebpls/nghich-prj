@@ -13,6 +13,7 @@ import { createServer } from "http";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import mediaRouter from "./routers/media.routes";
+import customRouter from "./routers/customs.routes";
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -46,6 +47,7 @@ app.use("/products", productsRouter);
 app.use("/collections", collectionsRouter);
 app.use("/orders", ordersRouter);
 app.use("/medias", mediaRouter);
+app.use("/customs", customRouter);
 
 app.use(defaultErrorHandler);
 
