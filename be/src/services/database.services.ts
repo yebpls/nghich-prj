@@ -6,6 +6,7 @@ import Collections from "~/models/schemas/Collection.schema";
 import Material from "~/models/schemas/Material.schema";
 import { envConfig } from "~/constants/config";
 import { Order } from "~/models/schemas/Order.schema";
+import Custom from "~/models/schemas/Customs.schema";
 
 const uri = `mongodb+srv://${envConfig.dbUsername}:${envConfig.dbPassword}@nghich.wlx2lor.mongodb.net/?retryWrites=true&w=majority&appName=nghich`;
 // const uri = `mongodb+srv://sontt:Son123456@nghich.wlx2lor.mongodb.net/?retryWrites=true&w=majority&appName=nghich`;
@@ -62,6 +63,10 @@ class DatabaseService {
 
   get orders(): Collection<Order> {
     return this.db.collection("orders");
+  }
+
+  get customs(): Collection<Custom> {
+    return this.db.collection("customs");
   }
 }
 
