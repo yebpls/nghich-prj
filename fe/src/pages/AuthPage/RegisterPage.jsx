@@ -5,6 +5,7 @@ import schemaRegister from "../../yup/schemeRegister";
 import { yupResolver } from "@hookform/resolvers/yup";
 import toast from "react-hot-toast";
 import { useRegisterMutation } from "../../api/auth";
+import ComSeo from "../../components/SEO/ComSeo";
 
 const RegisterPage = () => {
   const [isAgree, setIsAgree] = useState(false);
@@ -34,6 +35,7 @@ const RegisterPage = () => {
   };
   return (
     <div className="w-full h-screen px-56 py-7">
+      <ComSeo tile="Nghịch" name="Nghịch" content="Nghịch" />
       <div className="ml-44 mb-10">
         <Link to="/">
           <img className="h-14" src="/logo_nghich_lg.png" alt="" />

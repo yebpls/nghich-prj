@@ -1,10 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import ComSeo from "../../components/SEO/ComSeo";
 
 const HomePage = () => {
   return (
     <main className="main">
+      <ComSeo tile="Nghịch" name="Nghịch" content="Nghịch" />
       <div className="section py-4">
         <div className=" mx-auto my-0 w-full">
           <div className="content-wrapper flex text-black">

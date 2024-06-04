@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../api/auth";
+import ComSeo from "../../components/SEO/ComSeo";
 
 const LoginPage = () => {
   const { mutate: login } = useLoginMutation();
@@ -21,6 +22,8 @@ const LoginPage = () => {
   };
   return (
     <div className="w-full h-screen px-56 py-7">
+      <ComSeo tile="Nghịch" name="Nghịch" content="Nghịch" />
+
       <div className="ml-44 mb-10">
         <Link to="/">
           <img className="h-14" src="/logo_nghich_lg.png" alt="" />
