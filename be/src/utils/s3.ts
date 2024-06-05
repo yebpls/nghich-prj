@@ -71,10 +71,10 @@ export const uploadFileToS3 = ({
   return parallelUploads3.done();
 };
 
-export const deleteFileFromS3 = (key: string) => {
+export const deleteFileFromS3 = async (key: string) => {
   const deleteParams = {
     Key: key,
     Bucket: envConfig.awsBucketName,
   };
-  s3.deleteObject(deleteParams);
+  await s3.deleteObject(deleteParams);
 };

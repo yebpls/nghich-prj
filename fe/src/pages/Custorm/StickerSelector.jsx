@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDrag } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
 
 const StickerSelector = ({ stickers, setSelectedStickers }) => {
+  const [activeTab, setActiveTab] = useState("predefined");
+  const [uploadedImages, setUploadedImages] = useState([]);
+
   const handleSelectSticker = (sticker) => {
     setSelectedStickers((prevStickers) => [
       ...prevStickers,
@@ -10,13 +13,69 @@ const StickerSelector = ({ stickers, setSelectedStickers }) => {
     ]);
   };
 
+  const handleUpload = (event) => {
+    const files = event.target.files;
+    const newImages = [];
+    for (let i = 0; i < files.length; i++) {
+      newImages.push({
+        id: uuidv4(),
+        image: URL.createObjectURL(files[i]),
+        name: files[i].name,
+      });
+    }
+    setUploadedImages((prevImages) => [...prevImages, ...newImages]);
+  };
+
+  const renderStickerList = (stickersList) => {
+    return (
+      <div className="grid grid-cols-3 gap-4">
+        {stickersList.map((sticker) => (
+          <div key={sticker.id} onClick={() => handleSelectSticker(sticker)}>
+            <DraggableSticker sticker={sticker} />
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {stickers.map((sticker) => (
-        <div key={sticker.id} onClick={() => handleSelectSticker(sticker)}>
-          <DraggableSticker sticker={sticker} />
+    <div>
+      <div className="flex justify-center mb-4">
+        <button
+          className={`px-4 py-2 mr-2 ${
+            activeTab === "predefined"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200"
+          }`}
+          onClick={() => setActiveTab("predefined")}
+        >
+          Predefined Stickers
+        </button>
+        <button
+          className={`px-4 py-2 ${
+            activeTab === "uploaded" ? "bg-blue-500 text-white" : "bg-gray-200"
+          }`}
+          onClick={() => setActiveTab("uploaded")}
+        >
+          Uploaded Images
+        </button>
+      </div>
+
+      {activeTab === "predefined" && renderStickerList(stickers)}
+
+      {activeTab === "uploaded" && (
+        <div>
+          {renderStickerList(uploadedImages)}
+          <div className="mt-4">
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleUpload}
+            />
+          </div>
         </div>
-      ))}
+      )}
     </div>
   );
 };
