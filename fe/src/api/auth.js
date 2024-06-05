@@ -1,5 +1,6 @@
 import { useMutation } from "react-query";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import http from "../config/http";
 import { API_ENDPOINTS } from "./api-endpoint";
 import Cookies from "js-cookie";

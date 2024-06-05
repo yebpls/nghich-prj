@@ -18,6 +18,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.17.3",
     "axios": "^1.7.2",
+    "dayjs": "^1.11.11",
     "i": "^0.3.7",
     "js-cookie": "^3.0.5",
     "moment": "^2.30.1",

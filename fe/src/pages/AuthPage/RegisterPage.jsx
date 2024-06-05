@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import schemaRegister from "../../yup/schemeRegister";
 import { yupResolver } from "@hookform/resolvers/yup";
-import toast from "react-hot-toast";
+import toast from "react-toastify";
 import { useRegisterMutation } from "../../api/auth";
 
 const RegisterPage = () => {

@@ -6,4 +6,6 @@ export const API_ENDPOINTS = {
   ADD_WISHLIST: "/users/wishlist/",
   REGISTER: "/users/register",
   GET_USER: "/users/profile",
+  GET_USER_ADDRESSES: "/users/addresses",
+  ADD_USER_ADDRESSES: "/users/address",
 };

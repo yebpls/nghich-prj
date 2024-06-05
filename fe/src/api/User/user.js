@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "react-query";
-import { API_ENDPOINTS } from "./api-endpoint";
-import http from "../config/http";
-import toast from "react-hot-toast";
+import { API_ENDPOINTS } from "../api-endpoint";
+import http from "../../config/http";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 //GET USER PROFILE FUNCTION

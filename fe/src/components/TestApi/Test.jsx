@@ -4,7 +4,7 @@ import { useGetWishlist } from "../../api/user";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../../api/auth";
 import Register from "./Register";
-import toast from "react-hot-toast";
+import toast from "react-toastify";
 
 export default function Test() {
   const { data, isFetching } = useGetWishlist();
