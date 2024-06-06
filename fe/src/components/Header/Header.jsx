@@ -8,19 +8,20 @@ import "./Header.css";
 import { useLoginStore } from "../../zustand-store/loginState";
 import { useCartStore } from "../../zustand-store/cartState";
 import { getToken } from "../../config/http";
-import { toast } from "react-toastify";
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState(false);
   const { countCart } = useCartStore((state) => state);
+  const { isLogin, login, logout } = useLoginStore();
+
 
   console.log("isLogin", isLogin);
   const isToken = getToken();
   useEffect(() => {
     if (isToken) {
-      setIsLogin(true);
+      login()
+      ;
     } else {
-      setIsLogin(false);
+      logout();
     }
   }, [isToken]);
   return (

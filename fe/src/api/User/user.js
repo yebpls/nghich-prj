@@ -12,52 +12,33 @@ const getUserProfile = async () => {
 };
 //GET USER PROFILE MUTATION BY USE GET USER PROFILE FUNCTION
 export const useGetUserProfile = () => {
-  const { data, isLoading, isFetching, error } = useQuery(
+  const { data, isLoading, isFetching, error, refetch } = useQuery(
     "user",
     getUserProfile
   );
 
-  return { data, isLoading, isFetching, error };
-};
-//GET WISHLIST FUNCTION
-
-const getWishlist = async () => {
-  const { data } = await http.get(API_ENDPOINTS.GET_WISHLIST);
-  console.log("query wishlist:", data);
-  return data.data.products;
-};
-//GET WISHLIST MUTATION BY USE GET WISHLIST FUNCTION
-export const useGetWishlist = () => {
-  const { data, isLoading, isFetching, error } = useQuery(
-    "wishlist",
-    getWishlist
-  );
-  return { data, isLoading, error, isFetching };
+  return { data, isLoading, isFetching, error, refetch };
 };
 
-//ADD WISHLIST FUNCTION
-
-async function addWishlist(id) {
-  const { data } = await http.post(API_ENDPOINTS.ADD_WISHLIST + id);
-  console.log("add wishlist:", data);
+//UPDATE USER FUNCTION
+async function updateUser(input) {
+  console.log("update user input:", input	);
+  const { data } = await http.patch(API_ENDPOINTS.UPDATE_USER, input);
+  console.log("update user:", data);
 
   return data;
 }
 
 //ADD WISHLIST MUTATION BY USE ADD WISHLIST FUNCTION
-export const useAddWishlist = () => {
-  const navigate = useNavigate();
-  return useMutation((id) => addWishlist(id), {
+export const useUpdateUser = () => {
+  return useMutation(async(input) => await updateUser(input), {
     onSuccess: () => {
-      toast.success("Add to wishlist successfully");
+      toast.success("Update user successfully");
     },
     onError: (error) => {
-      if (error?.response.status === 401) {
-        toast.error("Please login to add wishlist");
-        navigate("/login");
-      } else {
-        toast.error("Add to wishlist failed");
-      }
+      console.log(error, "update user fail");	
+        toast.error("Update User fail");
+      
     },
   });
 };

@@ -46,8 +46,13 @@ export const useCartStore = create((set) => ({
     }));
   },
   deleteFromCart: (itemId) => {
-    set((state) => ({
-      cartItems: state.cartItems.filter((item) => item.id !== itemId),
-    }));
+    set((state) => {
+      const newCartItems = state.cartItems.filter((item) => item.item._id !== itemId);
+      setCart(newCartItems);
+      return {
+        cartItems: newCartItems,
+        countCart: state.countCart - 1,
+      };
+    });
   },
 }));
