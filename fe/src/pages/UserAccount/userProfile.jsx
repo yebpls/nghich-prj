@@ -8,10 +8,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import schemaEditUser from "../../yup/schemaEditUser";
 import { useQueryClient } from "react-query";
 import dayjs from "dayjs";
-import { useGetUserProfile } from "../../api/User/user";
+import { useGetUserProfile, useUpdateUser } from "../../api/User/user";
 
 export default function UserProfile() {
-  const { data: userData, isFetching, error } = useGetUserProfile();
+  const { data: userData, isFetching, error, refetch } = useGetUserProfile();
+  const {mutate: updateUser, isSuccess} = useUpdateUser();
   const queryClient = useQueryClient();
   console.log("userData", userData?.username);
   const navigate = useNavigate();
@@ -29,10 +30,14 @@ export default function UserProfile() {
 
   function onSubmit(input) {
     const dateOfBirth = dayjs(input.date_of_birth).format("YYYY-MM-DD");
-    const updatedInput = { ...input, date_of_birth: dateOfBirth };
+    const updatedInput = { name: input.name, date_of_birth: dateOfBirth };
 
     console.log("input user", updatedInput);
     console.log("errors", errors);
+    updateUser(updatedInput);
+    if(isSuccess){
+      refetch();
+    }
   }
   useEffect(() => {
     if (userData) {
@@ -42,8 +47,8 @@ export default function UserProfile() {
       setValue(
         "date_of_birth",
         userData.date_of_birth
-          ? dayjs(userData.date_of_birth).format("DD-MM-YYYY")
-          : dayjs().subtract(16, "year").format("DD-MM-YYYY")
+          ? dayjs(userData.date_of_birth)
+          : dayjs().subtract(16, "year")
       );
     }
   }, [isFetching]);

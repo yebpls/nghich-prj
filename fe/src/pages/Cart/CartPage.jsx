@@ -1,11 +1,11 @@
 import { useState } from "react";
-import CheckBox from "../../components/Input/CheckBox";
 import { useCartStore } from "../../zustand-store/cartState";
 import CartItem from "./CartItem";
 
 const CartPage = () => {
   const [quantity, setQuantity] = useState(1);
   const { cartItems } = useCartStore((state) => state);
+  
 
   return (
     <main className="main text-black w-5/6 mx-auto">
