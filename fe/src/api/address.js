@@ -1,7 +1,8 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { API_ENDPOINTS } from "./api-endpoint";
 import http from "../config/http";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const addressApi = "https://api.mysupership.vn/v1/partner/areas/";
 //GET PROVINCE FUNCTION

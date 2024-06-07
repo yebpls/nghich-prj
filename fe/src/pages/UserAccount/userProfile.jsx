@@ -1,22 +1,18 @@
 import React, { useEffect } from "react";
-import { useGetUserProfile } from "../../api/user";
-import UserWishlist from "./UserWishlist";
-import UserNav from "./UserNav";
-import UserNavMobi from "./UserNavMobi";
-import Input from "../../components/Input/Input";
 import { Controller, set, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { DatePicker } from "antd";
-import moment from "moment";
 import { userFieldInput } from "../../data/user-field";
-import Cookies from "js-cookie";
 import { yupResolver } from "@hookform/resolvers/yup";
 import schemaEditUser from "../../yup/schemaEditUser";
 import { useQueryClient } from "react-query";
+import dayjs from "dayjs";
+import { useGetUserProfile, useUpdateUser } from "../../api/User/user";
 
 export default function UserProfile() {
-  const { data: userData, isFetching, error } = useGetUserProfile();
+  const { data: userData, isFetching, error, refetch } = useGetUserProfile();
+  const {mutate: updateUser, isSuccess} = useUpdateUser();
   const queryClient = useQueryClient();
   console.log("userData", userData?.username);
   const navigate = useNavigate();
@@ -33,8 +29,15 @@ export default function UserProfile() {
   } = form;
 
   function onSubmit(input) {
-    console.log("input user", input);
+    const dateOfBirth = dayjs(input.date_of_birth).format("YYYY-MM-DD");
+    const updatedInput = { name: input.name, date_of_birth: dateOfBirth };
+
+    console.log("input user", updatedInput);
     console.log("errors", errors);
+    updateUser(updatedInput);
+    if(isSuccess){
+      refetch();
+    }
   }
   useEffect(() => {
     if (userData) {
@@ -44,8 +47,8 @@ export default function UserProfile() {
       setValue(
         "date_of_birth",
         userData.date_of_birth
-          ? userData.date_of_birth
-          : moment().subtract(16, "years").format("YYYY-MM-DD")
+          ? dayjs(userData.date_of_birth)
+          : dayjs().subtract(16, "year")
       );
     }
   }, [isFetching]);
@@ -85,14 +88,13 @@ export default function UserProfile() {
             <Controller
               name="date_of_birth"
               control={control}
-              render={({ field }) => (
+              render={({ field: { onChange, value } }) => (
                 <DatePicker
-                  {...field}
-                  value={field.value ? moment(field.value) : null}
-                  onChange={(date) =>
-                    field.onChange(date ? date.format("YYYY-MM-DD") : null)
-                  }
-                  className=" py-2 px-4"
+                  value={value ? dayjs(value) : null}
+                  onChange={(date) => {
+                    onChange(date ? dayjs(date).format("YYYY-MM-DD") : null);
+                  }}
+                  className="py-2 px-4"
                 />
               )}
             />

@@ -1,24 +1,11 @@
+
+
 import { useMutation, useQuery } from "react-query";
-import { API_ENDPOINTS } from "./api-endpoint";
-import http from "../config/http";
-import toast from "react-hot-toast";
+import http from "../../config/http";
+import { API_ENDPOINTS } from "../api-endpoint";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-//GET USER PROFILE FUNCTION
-const getUserProfile = async () => {
-  const { data } = await http.get(API_ENDPOINTS.GET_USER);
-  console.log("query user profile:", data);
-  return data.data;
-};
-//GET USER PROFILE MUTATION BY USE GET USER PROFILE FUNCTION
-export const useGetUserProfile = () => {
-  const { data, isLoading, isFetching, error } = useQuery(
-    "user",
-    getUserProfile
-  );
-
-  return { data, isLoading, isFetching, error };
-};
 //GET WISHLIST FUNCTION
 
 const getWishlist = async () => {
@@ -28,15 +15,14 @@ const getWishlist = async () => {
 };
 //GET WISHLIST MUTATION BY USE GET WISHLIST FUNCTION
 export const useGetWishlist = () => {
-  const { data, isLoading, isFetching, error } = useQuery(
+  const { data, isLoading, isFetching, error, refetch } = useQuery(
     "wishlist",
     getWishlist
   );
-  return { data, isLoading, error, isFetching };
+  return { data, isLoading, error, isFetching, refetch };
 };
 
 //ADD WISHLIST FUNCTION
-
 async function addWishlist(id) {
   const { data } = await http.post(API_ENDPOINTS.ADD_WISHLIST + id);
   console.log("add wishlist:", data);
@@ -61,3 +47,29 @@ export const useAddWishlist = () => {
     },
   });
 };
+
+//ADD WISHLIST FUNCTION
+async function deleteWishlistItem(id) {
+    const { data } = await http.delete(API_ENDPOINTS.DELETE_WISHLIST_ITEM + id);
+    console.log("delete wishlist:", data);
+  
+    return data;
+  }
+  
+  //ADD WISHLIST MUTATION BY USE ADD WISHLIST FUNCTION
+  export const useDeleteAddWishlistItem = () => {
+    const navigate = useNavigate();
+    return useMutation((id) => deleteWishlistItem(id), {
+      onSuccess: () => {
+        toast.success("Delete item successfully");
+      },
+      onError: (error) => {
+        if (error?.response.status === 401) {
+          toast.error("Please login to delete wishlist");
+          navigate("/login");
+        } else {
+          toast.error("Delete wishlist item is failed");
+        }
+      },
+    });
+  };

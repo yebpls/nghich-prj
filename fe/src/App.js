@@ -4,7 +4,6 @@ import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/AuthPage/LoginPage";
 import RegisterPage from "./pages/AuthPage/RegisterPage";
 import "./App.css";
-import { Toaster } from "react-hot-toast";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import ProductDetailPage from "./pages/ProductPage/ProductDetailPage";
 import CartPage from "./pages/Cart/CartPage";
@@ -15,12 +14,11 @@ import UserAddress from "./pages/UserAccount/UserAddress";
 import UserOrder from "./pages/UserAccount/UserOrder";
 import UserDraft from "./pages/UserAccount/UserDraft";
 import UserWishlist from "./pages/UserAccount/UserWishlist";
+import CollectionPage from "./pages/HomePage/CollectionPage";
 
 function App() {
   return (
     <div>
-      <Toaster position="top-right" />
-
       <BrowserRouter>
         <Routes>
           {/* Main routes */}
@@ -33,6 +31,7 @@ function App() {
             />
             <Route path="/cart" element={<CartPage />}></Route>
             <Route path="/customize" element={<CustomBag />} />
+            <Route path="/collection" element={<CollectionPage />} />
             <Route path="/user" element={<UserLayout />}>
               <Route index element={<Navigate to="/user/user-profile" />} />
               <Route path="/user/user-profile" element={<UserProfile />} />

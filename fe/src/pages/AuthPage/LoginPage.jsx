@@ -20,22 +20,22 @@ const LoginPage = () => {
     // reset();
   };
   return (
-    <div className="w-full h-screen px-56 py-7">
+    <div className="w-full h-screen px-3 lg:px-56 py-7">
       <div className="ml-44 mb-10">
         <Link to="/">
           <img className="h-14" src="/logo_nghich_lg.png" alt="" />
         </Link>
       </div>
-
-      <div className="flex justify-between">
-        <div className="w-1/2 h-full ">
+      <div className="lg:flex lg:justify-between">
+        <div className=" w-0 lg:w-1/2 h-0 lg:h-full ">
           <img
             src="/images/login_img.png
         "
             alt=""
+            // className="h-0 lg:h-full w-0 lg:w-full object-cover"
           />
         </div>
-        <div className="w-1/2 h-full">
+        <div className="w-full lg:w-1/2 h-full">
           <form onSubmit={handleSubmit(onSubmit)}>
             <h2 className="text-4xl text-black font-semibold mb-5">Log In</h2>
             <p className="mb-5">

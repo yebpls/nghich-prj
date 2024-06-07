@@ -1,7 +1,9 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+// import toast from "react-toastify";
+import { toast } from "react-toastify";
 
-const getToken = () => {
+export const getToken = () => {
   if (typeof window === undefined) {
     return null;
   }
@@ -38,19 +40,20 @@ http.interceptors.request.use(
   }
 );
 
+// In your response interceptor
 http.interceptors.response.use(
   (response) => {
-    // This function runs if the response is successful (status in the 2xx range)
-    if (response.status >= 200 && response.status < 300) {
-      return response; // Resolve the promise with the response
-    }
-    // If the response status is not in the 2xx range, reject the promise
-    return Promise.reject(response);
+    // Handle the response as before
+    return response;
   },
   (error) => {
-    // This function runs if an error occurs while handling the response
-    console.log("error: ", error);
-    return Promise.reject(error); // Reject the promise with the error
+    // If the error status is 401 (Unauthorized), redirect to /login
+    if (error.response && error.response.status === 401) {
+      window.location.href = "/login";
+      toast.error("Please login to continue");
+    }
+
+    return Promise.reject(error);
   }
 );
 

@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useGetProductById } from "../../api/product";
-import toast from "react-hot-toast";
-import { useAddWishlist, useGetWishlist } from "../../api/user";
+import { toast } from "react-toastify";
 import { useCartStore } from "../../zustand-store/cartState";
 import { setCart } from "../../localStorage/handleCart";
-import { Rate } from "antd";
+import { useAddWishlist } from "../../api/User/wishlist";
+import {Rate} from 'antd'
 
 const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -16,7 +14,6 @@ const ProductDetailPage = () => {
   const { countCart, cartItems } = useCartStore((state) => state);
   const { productId } = useParams();
   const { data: product, isLoading, error } = useGetProductById(productId);
-  // const { data: wishlist } = useGetWishlist();
   const { mutate: addWishlist } = useAddWishlist();
   console.log("product:", product);
   const handleAddWishlist = (id) => {

@@ -1,8 +1,19 @@
 import React, { useState } from "react";
 import CheckBox from "../../components/Input/CheckBox";
+import { toast } from "react-toastify";
+import { useCartStore } from "../../zustand-store/cartState";
 
 export default function CartItem({ item }) {
   const [quantity, setQuantity] = useState(item.quantity);
+  const deleteFromCart = useCartStore((state) => state.deleteFromCart);
+
+  const deleteItem = (itemId) => {
+    if(itemId){
+    deleteFromCart(itemId);
+    }else{
+      toast.error("Item not found")
+    }
+  };
 
   return (
     <tr>
@@ -19,8 +30,9 @@ export default function CartItem({ item }) {
             <h6 className="product-name text-[20px] font-bold">
               {item.item.name}
             </h6>
-            <div className="product-color text-gray_2">Color: unknown</div>
-            <button className="text-gray_2 text-[20px] font-bold">
+            <div className="product-color text-gray_2" >Color: unknown</div>
+            <button className="text-gray_2 text-[20px] font-bold" 
+            onClick={()=>deleteItem(item.item._id)} >
               Remove
             </button>
           </div>
