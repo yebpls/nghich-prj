@@ -5,11 +5,13 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useGetProducts } from "../../api/product";
 import { Rate } from "antd";
+import ComSeo from "../../components/SEO/ComSeo";
 
 const ProductPage = () => {
   const { data: product } = useGetProducts();
   return (
     <main className="main w-full lg:w-5/6 mx-auto">
+      <ComSeo tile="Products" name="NGHỊCH COLLECTION" content="nghịch" />
       <div className="path py-[30px]">
         <div className="container mx-[auto] my-0">
           <p className="path-full">

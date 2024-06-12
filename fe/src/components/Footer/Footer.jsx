@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 export const Footer = () => {
   return (
     <div>
-      <div className="bg-white_1 px-4 md:px-10 lg:px-60 py-4 text-black !font-poppins">
-        <div className="flex flex-col lg:flex-row justify-between items-center py-7 px-4 bg-white">
-          <div className="flex flex-col items-start p-6 border-l border-gray_2 w-full lg:w-2/5 mb-6 lg:mb-0">
+      <div className="bg-white_1 px-4   py-4 text-black !font-poppins">
+        <div className=" grid grid-cols-1 md:grid-cols-2 p-10">
+          <div className="md:col-span-1 flex flex-col items-start p-6 border border-[#7575ff] justify-center ">
             <p className="font-medium text-gray-500 pb-8 text-16px">A more meaningful home for photography</p>
             <div className="text-black">
               <p className="font-manjari text-40px leading-tight">Let's</p>
@@ -13,7 +13,7 @@ export const Footer = () => {
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-12 font-semibold w-full lg:w-3/5 justify-center border-l lg:border-r border-gray_2">
+          <div className="md:col-span-1 md:flex  md:justify-evenly items-start gap-2 border-[#7575ff] border p-2">
             <div className="flex flex-col items-start mb-6 lg:mb-0">
               <Link className="text-left pb-3 text-gray-500">Home</Link>
               <div className="flex flex-col gap-2 mt-2">

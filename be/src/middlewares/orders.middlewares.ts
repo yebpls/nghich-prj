@@ -33,6 +33,7 @@ export const createOrderValidator = wrapRequestHandler(
           },
         },
         order_details: {
+          optional: true,
           isArray: {
             errorMessage: ORDERS_MESSAGES.ORDER_DETAILS_MUST_BE_ARRAY,
           },
@@ -74,6 +75,18 @@ export const createOrderValidator = wrapRequestHandler(
               );
               return true;
             },
+          },
+        },
+        coupon_name: {
+          optional: true,
+          isString: {
+            errorMessage: ORDERS_MESSAGES.COUPON_SHOULD_BE_STRING,
+          },
+        },
+        custom_id: {
+          optional: true,
+          isString: {
+            errorMessage: ORDERS_MESSAGES.CUSTOM_ID_SHOULD_BE_STRING,
           },
         },
       },

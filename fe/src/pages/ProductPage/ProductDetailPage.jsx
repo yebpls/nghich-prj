@@ -7,6 +7,7 @@ import { useCartStore } from "../../zustand-store/cartState";
 import { setCart } from "../../localStorage/handleCart";
 import { useAddWishlist } from "../../api/User/wishlist";
 import {Rate} from 'antd'
+import ComSeo from "../../components/SEO/ComSeo";
 
 const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -29,6 +30,11 @@ const ProductDetailPage = () => {
   };
   return (
     <main className="main p-1 w-full lg:w-5/6 mx-auto">
+      <ComSeo
+        tile={product?.name}
+        name={product?.detail}
+        content={product?.description}
+      />
       {/* <div className="path py-[30px]">
         <div className="container mx-[auto] my-0">
           <p className="path-full">
