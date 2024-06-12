@@ -112,4 +112,8 @@ export const ORDERS_MESSAGES = {
   ORDER_DETAILS_MUST_BE_ARRAY: "Order details must be an array",
   ORDER_DETAILS_INVALID: "Order details invalid",
   PAYMENT_TYPE_IS_REQUIRED: "Payment type is required",
+  COUPON_SHOULD_BE_STRING: "Coupon should be string",
+  CUSTOM_ID_SHOULD_BE_STRING: "Custom ID should be string",
+  GET_ALL_ORDERS_SUCCESS: "Get all orders successfully!!",
+  GET_ORDER_SUCCESS: "Get order successfully!!",
 };
