@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import http from "../../config/http";
 import { toast } from "react-toastify";
 import { API_ENDPOINTS } from "../api-endpoint";
@@ -56,7 +56,7 @@ export const useGetAddresses = () => {
     "userAddress",
     getAllAddress
   );
-  console.log("check addresses:", data);
+  // console.log("check addresses:", data);
   return { data, isLoading, isFetching, error };
 };
 
@@ -79,6 +79,34 @@ export const useAddUserAddressMutation = () => {
     onError: (error, data) => {
       console.log(error.response.data.errors, data, "add fail");
       toast.error("add fail");
+    },
+  });
+};
+
+//SET DEFAULT ADDRESS
+async function setDefaultAddress(address_id) {
+  console.log(address_id, "address_id");
+
+  const { data } = await http.post(
+    API_ENDPOINTS.SET_DEFAULT_ADDRESS + address_id
+  );
+  console.log("register response", data);
+
+  return data.data;
+}
+//REGISTER MUTATION BY USE REGISTER FUNCTION
+export const useSetDefaultAddress = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((address_id) => setDefaultAddress(address_id), {
+    onSuccess: (data) => {
+      console.log(data, "set default address success");
+      queryClient.invalidateQueries("userAddress");
+      toast.success("set default address success");
+    },
+    onError: (error, data) => {
+      console.log(error.response.data.errors, data, "set default address fail");
+      toast.error("set default address fail");
     },
   });
 };

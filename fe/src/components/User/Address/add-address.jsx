@@ -99,13 +99,13 @@ export default function AddAddress() {
   };
 
   //ADD NEW ADDRESS
-  const addAddress = async (data) => {
+  const addAddress = (data) => {
     console.log("data", data);
-    await addAddressMutation(data);
-    if (addSuccess) {
-      setIsModalOpen(false);
-      reset();
-    }
+    // await addAddressMutation(data);
+    // if (addSuccess) {
+    //   setIsModalOpen(false);
+    //   reset();
+    // }
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -121,7 +121,7 @@ export default function AddAddress() {
 
   //SET DEFAULT VALUE FOR DISTRICT
   useEffect(() => {
-    if (districts.length > 0 && districtCode === "") {
+    if (districts.length > 0) {
       setDistrictCode(districts[0].value);
       setSelectedDistrict(districts[0]);
       setValueForAddress();
@@ -130,14 +130,20 @@ export default function AddAddress() {
 
   //SET DEFAULT VALUE FOR WARD
   useEffect(() => {
-    if (wards.length > 0) {
+    if (wards.length < 1) {
+      setTimeout(() => {
+        handleChangeWard("");
+        setWardCode("");
+        setSelectedWard({ label: "", value: "" });
+        setValueForAddress();
+      }, 2000); // Run after 2 seconds
+
+      // console.log("there is no ward", wards, selectedWard);
+    } else {
       setWardCode(wards[0].value);
       setSelectedWard(wards[0]);
       setValueForAddress();
-    } else {
-      setWardCode("");
-      setSelectedWard({ label: "", value: "" });
-      setValueForAddress();
+      // console.log("there is ward", wards, selectedWard);
     }
   }, [wardFetching]);
 

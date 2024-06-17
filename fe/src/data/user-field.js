@@ -16,7 +16,7 @@ export const userFieldInput = [
     field: "username",
     required: "Yeu cau nhap ten tai khaon",
     pattern: "",
-    disable: false,
+    disable: true,
   },
   {
     label: "Your Name",

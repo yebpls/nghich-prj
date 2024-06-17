@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useGetProductById } from "../../api/product";
 import { toast } from "react-toastify";
 import { useCartStore } from "../../zustand-store/cartState";
 import { setCart } from "../../localStorage/handleCart";
+import { useAddWishlist } from "../../api/User/wishlist";
 import { Rate } from "antd";
-import { useAddWishlist } from "../../api/User/user";
 
 const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -17,7 +15,6 @@ const ProductDetailPage = () => {
   const { productId } = useParams();
   const { data: product, isLoading, error } = useGetProductById(productId);
   const { mutate: addWishlist } = useAddWishlist();
-  console.log("product:", product);
   const handleAddWishlist = (id) => {
     addWishlist(id);
   };
@@ -82,7 +79,6 @@ const ProductDetailPage = () => {
                   {product?.price
                     .toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                  aaaaaaaađ{" "}
                   <span className="text-gray_2 text-sm lg:text-2xl text-center leading-normal line-through">
                     900.000đ
                   </span>
