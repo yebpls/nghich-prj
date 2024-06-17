@@ -207,13 +207,14 @@ const phoneNumberSchema: ParamSchema = {
     errorMessage: USERS_MESSAGES.PHONENUMBER_MUST_BE_STRING,
   },
   trim: true,
-  custom: {
-    options: async (value, { req }) => {
-      if (!REGEX_PHONENUMBER_VN.test(value)) {
-        throw new Error(USERS_MESSAGES.PHONENUMBER_INVALID);
-      }
-    },
-  },
+  // custom: {
+  //   options: async (value, { req }) => {
+  //     if (!REGEX_PHONENUMBER_VN.test(value)) {
+  //       throw new Error(USERS_MESSAGES.PHONENUMBER_INVALID);
+  //     }
+  //     true;
+  //   },
+  // },
 };
 
 export const loginValidator = validate(
