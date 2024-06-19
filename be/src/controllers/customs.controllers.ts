@@ -1,4 +1,3 @@
-import { ParamsDictionary } from "express-serve-static-core";
 import { NextFunction, Request, Response } from "express";
 import {
   AddCustomReqBody,

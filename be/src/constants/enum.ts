@@ -43,3 +43,9 @@ export enum MediaType {
   Image,
   Video,
 }
+
+export enum TransactionStatus {
+  BUY = "BUY",
+  FAILED = "FAILED",
+  REFUNDED = "REFUNDED",
+}
