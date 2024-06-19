@@ -5,11 +5,14 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useGetProducts } from "../../api/product";
 import { Rate } from "antd";
+import ProductCard from "../../components/Product/product-card";
+import ComSeo from "../../components/SEO/ComSeo";
 
 const ProductPage = () => {
   const { data: product } = useGetProducts();
   return (
     <main className="main w-full lg:w-5/6 mx-auto">
+      <ComSeo tile="Products" name="NGHỊCH COLLECTION" content="nghịch" />
       <div className="path py-[30px]">
         <div className="container mx-[auto] my-0">
           <p className="path-full">
@@ -185,74 +188,7 @@ const ProductPage = () => {
               </div>
               <div className="product-list grid grid-cols-3 lg:grid-cols-4 text-black">
                 {product?.map((item) => (
-                  <div>
-                    <div className=" text-xs text-slate-600">
-                      <Link to={`/productDetail/${item._id}`}>
-                        <div className="product-list-item p-3 lg:p-6">
-                          <div className="product-img">
-                            <img
-                              className="h-full"
-                              src={item.images[0].url}
-                              // src="/image c.png"
-                              alt=""
-                            />
-                            <img
-                              className="h-full"
-                              src={item.images[0]}
-                              alt=""
-                            />
-                          </div>
-                          <div className="product-info font-bold">
-                            <div className="product-fig flex justify-between py-2">
-                              {/* <div className="product-rate text-[7px] lg:text-[10px]">
-                                <FontAwesomeIcon
-                                  icon={faStar}
-                                  className="mr-1 lg:mr-2"
-                                />
-                                <FontAwesomeIcon
-                                  icon={faStar}
-                                  className="mr-1 lg:mr-2"
-                                />
-                                <FontAwesomeIcon
-                                  icon={faStar}
-                                  className="mr-1 lg:mr-2"
-                                />
-                                <FontAwesomeIcon
-                                  icon={faStar}
-                                  className="mr-1 lg:mr-2"
-                                />
-                                <FontAwesomeIcon
-                                  icon={faStar}
-                                  className="mr-1 lg:mr-2"
-                                />
-                              </div> */}
-                              <Rate
-                                className="text-xs lg:text-sm text-black"
-                                disabled
-                                allowHalf
-                                defaultValue={4.5}
-                              />
-                              <div className="product-sold text-[10px] lg:text-xs">
-                                0 <span className="text-gray_2">SOLD</span>
-                              </div>
-                            </div>
-                            <p className="sm:text-[10px] md:text-md lg:text-md">
-                              <span className="sm:text-[9px]  md:text-md lg:text-lg">
-                                [SPRING COLLECTION]
-                              </span>
-                              <br />
-                              {item.name}
-                            </p>
-                            <div className="product-price font-medium text-lg">
-                              {item.price
-                                .toString()
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
-                  </div>
+                  <ProductCard key={item._id} item={item} />
                 ))}
               </div>
               <div className="grid-records py-[50px] text-right text-black border-b">

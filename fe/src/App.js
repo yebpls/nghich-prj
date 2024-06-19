@@ -6,7 +6,6 @@ import RegisterPage from "./pages/AuthPage/RegisterPage";
 import "./App.css";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import ProductDetailPage from "./pages/ProductPage/ProductDetailPage";
-import CartPage from "./pages/Cart/CartPage";
 import CustomBag from "./pages/Custorm/CustormPage";
 import UserProfile from "./pages/UserAccount/userProfile";
 import UserLayout from "./layouts/UserLayout";
@@ -15,6 +14,7 @@ import UserOrder from "./pages/UserAccount/UserOrder";
 import UserDraft from "./pages/UserAccount/UserDraft";
 import UserWishlist from "./pages/UserAccount/UserWishlist";
 import CollectionPage from "./pages/HomePage/CollectionPage";
+import OrderUser from "./pages/OrderPage/OrderUser";
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
               path="/productDetail/:productId"
               element={<ProductDetailPage />}
             />
-            <Route path="/cart" element={<CartPage />}></Route>
+            <Route path="/cart" element={<OrderUser />} />
             <Route path="/customize" element={<CustomBag />} />
             <Route path="/collection" element={<CollectionPage />} />
             <Route path="/user" element={<UserLayout />}>

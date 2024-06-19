@@ -6,7 +6,7 @@ import UserNavMobi from "../pages/UserAccount/UserNavMobi";
 export default function UserLayout() {
   return (
     <>
-      <div className="min-h- lg:w-full w-0 invisible lg:visible lg:text-3xl py-0   lg:py-4 text-center">
+      <div className="h-0 lg:w-full lg:h-full w-0 invisible lg:visible lg:text-3xl py-0   lg:py-4 text-center">
         My Account
       </div>
       <div className="flex w-full lg:w-3/4 lg:pt-5 mx-auto">
