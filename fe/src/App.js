@@ -15,6 +15,7 @@ import UserDraft from "./pages/UserAccount/UserDraft";
 import UserWishlist from "./pages/UserAccount/UserWishlist";
 import CollectionPage from "./pages/HomePage/CollectionPage";
 import OrderUser from "./pages/OrderPage/OrderUser";
+import CustomBagV2 from "./pages/CustomV2/Custom";
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
               element={<ProductDetailPage />}
             />
             <Route path="/cart" element={<OrderUser />} />
-            <Route path="/customize" element={<CustomBag />} />
+            {/* <Route path="/customize" element={<CustomBag />} /> */}
+            <Route path="/customize" element={<CustomBagV2 />} />
             <Route path="/collection" element={<CollectionPage />} />
             <Route path="/user" element={<UserLayout />}>
               <Route index element={<Navigate to="/user/user-profile" />} />
