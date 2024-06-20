@@ -7,7 +7,7 @@ const HomePage = () => {
   return (
     <main className="main">
       <ComSeo tile="Nghịch" name="Nghịch" content="Nghịch" />
-      <div className="section py-4">
+      <div className="section p-4">
         <div className=" mx-auto my-0 w-full">
           <div className="content-wrapper flex text-black">
             <div className="mx-auto w-1/2">
@@ -259,7 +259,6 @@ const HomePage = () => {
               EXPLORE OUR PHOTOGRAPHY WORK
             </h1>
           </div>
-
         </div>
       </section>
       <section className="section py-8 text-black">
@@ -466,7 +465,6 @@ const HomePage = () => {
         </div>
       </section>
     </main>
-
   );
 };
 

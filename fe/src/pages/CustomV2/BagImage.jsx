@@ -1,26 +1,42 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDrop } from "react-dnd";
+import { CloseOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import React, { useEffect, useState } from "react";
+import Draggable from "react-draggable";
+import { Resizable, ResizableBox } from "react-resizable";
+import "react-resizable/css/styles.css";
 import { Rnd } from "react-rnd";
+import styled from "styled-components";
+import { useDrop } from "react-dnd";
 
-const BagCanvas = ({
-  selectedBag,
+const MaskContainer = styled.div`
+  width: 450px;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  background-color: #e2e8f0;
+  background-image: url("/images/bagsBody/BagTransparentBg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  mask-image: url("/images/bagsBody/BagTransparentBg.png");
+  -webkit-mask-image: url("/images/bagsBody/BagTransparentBg.png");
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+`;
+const BagImage = ({
+  color,
+  imageUrl,
   stickers = [],
-  textElements = [],
   onDrop,
   onResize,
   onDeleteSticker,
-  onDeleteText,
-  onTextDrag,
-  onTextResize,
-  onEditText,
-  onExport,
 }) => {
   const [hoveredSticker, setHoveredSticker] = useState(null);
   const [fullyCoveredStickers, setFullyCoveredStickers] = useState([]);
-
-  const [hoveredText, setHoveredText] = useState(null);
-
-  console.log("selectedBag", selectedBag);
 
   const [, drop] = useDrop(() => ({
     accept: "sticker",
@@ -29,14 +45,6 @@ const BagCanvas = ({
       onDrop(item, delta);
     },
   }));
-
-  const canvasRef = useRef(null);
-
-  const handleExport = () => {
-    const canvas = canvasRef.current;
-    const dataUrl = canvas.toDataURL("image/png");
-    onExport(dataUrl);
-  };
 
   useEffect(() => {
     const newFullyCoveredStickers = stickers.filter((sticker) => {
@@ -89,12 +97,20 @@ const BagCanvas = ({
             WebkitMaskRepeat: "no-repeat",
           }}
         >
+          <img
+            src={imageUrl}
+            className="absolute inset-0 w-full h-full object-cover"
+            alt="Bag"
+            style={{
+              filter: `opacity(0.7) drop-shadow(0 0 0 ${color}) drop-shadow(0 0 0 ${color}) brightness(0.8) contrast(1.2)`,
+            }}
+          />
           {stickers.map((sticker, index) => (
             <Rnd
               key={sticker.uniqueId}
               default={{
-                x: sticker.x,
-                y: sticker.y,
+                x: sticker.x + 150,
+                y: sticker.y + 190,
                 width: sticker.width,
                 height: sticker.height,
               }}
@@ -134,90 +150,10 @@ const BagCanvas = ({
               </div>
             </Rnd>
           ))}
-          {textElements.map((textElement) => (
-            <Rnd
-              key={textElement.id}
-              default={{
-                x: textElement.x + 260,
-                y: textElement.y + 300,
-                width: "auto",
-                height: "auto",
-              }}
-              onDragStop={(e, d) =>
-                onTextDrag(textElement.id, { x: d.x, y: d.y })
-              }
-              onResizeStop={(e, direction, ref, delta, position) => {
-                onTextResize(textElement.id, {
-                  width: ref.style.width,
-                  height: ref.style.height,
-                  ...position,
-                });
-              }}
-              bounds="parent"
-              onClick={() => onEditText(textElement)}
-            >
-              <div
-                className={`relative w-full h-full group ${
-                  hoveredText === textElement.id
-                    ? "border border-dashed border-gray-500"
-                    : ""
-                }`}
-                onMouseEnter={() => setHoveredText(textElement.id)}
-                onMouseLeave={() => setHoveredText(null)}
-              >
-                <p
-                  style={{
-                    color: textElement.color,
-                    fontSize: `${textElement.fontSize}px`,
-                    fontFamily: textElement.fontFamily,
-                    fontWeight: textElement.bold ? "bold" : "normal",
-                    fontStyle: textElement.italic ? "italic" : "normal",
-                    textDecoration: textElement.underline
-                      ? "underline"
-                      : "none",
-                    textAlign: textElement.textAlign,
-                  }}
-                >
-                  {textElement.text}
-                </p>
-                <button
-                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100"
-                  onClick={() => onDeleteText(textElement.id)}
-                >
-                  X
-                </button>
-              </div>
-            </Rnd>
-          ))}
         </div>
-        {/* Overlay for hover border */}
-        {hoveredSticker !== null || fullyCoveredStickers.length > 0 ? (
-          <div
-            className="absolute top-0 left-0 w-[600px] h-[700px] pointer-events-none"
-            style={{ zIndex: 10 }}
-          >
-            {stickers.map((sticker) => (
-              <div
-                key={sticker.uniqueId}
-                className={`absolute border border-dashed border-gray-500 ${
-                  hoveredSticker === sticker.uniqueId ||
-                  fullyCoveredStickers.includes(sticker.uniqueId)
-                    ? "block"
-                    : "hidden"
-                }`}
-                style={{
-                  top: sticker.y,
-                  left: sticker.x,
-                  width: sticker.width,
-                  height: sticker.height,
-                }}
-              ></div>
-            ))}
-          </div>
-        ) : null}
       </div>
     </div>
   );
 };
 
-export default BagCanvas;
+export default BagImage;

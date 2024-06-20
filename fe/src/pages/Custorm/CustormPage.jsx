@@ -206,6 +206,15 @@ const CustomBag = () => {
               onEditText={setEditingText}
               editingText={editingText}
             />
+            <p
+              className="uppercase text-right mt-4"
+              style={{ color: "#4A2BED" }}
+            >
+              temporary price:{" "}
+              <span className="font-bold" style={{ color: "#4A2BED" }}>
+                {selectedBag.price}
+              </span>
+            </p>
           </div>
         </div>
       )}
