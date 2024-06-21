@@ -7,16 +7,16 @@ import { useCartStore } from "../zustand-store/cartState";
 import { useOrderNavState } from "../zustand-store/OrderNavState";
 
 //GET ALL ORDERS
-const getOrders = async () => {
+const getAllOrders = async () => {
   const { data } = await http.get(API_ENDPOINTS.ORDERS);
-  return data.data.data;
+  return data.data;
 };
 
 //GET WARD QUERY BY USE GET WARD FUNCTION
-export const useGetOrders = () => {
+export const useGetAllOrders = () => {
   const { data, isLoading, isFetching, error } = useQuery(
-    "userOrders",
-    getOrders
+    "adminOrders",
+    getAllOrders
   );
   // console.log("check addresses:", data);
   return { data, isLoading, isFetching, error };

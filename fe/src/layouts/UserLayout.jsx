@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import UserNav from "../pages/UserAccount/UserNav";
-import UserNavMobi from "../pages/UserAccount/UserNavMobi";
+import UserNav from "../components/User/Navigate/UserNav";
+import UserNavMobi from "../components/User/Navigate/UserNavMobi";
 
 export default function UserLayout() {
   return (

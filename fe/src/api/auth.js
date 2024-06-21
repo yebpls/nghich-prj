@@ -6,6 +6,8 @@ import { API_ENDPOINTS } from "./api-endpoint";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { useLoginStore } from "../zustand-store/loginState";
+import { jwtDecode } from "jwt-decode";
+import { useAccountStore } from "../zustand-store/AccountInfoState";
 
 //LOGIN FUNCTION
 const login = async (input) => {
@@ -21,6 +23,7 @@ const login = async (input) => {
 export const useLoginMutation = () => {
   const navigate = useNavigate();
   const setLogin = useLoginStore((state) => state.login);
+  const { setRole } = useAccountStore((state) => state);
 
   return useMutation(
     async (input) => {
@@ -29,9 +32,18 @@ export const useLoginMutation = () => {
       return data;
     },
     {
-      onSuccess: (data) => {
-        toast.success("login success");
-        navigate("/user");
+      onSuccess: async (data) => {
+        let token = data.access_token;
+        token = await jwtDecode(token);
+        setRole(token.role);
+        if (token.role === 1) {
+          navigate("/user");
+          toast.success("Hello User");
+        } else {
+          navigate("/admin");
+          toast.success("Hello Admin");
+        }
+
         setLogin();
         console.log(data, "login success");
       },
