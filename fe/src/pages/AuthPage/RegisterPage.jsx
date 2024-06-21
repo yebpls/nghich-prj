@@ -34,7 +34,7 @@ const RegisterPage = () => {
     });
   };
   return (
-    <div className="w-full h-screen px-56 py-7">
+    <div className="w-full h-screen px-3 lg:px-56 py-7 ">
       <ComSeo tile="Nghịch" name="Nghịch" content="Nghịch" />
       <div className="ml-44 mb-10">
         <Link to="/">
@@ -42,15 +42,15 @@ const RegisterPage = () => {
         </Link>
       </div>
 
-      <div className="flex justify-between">
-        <div className="w-1/2 h-full ">
+      <div className="flex justify-between  ">
+        <div className="w-0 lg:w-1/2 h-full ">
           <img
             src="/images/login_img.png
     "
             alt=""
           />
         </div>
-        <div className="w-1/2 h-full">
+        <div className="w-full lg:w-1/2 h-full">
           <h2 className="text-4xl text-black font-semibold mb-5">Sign Up</h2>
           <p className="mb-5">
             Already have an account?{" "}

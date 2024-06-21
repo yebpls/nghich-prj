@@ -52,7 +52,7 @@ const ProductDetailPage = () => {
                   <div className="w-1/2">
                     <img
                       className="p-1"
-                      src={product?.images[0].url}
+                      src={product?.images[0]?.url}
                       // src="/image c.png"
                       alt=""
                       srcset=""

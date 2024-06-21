@@ -2,8 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { useLoginStore } from "../../zustand-store/loginState";
-import { items } from "../../data/user-nav";
+import { useLoginStore } from "../../../zustand-store/loginState";
+import { items } from "../../../data/user-nav";
 
 const UserNav = () => {
   const navigate = useNavigate();

@@ -17,7 +17,6 @@ ReactDOM.render(
   <QueryClientProvider client={queryClient}>
     <DndProvider backend={HTML5Backend}>
       <ToastContainer />
-      {/* <Toaster position="top-right" /> */}
 
       <App />
       <ReactQueryDevtools initialIsOpen={false} />

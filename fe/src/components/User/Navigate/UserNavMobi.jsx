@@ -3,8 +3,8 @@ import { Dropdown, Menu, Space } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { SettingOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
-import { useLoginStore } from "../../zustand-store/loginState";
 import Cookies from "js-cookie";
+import { useLoginStore } from "../../../zustand-store/loginState";
 
 const UserNavMobi = () => {
   const navigate = useNavigate();

@@ -8,18 +8,18 @@ import "./Header.css";
 import { useLoginStore } from "../../zustand-store/loginState";
 import { useCartStore } from "../../zustand-store/cartState";
 import { getToken } from "../../config/http";
+import { useAccountStore } from "../../zustand-store/AccountInfoState";
 
 const Header = () => {
   const { countCart } = useCartStore((state) => state);
   const { isLogin, login, logout } = useLoginStore();
-
+  const { role } = useAccountStore();
 
   console.log("isLogin", isLogin);
   const isToken = getToken();
   useEffect(() => {
     if (isToken) {
-      login()
-      ;
+      login();
     } else {
       logout();
     }
@@ -143,7 +143,7 @@ const Header = () => {
               {isLogin ? (
                 <li className="menu-item">
                   <Link
-                    to="/user"
+                    to={role === 0 ? "/admin" : "/user"}
                     className="h-6 w-6 flex items-center justify-center border border-black rounded-full"
                   >
                     <FontAwesomeIcon

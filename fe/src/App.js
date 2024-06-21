@@ -15,8 +15,40 @@ import UserDraft from "./pages/UserAccount/UserDraft";
 import UserWishlist from "./pages/UserAccount/UserWishlist";
 import CollectionPage from "./pages/HomePage/CollectionPage";
 import OrderUser from "./pages/OrderPage/OrderUser";
+import ProtectRole from "./components/ProtectRoute/ProtectRole";
+import { useEffect } from "react";
+import { getToken } from "./config/http";
+import { jwtDecode } from "jwt-decode";
+import { useAccountStore } from "./zustand-store/AccountInfoState";
+import { useLoginStore } from "./zustand-store/loginState";
+import Cookies from "js-cookie";
+import AdminLayout from "./layouts/AdminLayout";
+import Protected from "./components/ProtectRoute/Protected";
+import Dashboard from "./pages/AdminManage/Dashboard";
+import ProductManage from "./pages/AdminManage/ProductManage";
+import OrderManage from "./pages/AdminManage/OrderManage";
+import CustomerManage from "./pages/AdminManage/CustomerManage";
+import Settings from "./pages/AdminManage/Settings";
 
 function App() {
+  const { setRole } = useAccountStore((state) => state);
+  const { logout, isLogin } = useLoginStore();
+  useEffect(() => {
+    let token = getToken();
+    if (token) {
+      token = jwtDecode(token);
+      const currentTime = Math.floor(Date.now() / 1000);
+
+      console.log("check exp", token.exp, currentTime);
+      if (currentTime < token.exp) {
+        setRole(token.role);
+      } else {
+        window.location.href = "/";
+        Cookies.remove("auth_token");
+        logout();
+      }
+    }
+  }, []);
   return (
     <div>
       <BrowserRouter>
@@ -32,7 +64,15 @@ function App() {
             <Route path="/cart" element={<OrderUser />} />
             <Route path="/customize" element={<CustomBag />} />
             <Route path="/collection" element={<CollectionPage />} />
-            <Route path="/user" element={<UserLayout />}>
+            {/* USER ROLE */}
+            <Route
+              path="/user"
+              element={
+                <ProtectRole requiredRole={1}>
+                  <UserLayout />
+                </ProtectRole>
+              }
+            >
               <Route index element={<Navigate to="/user/user-profile" />} />
               <Route path="/user/user-profile" element={<UserProfile />} />
 
@@ -44,8 +84,45 @@ function App() {
           </Route>
 
           {/* Authentication routes */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/sign-up" element={<RegisterPage />} />
+
+          {/* ADMIN ROLE */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectRole requiredRole={0}>
+                <AdminLayout />
+              </ProtectRole>
+            }
+          >
+            <Route index element={<Navigate to="/admin/dashboard" />} />
+            <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route
+              path="/admin/product-management"
+              element={<ProductManage />}
+            />
+            <Route path="/admin/order-management" element={<OrderManage />} />
+            <Route
+              path="/admin/customer-management"
+              element={<CustomerManage />}
+            />
+            <Route path="/admin/settings" element={<Settings />} />
+          </Route>
+          <Route
+            path="/login"
+            element={
+              <Protected token={getToken()}>
+                <LoginPage />
+              </Protected>
+            }
+          />
+          <Route
+            path="/sign-up"
+            element={
+              <Protected token={getToken()}>
+                <RegisterPage />
+              </Protected>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>
