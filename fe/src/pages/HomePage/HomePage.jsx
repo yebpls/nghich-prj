@@ -188,7 +188,7 @@ const HomePage = () => {
               <img
                 className=" object-cover rounded-3xl rounded-bl-[100px]"
                 alt="b"
-                src="/imageb.png"
+                src="/Imageb.png"
               />
             </div>
           </div>
