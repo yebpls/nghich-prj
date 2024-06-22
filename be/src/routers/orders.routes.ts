@@ -2,6 +2,7 @@ import {
   changeOrderStatusController,
   createOrderController,
   getAllOrderController,
+  getAllOrderOfUserController,
   getOrderByOrderIdController,
   getOrderByOrderKeyController,
 } from "~/controllers/orders.controllers";
@@ -36,6 +37,18 @@ ordersRouter.get(
   "/",
   accessTokenValidator,
   wrapRequestHandler(getAllOrderController)
+);
+
+/**
+ *  Description: Get All Orders of a user
+ *  Path: /
+ *  Method: GET
+ *  Header: { Authorization: Bearer <access_token> }
+ */
+ordersRouter.get(
+  "/by-user",
+  accessTokenValidator,
+  wrapRequestHandler(getAllOrderOfUserController)
 );
 
 /**

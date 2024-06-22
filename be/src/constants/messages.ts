@@ -116,4 +116,5 @@ export const ORDERS_MESSAGES = {
   CUSTOM_ID_SHOULD_BE_STRING: "Custom ID should be string",
   GET_ALL_ORDERS_SUCCESS: "Get all orders successfully!!",
   GET_ORDER_SUCCESS: "Get order successfully!!",
+  CHANGE_ORDER_STATUS_SUCCESS: "Change order status success",
 };
