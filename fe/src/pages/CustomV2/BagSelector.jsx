@@ -1,5 +1,5 @@
 // BagSelected.js
-import React from "react";
+import React, { useState } from "react";
 import bags from "../../data/Bags";
 import { Button, Tabs } from "antd";
 import {
@@ -25,7 +25,19 @@ const BagSelected = ({
   selectedImage,
   stickers,
   setStickers,
+  textItems,
+  setTextItems,
+  handleTextClick,
+  currentText,
+  setCurrentText,
+  textStyle,
+  setTextStyle,
+  setImageURL,
+  imageURL,
+  handleExportImage,
 }) => {
+  const [isTextSubmitted, setIsTextSubmitted] = useState(false);
+
   const selectedBag = bags.find((bag) => bag.id === selectedBagId);
   const handleImageSelect = (image) => {
     setStickers((prevStickers) => [
@@ -70,6 +82,43 @@ const BagSelected = ({
       prev.filter((sticker) => sticker.uniqueId !== uniqueId)
     );
   };
+
+  const handleTextUpdate = (updatedText) => {
+    setCurrentText(updatedText);
+  };
+
+  const handleTextStyleChange = (style) => {
+    setTextStyle(style);
+    setTextItems((prevTextItems) =>
+      prevTextItems.map((item) =>
+        item.text === currentText ? { ...item, ...style } : item
+      )
+    );
+  };
+
+  const handleRemoveText = (uniqueId) => {
+    setTextItems((prevTextItems) =>
+      prevTextItems.filter((item) => item.uniqueId !== uniqueId)
+    );
+  };
+
+  const handleTextSubmit = (text) => {
+    setTextItems((prevTextItems) => [
+      ...prevTextItems,
+      {
+        uniqueId: Date.now(),
+        text: text,
+        ...textStyle,
+        x: 50,
+        y: 50,
+        width: 150,
+        height: 50,
+      },
+    ]);
+    setIsTextSubmitted(true);
+    setCurrentText(text);
+  };
+
   const tabItems = [
     {
       key: "1",
@@ -84,7 +133,17 @@ const BagSelected = ({
     {
       key: "3",
       label: <FontSizeOutlined className="custom-tab-icon" />,
-      children: <InputTextTab />,
+      children: (
+        <InputTextTab
+          onTextSubmit={handleTextSubmit}
+          onTextUpdate={handleTextUpdate}
+          onTextStyleChange={handleTextStyleChange}
+          text={currentText}
+          textStyle={textStyle}
+          isTextSubmitted={isTextSubmitted}
+          setIsTextSubmitted={setIsTextSubmitted}
+        />
+      ),
     },
     {
       key: "4",
@@ -103,6 +162,12 @@ const BagSelected = ({
           onDrop={handleDrop}
           onResize={handleResize}
           onDeleteSticker={handleDeleteSticker}
+          textItems={textItems}
+          onTextRemove={handleRemoveText}
+          onTextClick={handleTextClick}
+          imageURL={imageURL}
+          setImageURL={setImageURL}
+          handleExportImage={handleExportImage}
         />
       </div>
       <div className="w-1/2 p-4 ">
