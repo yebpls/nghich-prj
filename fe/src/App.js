@@ -15,6 +15,7 @@ import UserDraft from "./pages/UserAccount/UserDraft";
 import UserWishlist from "./pages/UserAccount/UserWishlist";
 import CollectionPage from "./pages/HomePage/CollectionPage";
 import OrderUser from "./pages/OrderPage/OrderUser";
+import CustomBagV2 from "./pages/CustomV2/Custom";
 import ProtectRole from "./components/ProtectRoute/ProtectRole";
 import { useEffect } from "react";
 import { getToken } from "./config/http";
@@ -62,7 +63,8 @@ function App() {
               element={<ProductDetailPage />}
             />
             <Route path="/cart" element={<OrderUser />} />
-            <Route path="/customize" element={<CustomBag />} />
+            {/* <Route path="/customize" element={<CustomBag />} /> */}
+            <Route path="/customize" element={<CustomBagV2 />} />
             <Route path="/collection" element={<CollectionPage />} />
             {/* USER ROLE */}
             <Route

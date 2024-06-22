@@ -24,6 +24,31 @@ const TextEditor = ({ onAddText, onUpdateText, onTextChange, editingText }) => {
     }
   }, [editingText]);
 
+  const fonts = [
+    "Be Vietnam",
+    "Open Sans",
+    "Roboto",
+    "Source Sans Pro",
+    "Playfair Display",
+    "Arial",
+    "Times New Roman",
+    "Garamond",
+    "Bookman",
+    "Noto Serif",
+    "Sedgwick Ave",
+    "Amatic SC",
+    "Patrick Hand",
+    "Mali",
+    "Bangers",
+    "Lobster",
+    "Dancing Script",
+    "Pacifico",
+    "Bungee Shade",
+    "Saira Stencil One",
+    "Srisakdi",
+    "Charmonman",
+  ];
+
   const handleAddText = () => {
     if (text.trim() === "") return;
     const newTextElement = {
@@ -118,9 +143,17 @@ const TextEditor = ({ onAddText, onUpdateText, onTextChange, editingText }) => {
             onChange={(e) => setFontFamily(e.target.value)}
             className="p-2 border border-gray-300 rounded-md"
           >
-            <option value="Arial">Arial</option>
-            <option value="Poppins">Poppins</option>
-            <option value="Courier New">Courier New</option>
+            {fonts.map((font) => (
+              <option
+                key={font}
+                value={font}
+                className={`select-option ${
+                  fontFamily === font ? "selected" : ""
+                }`}
+              >
+                {font}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex items-center gap-2">

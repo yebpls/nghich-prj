@@ -41,3 +41,51 @@ button {
   border-color: #ff0000 !important;
   background-color: #ff0000 !important;
 }
+
+
+.select-option {
+  background-color: white;
+  color: black;
+}
+
+.select-option.selected {
+  background-color: lightblue;
+  color: white;
+}
+
+.custom-tab-icon {
+  font-size: 24px;
+  color: white !important;
+}
+
+
+:where(.css-dev-only-do-not-override-m4timi).ant-tabs >.ant-tabs-nav{
+  background-color: black;
+  /* border-radius: 10px 10px 0 0; */
+}
+
+:where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-title {
+  color: white !important;
+  font-size: 20px !important;
+}
+
+:where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-header{
+  color: rgb(255 255 255) !important;
+  background: #ffffff00  !important;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+:where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-content {
+  background-color: #10101069 !important; 
+}
+
+:where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-close {
+  color: rgb(255 255 255 / 45%) !important;
+}
+
+:where(.css-dev-only-do-not-override-m4timi).ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
+  border-color: #B3F200 !important;
+  background-color: #B3F200 !important;
+}
+

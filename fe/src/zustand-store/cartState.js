@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { getCart, setCart } from "../localStorage/handleCart";
 
-const cartCookies = JSON.parse(getCart()).map((item) => ({
+const cartCookies = JSON?.parse(getCart())?.map((item) => ({
   ...item,
   check: true,
 }));

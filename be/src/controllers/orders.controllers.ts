@@ -38,6 +38,19 @@ export const getAllOrderController = async (
   });
 };
 
+export const getAllOrderOfUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload;
+  const orders = await orderServices.getAllOrdersOfUser(user_id);
+  return res.json({
+    message: ORDERS_MESSAGES.GET_ALL_ORDERS_SUCCESS,
+    data: orders,
+  });
+};
+
 export const getOrderByOrderKeyController = async (
   req: Request<GetOrderByOrderKeyReqParams>,
   res: Response,
@@ -73,7 +86,7 @@ export const changeOrderStatusController = async (
   const { order_status } = req.body;
   const order = await orderServices.changeOrderStatus(order_id, order_status);
   return res.json({
-    message: ORDERS_MESSAGES.GET_ORDER_SUCCESS,
+    message: ORDERS_MESSAGES.CHANGE_ORDER_STATUS_SUCCESS,
     data: order,
   });
 };
