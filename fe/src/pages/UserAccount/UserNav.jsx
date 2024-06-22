@@ -1,110 +1,21 @@
 import React from "react";
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useLoginStore } from "../../zustand-store/loginState";
-
+import { items } from "../../data/user-nav";
 
 const UserNav = () => {
   const navigate = useNavigate();
-  const {  logout } = useLoginStore();
+  const { logout } = useLoginStore();
 
-  
-  const logOut = () => {
-    navigate('/')
-    Cookies.remove('auth_token')
+  const userLogout = () => {
+    navigate("/");
+    Cookies.remove("auth_token");
     toast.success("Logout successfully");
-    logout()
+    logout();
   };
-  const items = [
-    {
-      key: "account",
-      label: "Account Settings",
-      icon: <SettingOutlined />,
-      children: [
-        {
-          key: "1",
-          label: (
-            <NavLink
-              className={({ isActive }) =>
-                isActive
-                  ? "text-slate-700 border-slate-950 w-full border-b-[1px] py-1 font-bold"
-                  : ""
-              }
-              to="/user/user-profile"
-            >
-              User Profile
-            </NavLink>
-          ),
-        },
-        {
-          key: "2",
-          label: (
-            <NavLink
-              className={({ isActive }) =>
-                isActive
-                  ? "text-slate-700 border-slate-950 w-full border-b-[1px] py-1 font-bold"
-                  : ""
-              }
-              to="/user/user-address"
-            >
-              Address
-            </NavLink>
-          ),
-        },
-        {
-          key: "3",
-          label: (
-            <NavLink
-              className={({ isActive }) =>
-                isActive
-                  ? "text-slate-700 border-slate-950 w-full border-b-[1px] py-1 font-bold"
-                  : ""
-              }
-              to="/user/user-order"
-            >
-              Orders
-            </NavLink>
-          ),
-        },
-        {
-          key: "4",
-          label: (
-            <NavLink
-              className={({ isActive }) =>
-                isActive
-                  ? "text-slate-700 border-slate-950 w-full border-b-[1px] py-1 font-bold"
-                  : ""
-              }
-              to="/user/user-draft"
-            >
-              Drafts
-            </NavLink>
-          ),
-        },
-        {
-          key: "5",
-          label: (
-            <NavLink
-              className={({ isActive }) =>
-                isActive
-                  ? "text-slate-700 border-slate-950 w-full border-b-[1px] py-1 font-bold"
-                  : ""
-              }
-              to="/user/user-wishlist"
-            >
-              Wishlist
-            </NavLink>
-          ),
-        },
-      ],
-    },
-  ];
+
   return (
     <div className="flex flex-col px-2 pt-1 pb-4 bg-slate-200 rounded-lg">
       <div className="w-1/2 mx-auto pt-8">
@@ -115,10 +26,14 @@ const UserNav = () => {
       </div>
 
       {items[0].children.map((item) => (
-        <div className="p-2 text-sm hover:text-slate-800 ">{item.label}</div>
+        <div>{item.label}</div>
       ))}
-      <a className="p-2 text-sm hover:text-slate-800 cursor-pointer"
-      onClick={logOut}>Logout</a>
+      <a
+        className="px-2 py-1 my-1 text-sm text-red-500 hover:text-white hover:border-0 hover:bg-red-500 max-w-fit border-[1px] border-red-500 rounded-lg cursor-pointer"
+        onClick={userLogout}
+      >
+        Logout
+      </a>
     </div>
   );
 };

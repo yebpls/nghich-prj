@@ -34,3 +34,10 @@ input {
 button {
   display: block;
 }
+
+:where(.css-dev-only-do-not-override-17seli4).ant-radio-wrapper
+  .ant-radio-checked
+  .ant-radio-inner {
+  border-color: #ff0000 !important;
+  background-color: #ff0000 !important;
+}
