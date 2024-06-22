@@ -60,6 +60,28 @@ class ProductServices {
     return result;
   }
 
+  async deleteProductImage(product_id: string, url: string) {
+    const product = await databaseService.products.findOne({
+      _id: new ObjectId(product_id),
+    });
+    if (!product) {
+      throw new ErrorWithStatus(
+        PRODUCTS_MESSAGES.PRODUCT_NOT_FOUND,
+        HTTP_STATUS.NOT_FOUND
+      );
+    }
+    const filename = url.split("/").pop();
+    await deleteFileFromS3(filename as string);
+    // Remove the image URL from the product
+    const result = await databaseService.products.findOneAndUpdate(
+      { _id: new ObjectId(product_id) },
+      { $pull: { images: { url: url } } },
+      { returnDocument: "after" }
+    );
+
+    return result;
+  }
+
   async getAllProducts() {
     const products = await databaseService.products.find().toArray();
     return products;

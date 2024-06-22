@@ -103,6 +103,7 @@ export const PRODUCTS_MESSAGES = {
   ADD_IMAGE_TO_PRODUCT_SUCCESS: "Add image to product success",
   DELETE_PRODUCT_SUCCESS: "Delete product success",
   UPDATE_PRODUCT_SUCCESS: "Update product success",
+  DELETE_IMAGE_SUCCESSFULLY: "Delete Product Image Successfully!!!",
 };
 
 export const ORDERS_MESSAGES = {
