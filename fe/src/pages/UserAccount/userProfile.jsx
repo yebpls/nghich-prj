@@ -12,9 +12,9 @@ import { useGetUserProfile, useUpdateUser } from "../../api/User/user";
 
 export default function UserProfile() {
   const { data: userData, isFetching, error, refetch } = useGetUserProfile();
-  const {mutate: updateUser, isSuccess} = useUpdateUser();
-  const queryClient = useQueryClient();
   console.log("userData", userData?.username);
+  const { mutate: updateUser, isSuccess } = useUpdateUser();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const form = useForm({
     resolver: yupResolver(schemaEditUser),
@@ -35,7 +35,7 @@ export default function UserProfile() {
     console.log("input user", updatedInput);
     console.log("errors", errors);
     updateUser(updatedInput);
-    if(isSuccess){
+    if (isSuccess) {
       refetch();
     }
   }

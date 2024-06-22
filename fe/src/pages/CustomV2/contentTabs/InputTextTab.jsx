@@ -10,16 +10,41 @@ import {
 const { TextArea } = Input;
 const { Option } = Select;
 
-const InputTextTab = () => {
-  const [text, setText] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
+const InputTextTab = ({
+  onTextSubmit,
+  onTextUpdate,
+  onTextStyleChange,
+  text,
+  textStyle,
+  isTextSubmitted,
+  setIsTextSubmitted,
+}) => {
   const handleAddText = () => {
-    setIsSubmitted(true);
+    onTextSubmit(text);
   };
 
-  if (isSubmitted) {
-    return <TextStylingTab text={text} />;
+  const handleTextChange = (e) => {
+    const updatedText = e.target.value;
+    onTextUpdate(updatedText);
+  };
+
+  const handleStyleChange = (key, value) => {
+    const newStyle = { ...textStyle, [key]: value };
+    onTextStyleChange(newStyle);
+  };
+
+  const handleDone = () => {
+    setIsTextSubmitted(false);
+  };
+  if (isTextSubmitted) {
+    return (
+      <TextStylingTab
+        text={text}
+        textStyle={textStyle}
+        onStyleChange={handleStyleChange}
+        onDone={handleDone}
+      />
+    );
   }
 
   return (
@@ -32,7 +57,7 @@ const InputTextTab = () => {
         <TextArea
           rows={4}
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={handleTextChange}
           placeholder="Enter your text here"
           className="mb-4 w-full"
         />
@@ -57,18 +82,7 @@ const InputTextTab = () => {
   );
 };
 
-const TextStylingTab = ({ text }) => {
-  const [font, setFont] = useState("Arial");
-  const [color, setColor] = useState("#000000");
-  const [stroke, setStroke] = useState("#000000");
-  const [shadow, setShadow] = useState("#000000");
-  const [size, setSize] = useState(16);
-  const [stretch, setStretch] = useState(100);
-  const [spacing, setSpacing] = useState(1);
-  const [lineHeight, setLineHeight] = useState(1.2);
-  const [rotate, setRotate] = useState(0);
-  const [align, setAlign] = useState("left");
-
+const TextStylingTab = ({ text, textStyle, onStyleChange, onDone }) => {
   const fonts = [
     "Be Vietnam",
     "Open Sans",
@@ -99,15 +113,15 @@ const TextStylingTab = ({ text }) => {
       <div className="bg-white p-4">
         <p
           style={{
-            fontFamily: font,
-            color: color,
-            WebkitTextStroke: `1px ${stroke}`,
-            textShadow: `2px 2px ${shadow}`,
-            fontSize: `${size}px`,
-            letterSpacing: `${spacing}px`,
-            lineHeight: lineHeight,
-            transform: `rotate(${rotate}deg)`,
-            textAlign: align,
+            fontFamily: textStyle.fontFamily,
+            color: textStyle.color,
+            WebkitTextStroke: `1px ${textStyle.stroke}`,
+            textShadow: `2px 2px ${textStyle.shadow}`,
+            fontSize: `${textStyle.fontSize}px`,
+            letterSpacing: `${textStyle.letterSpacing}px`,
+            lineHeight: textStyle.lineHeight,
+            transform: `rotate(${textStyle.rotate}deg)`,
+            textAlign: textStyle.textAlign,
           }}
         >
           {text}
@@ -116,7 +130,11 @@ const TextStylingTab = ({ text }) => {
       <div className="mt-8 overflow-y-auto h-[450px]">
         <div className="flex items-center mb-4">
           <label className="w-[27%]">Font</label>
-          <Select value={font} onChange={setFont} className="w-2/3">
+          <Select
+            value={textStyle.fontFamily}
+            onChange={(value) => onStyleChange("fontFamily", value)}
+            className="w-2/3"
+          >
             {fonts.map((font, index) => (
               <Option key={index} value={font}>
                 {font}
@@ -128,8 +146,8 @@ const TextStylingTab = ({ text }) => {
           <label className="w-[27%]">Color</label>
           <input
             type="color"
-            value={color}
-            onChange={(e) => setColor(e.target.value)}
+            value={textStyle.color}
+            onChange={(e) => onStyleChange("color", e.target.value)}
             className="w-2/3"
           />
         </div>
@@ -137,8 +155,8 @@ const TextStylingTab = ({ text }) => {
           <label className="w-[27%]">Stroke</label>
           <input
             type="color"
-            value={stroke}
-            onChange={(e) => setStroke(e.target.value)}
+            value={textStyle.stroke}
+            onChange={(e) => onStyleChange("stroke", e.target.value)}
             className="w-2/3"
           />
         </div>
@@ -146,8 +164,8 @@ const TextStylingTab = ({ text }) => {
           <label className="w-[27%]">Shadow</label>
           <input
             type="color"
-            value={shadow}
-            onChange={(e) => setShadow(e.target.value)}
+            value={textStyle.shadow}
+            onChange={(e) => onStyleChange("shadow", e.target.value)}
             className="w-2/3"
           />
         </div>
@@ -156,8 +174,8 @@ const TextStylingTab = ({ text }) => {
           <Slider
             min={10}
             max={72}
-            value={size}
-            onChange={setSize}
+            value={textStyle.fontSize}
+            onChange={(value) => onStyleChange("fontSize", value)}
             className="w-2/3"
           />
         </div>
@@ -166,8 +184,8 @@ const TextStylingTab = ({ text }) => {
           <Slider
             min={50}
             max={200}
-            value={stretch}
-            onChange={setStretch}
+            value={textStyle.stretch}
+            onChange={(value) => onStyleChange("stretch", value)}
             className="w-2/3"
           />
         </div>
@@ -176,8 +194,8 @@ const TextStylingTab = ({ text }) => {
           <Slider
             min={0}
             max={10}
-            value={spacing}
-            onChange={setSpacing}
+            value={textStyle.letterSpacing}
+            onChange={(value) => onStyleChange("letterSpacing", value)}
             className="w-2/3"
           />
         </div>
@@ -187,8 +205,8 @@ const TextStylingTab = ({ text }) => {
             min={1}
             max={3}
             step={0.1}
-            value={lineHeight}
-            onChange={setLineHeight}
+            value={textStyle.lineHeight}
+            onChange={(value) => onStyleChange("lineHeight", value)}
             className="w-2/3"
           />
         </div>
@@ -197,16 +215,16 @@ const TextStylingTab = ({ text }) => {
           <Slider
             min={0}
             max={360}
-            value={rotate}
-            onChange={setRotate}
+            value={textStyle.rotate}
+            onChange={(value) => onStyleChange("rotate", value)}
             className="w-2/3"
           />
         </div>
         <div className="flex items-center mb-4">
           <label className="w-[27%]">Align</label>
           <Radio.Group
-            onChange={(e) => setAlign(e.target.value)}
-            value={align}
+            onChange={(e) => onStyleChange("textAlign", e.target.value)}
+            value={textStyle.textAlign}
             className="w-2/3"
           >
             <Radio.Button value="left">
@@ -220,6 +238,13 @@ const TextStylingTab = ({ text }) => {
             </Radio.Button>
           </Radio.Group>
         </div>
+        <Button
+          type="primary"
+          onClick={onDone}
+          className="w-[100px] bg-black mt-4"
+        >
+          DONE
+        </Button>
       </div>
     </div>
   );
