@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useCartStore } from "../../zustand-store/cartState";
-import { useOrderState } from "../../zustand-store/OrderState";
+import { useCustomBagOrderState } from "../../zustand-store/customBagOrderState";
 
-export default function CartCheckOut({ item, index }) {
+export default function CustomBagCheckOut({ item, index }) {
   const [quantity, setQuantity] = useState(item.quantity);
-  const { updateOrderDetail, deleteOrderDetail, getSubtotal } = useOrderState(
-    (state) => state
-  );
+  const { updateOrderDetail, deleteOrderDetail, getSubtotal } =
+    useCustomBagOrderState((state) => state);
 
   const deleteItem = (itemId) => {
     if (itemId) {
@@ -20,10 +18,11 @@ export default function CartCheckOut({ item, index }) {
 
   useEffect(() => {
     if (quantity > 0) {
-      updateOrderDetail(item?._id, quantity);
+      updateOrderDetail(item.product_id, quantity);
       getSubtotal();
     }
   }, [quantity]);
+
   return (
     <div>
       {item && (
@@ -32,24 +31,21 @@ export default function CartCheckOut({ item, index }) {
             <div className="product-col flex items-center">
               <img
                 className="w-12 md:w-16 lg:w-20 ml-3"
-                src={item?.images[0].url}
+                src={item.url}
                 alt=""
-                srcset=""
+                srcSet=""
               />
               <div className="product-info ml-3">
                 <h6 className="product-name lg:text-sm text-xs font-bold">
-                  {item?.name}
+                  {item.name || `Custom Bag - #${item.product_id}`}
                 </h6>
-                <div className="product-color py-1   text-gray_2">
-                  Color: {item?.color[0].name}
-                </div>
                 <div className="w-20">
                   <div className="text-center w-full my-auto text-md bg-[#CFF53E] rounded-md border-[1px] border-slate-500 flex flex-row">
                     <div
-                      className="w-1/4 font-light  ml-2 hover:bg-slate-300 rounded-lg cursor-pointer"
+                      className="w-1/4 font-light ml-2 hover:bg-slate-300 rounded-lg cursor-pointer"
                       onClick={() =>
                         quantity === 1
-                          ? deleteItem(item?._id)
+                          ? deleteItem(item.product_id)
                           : setQuantity(quantity - 1)
                       }
                     >
@@ -70,11 +66,10 @@ export default function CartCheckOut({ item, index }) {
             </div>
           </div>
           <div className="w-1/5 my-auto">
-            {item?.price_final
-              ?.toLocaleString("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              })}
+            {item.price_final.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
           </div>
         </div>
       )}

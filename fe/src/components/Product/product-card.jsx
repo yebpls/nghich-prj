@@ -39,7 +39,10 @@ export default function ProductCard({ item }) {
                 {item.name}
               </p>
               <div className="product-price font-medium text-lg">
-                {item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                {item.price.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
               </div>
             </div>
           </div>

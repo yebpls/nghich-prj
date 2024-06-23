@@ -82,9 +82,10 @@ const ProductDetailPage = () => {
                   {product?.description}
                 </p>
                 <p className="product-price py-1 lg:py-3 text-md lg:text-2xl text-black font-bold border-b">
-                  {product?.price
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                  {product?.price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
                   <span className="text-gray_2 text-sm lg:text-2xl text-center leading-normal line-through">
                     900.000đ
                   </span>
