@@ -8,6 +8,7 @@ export interface CreateOrderReqBody {
   order_details?: OrderDetail[];
   custom_id?: string;
   coupon_name?: string;
+  subtotal?: number;
 }
 
 export interface GetOrderByOrderKeyReqParams extends ParamsDictionary {
