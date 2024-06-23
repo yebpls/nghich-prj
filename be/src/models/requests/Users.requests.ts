@@ -98,3 +98,7 @@ export interface AddProductToWishListReqParams extends ParamsDictionary {
 export interface DeleteProductFromWishListReqParams extends ParamsDictionary {
   product_id: string;
 }
+
+export interface BanUserReqParams extends ParamsDictionary {
+  user_id: string;
+}

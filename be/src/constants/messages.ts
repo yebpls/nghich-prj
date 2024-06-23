@@ -71,6 +71,9 @@ export const USERS_MESSAGES = {
   UPDATE_ADDRESS_DEFAULT_SUCCESS: "Update address default success",
   FILE_NOT_FOUND: "File not found",
   UPLOAD_SUCCESS: "Upload success",
+  GET_ALL_USER_SUCCESS: "Get all user success",
+  BAN_USER_SUCCESS: "Ban user success",
+  UNBAN_USER_SUCCESS: "Unban user success",
 } as const;
 
 export const COLLECTIONS_MESSAGES = {

@@ -3,11 +3,13 @@ import { Router } from "express";
 import {
   addAddressController,
   addProductToWishListController,
+  banUserController,
   changePassWordController,
   deleteAddressController,
   deleteProductFromWishListController,
   emailVerifyController,
   forgotPassWordController,
+  getAllUserController,
   getMyAddressController,
   getMyProfileController,
   getMyWishListController,
@@ -17,6 +19,7 @@ import {
   registerController,
   resendVerifyEmailController,
   resetPasswordController,
+  unBanUserController,
   updateAddressController,
   UpdateAddressDefaultController,
   updateMyProfileController,
@@ -297,6 +300,35 @@ usersRouter.delete(
   accessTokenValidator,
   verifiedUserValidator,
   wrapRequestHandler(deleteProductFromWishListController)
+);
+
+/**
+ * Description: Get user list
+ * Route: [GET] /users/all
+ * Body: {}
+ */
+usersRouter.get("/all", wrapRequestHandler(getAllUserController));
+
+/**
+ * Description: Ban user
+ * Route: [PUT] /users/ban/:user_id
+ * Body: {}
+ */
+usersRouter.put(
+  "/ban/:user_id",
+  accessTokenValidator,
+  wrapRequestHandler(banUserController)
+);
+
+/**
+ * Description: Unban user
+ * Route: [PUT] /users/unban/:user_id
+ * Body: {}
+ */
+usersRouter.put(
+  "/unban/:user_id",
+  accessTokenValidator,
+  wrapRequestHandler(unBanUserController)
 );
 
 export default usersRouter;

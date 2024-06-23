@@ -512,6 +512,43 @@ class UserService {
       data: user?.wishList,
     };
   }
+
+  async getAllUser() {
+    const users = await databaseService.users
+      .find({}, { projection })
+      .toArray();
+    return users;
+  }
+
+  async banUser(user_id: string) {
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          verify: UserVerifyStatus.Banned,
+        },
+        $currentDate: { updated_at: true },
+      }
+    );
+    return {
+      message: USERS_MESSAGES.BAN_USER_SUCCESS,
+    };
+  }
+
+  async unbanUser(user_id: string) {
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          verify: UserVerifyStatus.Verified,
+        },
+        $currentDate: { updated_at: true },
+      }
+    );
+    return {
+      message: USERS_MESSAGES.UNBAN_USER_SUCCESS,
+    };
+  }
 }
 
 const userService = new UserService();

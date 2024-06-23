@@ -8,6 +8,7 @@ import { USERS_MESSAGES } from "~/constants/messages";
 import {
   AddAddressReqBody,
   AddProductToWishListReqParams,
+  BanUserReqParams,
   ChangePasswordReqBody,
   DeleteAddressReqParams,
   DeleteProductFromWishListReqParams,
@@ -315,5 +316,37 @@ export const deleteProductFromWishListController = async (
     user_id,
     product_id
   );
+  return res.json(result);
+};
+
+export const getAllUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const users = await userService.getAllUser();
+  return res.json({
+    message: USERS_MESSAGES.GET_ALL_USER_SUCCESS,
+    data: users,
+  });
+};
+
+export const banUserController = async (
+  req: Request<BanUserReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.params;
+  const result = await userService.banUser(user_id);
+  return res.json(result);
+};
+
+export const unBanUserController = async (
+  req: Request<BanUserReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.params;
+  const result = await userService.unbanUser(user_id);
   return res.json(result);
 };
