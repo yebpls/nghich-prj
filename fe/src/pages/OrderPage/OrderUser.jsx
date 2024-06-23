@@ -3,6 +3,8 @@ import { useOrderNavState } from "../../zustand-store/OrderNavState.js";
 import CartPage from "../../components/Order/Cart.jsx";
 import CheckOutPage from "../../components/Order/CheckOut.jsx";
 import CompletePage from "../../components/Order/Complete.jsx";
+import { useOrderState } from "../../zustand-store/OrderState.js";
+import { useCustomBagOrderState } from "../../zustand-store/customBagOrderState.js";
 
 const OrderUser = () => {
   const {
@@ -13,7 +15,21 @@ const OrderUser = () => {
     checkout,
     complete,
   } = useOrderNavState();
+
+  const { cartItems } = useOrderState((state) => ({
+    cartItems: state.cartItems,
+  }));
+
+  const { orderState: customBagOrderState } = useCustomBagOrderState(
+    (state) => ({
+      orderState: state.orderState,
+    })
+  );
+
   console.log(cartStatus, checkoutStatus, completeStatus);
+  console.log("Cart Items:", cartItems); // Log cart items
+  console.log("Custom Bag Order State:", customBagOrderState);
+
   return (
     <div>
       <div className=" text-black w-11/12 lg:w-5/6 mx-auto">

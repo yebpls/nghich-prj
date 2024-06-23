@@ -69,7 +69,7 @@ function App() {
             {/* <Route path="/customize" element={<CustomBag />} /> */}
             <Route path="/customize" element={<CustomBagV2 />} />
             <Route path="/collection" element={<CollectionPage />} />
-            <Route path="/my-custom" component={<MyCustom />} />
+            <Route path="/my-custom" element={<MyCustom/>} />
             {/* USER ROLE */}
             <Route
               path="/user"
