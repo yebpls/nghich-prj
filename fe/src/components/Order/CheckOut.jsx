@@ -9,11 +9,17 @@ import { useCheckedItemsState } from "../../zustand-store/AddressSelectState";
 import CartCheckOut from "./CartCheckOut";
 import { useGetProducts } from "../../api/product";
 import { useMakeOrder } from "../../api/orders";
+import AddAddress from "../User/Address/add-address";
 
 const CheckOutPage = () => {
+  const [isAddAddress, setIsAddAddress] = useState(false);
   const { cartItems } = useCartStore((state) => state);
   const { initializeItems } = useCheckedItemsState();
-  const { data: addressData, isLoading: addressLoading } = useGetAddresses();
+  const {
+    data: addressData,
+    isLoading: addressLoading,
+    refetch,
+  } = useGetAddresses();
   const { data: productData, isLoading: productLoading } = useGetProducts();
   const { mutate: makeOrder } = useMakeOrder();
   const { subtotal, orderState, addAddressId, addNewOrderDetails } =
@@ -35,9 +41,9 @@ const CheckOutPage = () => {
 
       // If a default address is found, add its ID
       if (defaultAddress) {
-        addAddressId(defaultAddress._id);
+        addAddressId(defaultAddress?._id);
       }
-      console.log("defaultAddress", defaultAddress._id);
+      // console.log("defaultAddress", defaultAddress._id);
     }
   }, [addressData]);
   useEffect(() => {
@@ -49,22 +55,30 @@ const CheckOutPage = () => {
 
   useEffect(() => {
     if (productData) {
-      const combinedArray = orderState?.order_details?.map((orderItem) => {
-        const productItem = productData.find(
-          (product) => product._id === orderItem.product_id
-        );
-        if (productItem) {
-          const { quantity, ...productItemWithoutQuantity } = productItem;
-          return {
-            ...orderItem,
-            ...productItemWithoutQuantity,
-          };
-        }
-        return orderItem;
-      });
+      const combinedArray = orderState
+        ? orderState?.order_details?.map((orderItem) => {
+            const productItem = productData.find(
+              (product) => product._id === orderItem.product_id
+            );
+            if (productItem) {
+              const { quantity, ...productItemWithoutQuantity } = productItem;
+              return {
+                ...orderItem,
+                ...productItemWithoutQuantity,
+              };
+            }
+            return orderItem;
+          })
+        : [];
       setOrderList(combinedArray);
     }
   }, [productData, orderState]);
+  useEffect(() => {
+    if (isAddAddress) {
+      console.log("isAddAddress", isAddAddress);
+      refetch();
+    }
+  }, [isAddAddress]);
   return (
     <div className="main text-black w-11/12 lg:w-5/6 mx-auto">
       <div className="cart pb-[300px]">
@@ -81,12 +95,19 @@ const CheckOutPage = () => {
                       <AddressItem key={index} item={item} />
                     ))}
                 </div>
-                <button
-                  className="bg-[#CFF53E] w-1/4 py-2 my-3 rounded-lg font-bold mx-4  mt-3 text-sm float-right"
+                {/* <button
+                  className=""
                   type="submit"
                 >
                   Add new
-                </button>
+                </button> */}
+                <AddAddress
+                  className={
+                    "bg-[#CFF53E] w-1/4 py-2 my-3 rounded-lg font-bold mx-4  mt-3 text-sm float-right"
+                  }
+                  isAddAddress={isAddAddress}
+                  setIsAddAddress={setIsAddAddress}
+                />
               </div>
             </div>
             <div className="cart-left w-full lg:w-2/5 pr-0 lg:pr-10 p-3 lg:px-3 border-[1px] border-pink-300 rounded-lg  mb-4">

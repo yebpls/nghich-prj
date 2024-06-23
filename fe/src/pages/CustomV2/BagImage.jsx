@@ -95,8 +95,8 @@ const BagImage = ({
       };
 
       const stickerRect = {
-        left: sticker.x,
-        top: sticker.y,
+        left: sticker.x + 150,
+        top: sticker.y + 190,
         right: sticker.x + sticker.width,
         bottom: sticker.y + sticker.height,
       };
@@ -149,8 +149,8 @@ const BagImage = ({
             <Rnd
               key={sticker.uniqueId}
               default={{
-                x: sticker.x + 150,
-                y: sticker.y + 190,
+                x: sticker.x,
+                y: sticker.y,
                 width: sticker.width,
                 height: sticker.height,
               }}

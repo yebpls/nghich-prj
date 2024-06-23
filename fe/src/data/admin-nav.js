@@ -55,17 +55,17 @@ export const items = [
           </NavLink>
         ),
       },
-      {
-        key: "5",
-        label: (
-          <NavLink
-            className={({ isActive }) => style(isActive)}
-            to="/admin/settings"
-          >
-            Setting
-          </NavLink>
-        ),
-      },
+      // {
+      //   key: "5",
+      //   label: (
+      //     <NavLink
+      //       className={({ isActive }) => style(isActive)}
+      //       to="/admin/settings"
+      //     >
+      //       Setting
+      //     </NavLink>
+      //   ),
+      // },
     ],
   },
 ];
