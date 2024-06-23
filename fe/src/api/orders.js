@@ -12,14 +12,14 @@ const getAllOrders = async () => {
   return data.data;
 };
 
-//GET WARD QUERY BY USE GET WARD FUNCTION
+//GET ALL ORDERS BY USE GET ALL ORDERS
 export const useGetAllOrders = () => {
-  const { data, isLoading, isFetching, error } = useQuery(
+  const { data, isLoading, isFetching, error, refetch } = useQuery(
     "adminOrders",
     getAllOrders
   );
   // console.log("check addresses:", data);
-  return { data, isLoading, isFetching, error };
+  return { data, isLoading, isFetching, error, refetch };
 };
 
 //MAKE ORDER FUNCTION
@@ -51,6 +51,31 @@ export const useMakeOrder = () => {
       onError: (error) => {
         toast.error("order fail");
         console.log(error, "order fail");
+      },
+    }
+  );
+};
+
+// UPDATE ORDER STATUS FUNCTION
+const updateOrderStatus = async (orderId, input) => {
+  const response = await http.patch(
+    `${API_ENDPOINTS.CHANGE_ORDER_STATUS}${orderId}`,
+    input
+  );
+  console.log("order status response", response);
+  return response.data;
+};
+
+// USE ORDER STATUS MUTATION
+export const useUpdateOrderStatus = () => {
+  return useMutation(
+    async ({ orderId, input }) => await updateOrderStatus(orderId, input),
+    {
+      onSuccess: () => {
+        toast.success("Order status updated successfully");
+      },
+      onError: (error) => {
+        toast.error(`Failed to update order status: ${error.message}`);
       },
     }
   );

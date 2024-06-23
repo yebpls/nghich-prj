@@ -6,20 +6,21 @@ import { useOrderNavState } from "../../zustand-store/OrderNavState";
 import { useOrderState } from "../../zustand-store/OrderState";
 
 const CartPage = () => {
-  const [shipMethod, setShipMethod] = useState(1);
   const { cartItems } = useCartStore((state) => state);
   const {
-    addShipMethod,
+    addPaymentType,
     orderState,
     addNewOrderDetails,
     getSubtotal,
     subtotal,
   } = useOrderState((state) => state);
+  const [paymentType, setPaymentType] = useState(orderState.payment_type);
+
   const { checkout } = useOrderNavState();
 
-  const changeShipMethod = (e) => {
-    setShipMethod(e.target.value);
-    addShipMethod(e.target.value);
+  const changePaymentType = (e) => {
+    setPaymentType(e.target.value);
+    addPaymentType(e.target.value);
     console.log("radio checked", e.target.value);
   };
 
@@ -29,7 +30,7 @@ const CartPage = () => {
       addNewOrderDetails(cartItems);
       console.log("check order detail at cart", orderState);
     }
-    console.log("checkout", cartItems, shipMethod, orderState);
+    console.log("checkout", cartItems, paymentType, orderState);
   };
   console.log("cartItems", cartItems);
 
@@ -55,36 +56,35 @@ const CartPage = () => {
                 <h3 className="form-label text-lg pb-4 font-semibold">
                   Cart Summary
                 </h3>
-                <div className="shipping">
-                  <Radio.Group onChange={changeShipMethod} value={shipMethod}>
+                <div className="payment">
+                  <Radio.Group onChange={changePaymentType} value={paymentType}>
+                    <Radio
+                      value={0}
+                      className={
+                        `text-black p-2 rounded-md border-[1px] border-black my-1 w-full` +
+                        (paymentType === 0 ? " bg-pink-400 " : "")
+                      }
+                    >
+                      Ship cod + 30.000vnd
+                    </Radio>
+
                     <Radio
                       value={1}
                       className={
-                        `text-black p-2 rounded-md border-[1px] border-black my-1 w-full` +
-                        (shipMethod === 1 ? " bg-pink-400 " : "")
+                        `text-black p-2 rounded-md border-[1px] border-black my-1  w-full` +
+                        (paymentType === 1 ? " bg-pink-400 " : "")
                       }
-                      s
                     >
-                      Shipping Method 1
+                      Banking
                     </Radio>
-
                     <Radio
                       value={2}
                       className={
                         `text-black p-2 rounded-md border-[1px] border-black my-1  w-full` +
-                        (shipMethod === 2 ? " bg-pink-400 " : "")
+                        (paymentType === 2 ? " bg-pink-400 " : "")
                       }
                     >
-                      Shipping Method 2
-                    </Radio>
-                    <Radio
-                      value={3}
-                      className={
-                        `text-black p-2 rounded-md border-[1px] border-black my-1  w-full` +
-                        (shipMethod === 3 ? " bg-pink-400 " : "")
-                      }
-                    >
-                      Shipping Method 3
+                      MOMO
                     </Radio>
                   </Radio.Group>
                 </div>

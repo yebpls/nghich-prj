@@ -26,22 +26,22 @@ export default function UploadProductImage({ product_id }) {
   };
 
   return (
-    <div className="w-1/2">
+    <div className="w-full">
       <form onSubmit={handleSubmit}>
         <input
-          className="text-xs"
+          className="text-xs text-red-300"
           type="file"
           onChange={(e) => setFile(e.target.files[0])}
         />
 
         {file && (
           <div>
-            <img
-              src={URL.createObjectURL(file)}
-              alt="preview"
-              style={{ width: "100px" }}
-            />
-            <button type="submit" className="text-sm" disabled={!file}>
+            <img src={URL.createObjectURL(file)} alt="preview" />
+            <button
+              type="submit"
+              className="text-sm bg-pink-300 p-1 m-1 rounded-sm"
+              disabled={!file}
+            >
               Upload Image
             </button>
           </div>

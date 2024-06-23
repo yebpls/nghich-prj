@@ -42,7 +42,6 @@ button {
   background-color: #ff0000 !important;
 }
 
-
 .select-option {
   background-color: white;
   color: black;
@@ -58,8 +57,7 @@ button {
   color: white !important;
 }
 
-
-:where(.css-dev-only-do-not-override-m4timi).ant-tabs >.ant-tabs-nav{
+:where(.css-dev-only-do-not-override-m4timi).ant-tabs > .ant-tabs-nav {
   background-color: black;
   /* border-radius: 10px 10px 0 0; */
 }
@@ -69,23 +67,36 @@ button {
   font-size: 20px !important;
 }
 
-:where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-header{
+:where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-header {
   color: rgb(255 255 255) !important;
-  background: #ffffff00  !important;
+  background: #ffffff00 !important;
   text-transform: uppercase;
   text-align: center;
 }
 
 :where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-content {
-  background-color: #10101069 !important; 
+  background-color: #10101069 !important;
 }
 
 :where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-close {
   color: rgb(255 255 255 / 45%) !important;
 }
 
-:where(.css-dev-only-do-not-override-m4timi).ant-radio-wrapper .ant-radio-checked .ant-radio-inner {
-  border-color: #B3F200 !important;
-  background-color: #B3F200 !important;
+:where(.css-dev-only-do-not-override-m4timi).ant-radio-wrapper
+  .ant-radio-checked
+  .ant-radio-inner {
+  border-color: #b3f200 !important;
+  background-color: #b3f200 !important;
 }
 
+:where(.css-dev-only-do-not-override-m4timi).ant-collapse
+  .ant-collapse-item
+  .ant-collapse-header {
+  padding: 0 0 0 0;
+  font-size: medium;
+}
+:where(.css-dev-only-do-not-override-m4timi).ant-collapse
+  .ant-collapse-content
+  > .ant-collapse-content-box {
+  padding: 0 0;
+}

@@ -26,6 +26,7 @@ export default function ProductByOrder() {
       created_at: data.created_at,
     }));
   });
+  console.log("newOrders", newOrders);
   //separate by create_at week
   // Helper function to get the month name
   function getMonthName(date) {
@@ -61,7 +62,7 @@ export default function ProductByOrder() {
     const weekNumber = getWeekNumberWithinMonth(date);
     const monthName = getMonthName(date);
     const weekKey = `${date.getUTCFullYear()}-${monthName}-W${weekNumber}`;
-    const productKey = item.product_id;
+    const productKey = item.product._id;
     console.log("productItem", item);
     if (!acc[productKey]) {
       acc[productKey] = {
@@ -114,21 +115,23 @@ export default function ProductByOrder() {
         <div className="flex">
           <div className="w-2/3 flex">
             <div className="w-1/5 p-3">
-              {/* {item.images[0]?.url ? (
+              {item.images[0]?.url ? (
                 <img src={item.images[0]?.url} alt="" />
               ) : (
                 <UploadProductImage product_id={item._id} />
-              )} */}
-              <UploadProductImage product_id={item._id} />
+              )}
+              {/* <UploadProductImage product_id={item._id} />
 
-              <img src={item.images[0]?.url} alt="" />
+              <img src={item.images[0]?.url} alt="" /> */}
             </div>
             <div className="w-3/5 my-auto p-3 text-black text-lg">
               <div className="text-right">
                 <EditProduct updateItem={item} />
                 <p>{item.quantity}</p>
               </div>
-              <p>{item.name}</p>
+              <p>
+                {item.name}: {item._id}
+              </p>
               <p className="text-xs py-3">{item.description}</p>
             </div>
             <div className="w-1/6 my-auto mx-auto text-3xl font-bold text-black">
