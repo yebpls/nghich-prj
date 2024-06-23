@@ -45,6 +45,14 @@ export interface AddImageProductReqParams extends ParamsDictionary {
   product_id: string;
 }
 
+export interface DeleteProductImageReqParams extends ParamsDictionary {
+  product_id: string;
+}
+
+export interface DeleteProductImageReqBody {
+  url: string;
+}
+
 export interface DeleteProductReqParams extends ParamsDictionary {
   product_id: string;
 }

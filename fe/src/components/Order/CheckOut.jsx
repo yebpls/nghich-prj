@@ -24,7 +24,7 @@ const CheckOutPage = () => {
     if (orderState) {
       makeOrder(orderState);
     }
-    console.log("please order");
+    console.log("please order", orderState);
   };
   useEffect(() => {
     if (addressData) {
@@ -100,7 +100,7 @@ const CheckOutPage = () => {
                   <p>Shipping fee</p>
                 </div>
                 <div className="w-1/4 font-bold">
-                  <p>Free</p>
+                  <p>{orderState.payment_type !== 0 ? "Free" : "30.000"}</p>
                 </div>
               </div>
               <div className="flex flex-row border-b-[1px] p-3 text-sm">

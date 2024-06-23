@@ -19,7 +19,7 @@ export const useOrderState = create((set) => ({
   orderState: {
     order_details: [],
     address_id: "",
-    payment_type: 1,
+    payment_type: 0,
     ship_method: 1,
   },
   subtotal: calculateSubtotal(orderDetails),
@@ -96,6 +96,10 @@ export const useOrderState = create((set) => ({
       orderState: {
         ...state.orderState,
         payment_type,
+        subtotal:
+          payment_type === 0
+            ? calculateSubtotal(state.orderState.order_details) + 30000
+            : calculateSubtotal(state.orderState.order_details),
       },
     }));
   },
@@ -109,8 +113,15 @@ export const useOrderState = create((set) => ({
     }));
   },
   getSubtotal: () => {
-    set((state) => ({
-      subtotal: calculateSubtotal(state.orderState.order_details),
-    }));
+    set((state) => {
+      const baseSubtotal = calculateSubtotal(state.orderState.order_details);
+      const paymentType = state.orderState.payment_type;
+      const adjustedSubtotal =
+        paymentType === 0 ? baseSubtotal + 30000 : baseSubtotal;
+
+      return {
+        subtotal: adjustedSubtotal,
+      };
+    });
   },
 }));

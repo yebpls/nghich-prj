@@ -15,6 +15,7 @@ import UserDraft from "./pages/UserAccount/UserDraft";
 import UserWishlist from "./pages/UserAccount/UserWishlist";
 import CollectionPage from "./pages/HomePage/CollectionPage";
 import OrderUser from "./pages/OrderPage/OrderUser";
+import CustomBagV2 from "./pages/CustomV2/Custom";
 import ProtectRole from "./components/ProtectRoute/ProtectRole";
 import { useEffect } from "react";
 import { getToken } from "./config/http";
@@ -29,7 +30,6 @@ import ProductManage from "./pages/AdminManage/ProductManage";
 import OrderManage from "./pages/AdminManage/OrderManage";
 import CustomerManage from "./pages/AdminManage/CustomerManage";
 import Settings from "./pages/AdminManage/Settings";
-import CustomBagV2 from "./pages/CustomV2/Custom";
 
 function App() {
   const { setRole } = useAccountStore((state) => state);

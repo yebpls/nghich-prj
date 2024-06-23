@@ -8,13 +8,10 @@ import {
 } from "../../../api/product";
 import { productFieldInput } from "../../../data/product-field";
 import { yupResolver } from "@hookform/resolvers/yup";
-import schemaEditUser from "../../../yup/schemaEditUser";
-import schemaAddProduct from "../../../yup/schemaAddProduct";
 import schemaEditProduct from "../../../yup/schemaEditProduct";
 
 export default function EditProduct({ updateItem }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { collections, isLoading: collectionLoading } = useGetCollections();
   const { materials, isLoading: materialLoading } = useGetMaterials();
   const { mutate: editProductMutation, isSuccess } = useEditProduct();
   const productStatus = [
@@ -109,8 +106,11 @@ export default function EditProduct({ updateItem }) {
         edit
       </a>
       <Modal
+        wrapClassName="edit-product-modal" // Add this class to increase specificity
+
         title="Edit Product"
         open={isModalOpen}
+        style={{ backgroundColor: "white" }} // Step 2: Inline style for background
         cancelButtonProps={{
           className: "hidden h-0",
           disabled: true,

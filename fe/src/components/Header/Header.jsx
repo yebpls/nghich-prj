@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { mdiTicket } from "@mdi/js";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import "./Header.css";
@@ -9,12 +9,12 @@ import { useLoginStore } from "../../zustand-store/loginState";
 import { useCartStore } from "../../zustand-store/cartState";
 import { getToken } from "../../config/http";
 import { useAccountStore } from "../../zustand-store/AccountInfoState";
+import SideNav from "./SideNav";
 
 const Header = () => {
   const { countCart } = useCartStore((state) => state);
   const { isLogin, login, logout } = useLoginStore();
   const { role } = useAccountStore();
-
   console.log("isLogin", isLogin);
   const isToken = getToken();
   useEffect(() => {
@@ -54,7 +54,7 @@ const Header = () => {
               />
             </Link>
           </div>
-          <div className="header-navigation-center text-center w-[33%]">
+          <div className="header-navigation-center text-center hidden lg:block w-[33%]">
             <ul className="navigation text-gray_2 font-medium flex justify-center space-x-12">
               <li className="navigation-item">
                 <NavLink
@@ -98,7 +98,7 @@ const Header = () => {
               </li>
             </ul>
           </div>
-          <div className="header-navigation-right w-[33%]">
+          <div className="header-navigation-right w-2/3 lg:w-1/3">
             <ul className="menu flex justify-end space-x-5">
               <li className="menu-item">
                 <Link className="">
@@ -160,6 +160,9 @@ const Header = () => {
                   </Link>
                 </li>
               )}
+              <li className="menu-item lg:hidden">
+                <SideNav />
+              </li>
             </ul>
           </div>
         </div>
