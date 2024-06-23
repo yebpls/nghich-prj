@@ -19,6 +19,7 @@ interface OrderType {
   order_details: OrderDetail[];
   coupon_name?: string;
   custom_id?: ObjectId;
+  subtotal?: number;
 }
 
 export class Order {
@@ -33,6 +34,7 @@ export class Order {
   order_details: OrderDetail[];
   coupon_name?: string;
   custom_id?: ObjectId | "";
+  subtotal?: number;
 
   constructor(order: OrderType) {
     this._id = order._id || new ObjectId();
@@ -46,5 +48,6 @@ export class Order {
     this.order_details = order.order_details;
     this.coupon_name = order.coupon_name || "";
     this.custom_id = order.custom_id || "";
+    this.subtotal = order.subtotal || 0;
   }
 }

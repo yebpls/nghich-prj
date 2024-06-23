@@ -18,6 +18,10 @@ class OrderServices {
   async createOrder(user_id: string, body: CreateOrderReqBody) {
     if (body.order_details) {
       const orderKey = this.generateOrderKey("PD");
+      const subtotal = body.order_details.reduce(
+        (acc, order_detail) => acc + order_detail.price_final,
+        0
+      );
       const _body = {
         ...body,
         order_details: body.order_details.map((order_detail) => ({
@@ -28,6 +32,7 @@ class OrderServices {
         payment_type: body.payment_type,
         user_id: new ObjectId(user_id),
         order_status: OrderStatus.Pending,
+        subtotal,
       };
 
       const order = await databaseService.orders.insertOne({
@@ -53,6 +58,7 @@ class OrderServices {
         user_id: new ObjectId(user_id),
         order_status: OrderStatus.Pending,
         custom_id: new ObjectId(body.custom_id),
+        subtotal: body.subtotal,
       };
 
       const order = await databaseService.orders.insertOne({
