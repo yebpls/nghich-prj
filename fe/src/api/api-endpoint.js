@@ -18,4 +18,7 @@ export const API_ENDPOINTS = {
   POST_CUSTOM: "/customs",
   GET_CUSTOM: "/customs",
   CHANGE_ORDER_STATUS: "/orders/order/",
+  GET_ALL_USERS: "/users/all",
+  BAN_USER: "/users/ban/",
+  UNBAN_USER: "/users/unban/",
 };

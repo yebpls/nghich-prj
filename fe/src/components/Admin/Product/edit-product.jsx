@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal, Select } from "antd";
 import { Controller, set, useForm } from "react-hook-form";
 import {
+  useDeleteProduct,
   useEditProduct,
   useGetCollections,
   useGetMaterials,
@@ -10,10 +11,13 @@ import { productFieldInput } from "../../../data/product-field";
 import { yupResolver } from "@hookform/resolvers/yup";
 import schemaEditProduct from "../../../yup/schemaEditProduct";
 
-export default function EditProduct({ updateItem }) {
+export default function EditProduct({ updateItem, setIsUpdate }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { materials, isLoading: materialLoading } = useGetMaterials();
-  const { mutate: editProductMutation, isSuccess } = useEditProduct();
+  const { mutate: editProductMutation, isSuccess: editSuccess } =
+    useEditProduct();
+  const { mutate: deleteProductMutation, isSuccess: deleteSuccess } =
+    useDeleteProduct();
   const productStatus = [
     { label: "Active", value: 0 },
     { label: "Inactive", value: 1 },
@@ -90,12 +94,25 @@ export default function EditProduct({ updateItem }) {
       width: data.width,
     };
     await editProductMutation({ id: updateItem._id, input: editData });
-    if (isSuccess) {
+    // if (editSuccess) {
+    //   setIsModalOpen(false);
+    // }
+  };
+
+  const deleteProduct = async (id) => {
+    console.log("delete product", id);
+    await deleteProductMutation(id);
+    // if (deleteSuccess) {
+    //   reset();
+    // }
+  };
+  useEffect(() => {
+    if (editSuccess || deleteSuccess) {
+      setIsUpdate(true);
       setIsModalOpen(false);
       reset();
     }
-  };
-
+  }, [editSuccess, deleteSuccess]);
   console.log("updateItem", updateItem, productEditFieldInput);
   return (
     <div>
@@ -106,9 +123,6 @@ export default function EditProduct({ updateItem }) {
         edit
       </a>
       <Modal
-        wrapClassName="edit-product-modal" // Add this class to increase specificity
-
-        title="Edit Product"
         open={isModalOpen}
         style={{ backgroundColor: "white" }} // Step 2: Inline style for background
         cancelButtonProps={{
@@ -120,6 +134,7 @@ export default function EditProduct({ updateItem }) {
       >
         <form onSubmit={handleSubmit(editProduct)}>
           <div className=" w-full">
+            <h1 className="text-center text-lg mb-3">Chỉnh sửa sản phẩm</h1>
             <div className="mb-2 w-full relative">
               {productEditFieldInput.map((item) => (
                 <div className="mb-2 w-full relative">
@@ -177,21 +192,32 @@ export default function EditProduct({ updateItem }) {
               />
             </div>
           </div>
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="border-[1px] border-slate-300 hover:bg-red-400 px-3 py-1 rounded-lg text-red-500 hover:text-white mr-2"
-            >
-              Close
-            </button>
-            <button
-              type="submit"
-              className="bg-pink-400 hover:bg-white hover:text-pink-400 hover:border-pink-400 hover:border-[1px] text-white  px-2 rounded-lg"
-              //   disabled={addLoading}
-            >
-              Add new product{" "}
-            </button>
+          <div className="flex">
+            <div className="w-3/5">
+              <button
+                type="button"
+                onClick={() => deleteProduct(updateItem._id)}
+                className="border-[1px] border-slate-300 hover:bg-red-400 px-3 py-1 rounded-lg text-red-500 hover:text-white mr-2"
+              >
+                Xóa sản phẩm
+              </button>
+            </div>
+            <div className="w-2/5 flex">
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="border-[1px] border-slate-300 hover:bg-red-400 px-3 py-1 rounded-lg text-red-500 hover:text-white mr-2"
+              >
+                Đóng
+              </button>
+              <button
+                type="submit"
+                className="bg-pink-400 hover:bg-white hover:text-pink-400 hover:border-pink-400 hover:border-[1px] text-white  px-2 rounded-lg"
+                //   disabled={addLoading}
+              >
+                Sửa sản phẩm{" "}
+              </button>
+            </div>
           </div>
         </form>
       </Modal>

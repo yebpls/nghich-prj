@@ -1,25 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useGetAllOrders } from "../../../api/orders";
 import { useGetProducts } from "../../../api/product";
 import LineChartComponent from "./ProductChartLine";
 import { create } from "zustand";
 import EditProduct from "./edit-product";
 import UploadProductImage from "./upload-file";
+import { ref } from "yup";
 
-export default function ProductByOrder() {
-  const {
-    data: orders,
-    isLoading: orderLoading,
-    isFetching,
-    error: orderError,
-  } = useGetAllOrders();
-
-  const {
-    data: products,
-    isLoading: productLoading,
-    error: productError,
-  } = useGetProducts();
-
+export default function ProductByOrder({
+  orders,
+  products,
+  isFetching,
+  isUpdate,
+  setIsUpdate,
+}) {
   const newOrders = orders?.flatMap((data) => {
     return data.order_details.map((detail) => ({
       ...detail,
@@ -61,7 +55,7 @@ export default function ProductByOrder() {
     const date = new Date(item.created_at);
     const weekNumber = getWeekNumberWithinMonth(date);
     const monthName = getMonthName(date);
-    const weekKey = `${date.getUTCFullYear()}-${monthName}-W${weekNumber}`;
+    const weekKey = `${monthName}-W${weekNumber}`;
     const productKey = item.product._id;
     console.log("productItem", item);
     if (!acc[productKey]) {
@@ -111,43 +105,64 @@ export default function ProductByOrder() {
 
   return (
     <div>
-      {productList?.map((item) => (
-        <div className="flex">
-          <div className="w-2/3 flex">
-            <div className="w-1/5 p-3">
-              {item.images[0]?.url ? (
-                <img src={item.images[0]?.url} alt="" />
-              ) : (
-                <UploadProductImage product_id={item._id} />
-              )}
-              {/* <UploadProductImage product_id={item._id} />
+      <div className="flex w-2/3">
+        <div className="w-4/5"></div>
+        <div className="w-1/5 flex text-sm">
+          <div className="w-1/2 text-green-500">Available</div>
+          <div className="w-1/2 text-pink-500">Sold</div>
+        </div>
+      </div>
+      {isFetching ? (
+        <div>Loading...</div>
+      ) : (
+        <div>
+          {productList &&
+            productList?.map((item) => (
+              <div className="flex">
+                <div className="w-2/3 flex">
+                  <div className="w-1/5 p-3">
+                    {item.images[0]?.url ? (
+                      <img src={item.images[0]?.url} alt="" />
+                    ) : (
+                      <UploadProductImage product_id={item._id} />
+                    )}
+                    {/* <UploadProductImage product_id={item._id} />
 
               <img src={item.images[0]?.url} alt="" /> */}
-            </div>
-            <div className="w-3/5 my-auto p-3 text-black text-lg">
-              <div className="text-right">
-                <EditProduct updateItem={item} />
-                <p>{item.quantity}</p>
+                  </div>
+                  <div className="w-3/5 my-auto p-3 text-black text-lg">
+                    <div className="text-right mr-9">
+                      <EditProduct
+                        updateItem={item}
+                        setIsUpdate={setIsUpdate}
+                      />
+                    </div>
+                    <p>
+                      {item.name}: {item._id}
+                    </p>
+                    <p className="text-xs py-3">{item.description}</p>
+                  </div>
+                  <div className="flex w-1/5">
+                    <div className="w-1/2 my-auto mx-auto text-3xl font-bold text-green-400">
+                      <p>{item.quantity}</p>
+                    </div>
+                    <div className="w-1/2 my-auto mx-auto text-3xl font-bold text-pink-400">
+                      <p>{item.total}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-1/3 p-3">
+                  <LineChartComponent
+                    key={item.product_id}
+                    labels={item.created_at}
+                    labelChart={item.name}
+                    quantity={item.sold_quantity}
+                  />
+                </div>
               </div>
-              <p>
-                {item.name}: {item._id}
-              </p>
-              <p className="text-xs py-3">{item.description}</p>
-            </div>
-            <div className="w-1/6 my-auto mx-auto text-3xl font-bold text-black">
-              <p>{item.total}</p>
-            </div>
-          </div>
-          <div className="w-1/3 p-3">
-            <LineChartComponent
-              key={item.product_id}
-              labels={item.created_at}
-              labelChart={item.name}
-              quantity={item.sold_quantity}
-            />
-          </div>
+            ))}
         </div>
-      ))}
+      )}
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "react-query";
 import { API_ENDPOINTS } from "./api-endpoint";
 import http from "../config/http";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const getProducts = async () => {
   const { data } = await http.get(API_ENDPOINTS.ALL_PRODUCT);
@@ -10,11 +11,11 @@ const getProducts = async () => {
 };
 
 export const useGetProducts = () => {
-  const { data, isLoading, isFetching, error } = useQuery(
+  const { data, isLoading, isFetching, error, refetch } = useQuery(
     "products",
     getProducts
   );
-  return { data, isLoading, error, isFetching };
+  return { data, isLoading, error, isFetching, refetch };
 };
 
 //GET PRODUCT BY ID
@@ -110,6 +111,34 @@ export const useEditProduct = () => {
     onError: (error) => {
       console.log(error, "edit product fail");
       toast.error("Edit product fail");
+    },
+  });
+};
+
+// DELETE PRODUCT FUNCTION
+async function deleteProduct(id) {
+  const { data } = await http.delete(API_ENDPOINTS.PRODUCT_DETAIL + id);
+  console.log("delete product:", data);
+
+  return data;
+}
+
+// DELETE PRODUCT MUTATION BY USE DELETE PRODUCT FUNCTION
+export const useDeleteProduct = () => {
+  const navigate = useNavigate();
+  return useMutation((id) => deleteProduct(id), {
+    onSuccess: () => {
+      toast.success("Delete product successfully");
+      // Optionally, navigate to a different page after successful deletion
+      // navigate("/products");
+    },
+    onError: (error) => {
+      if (error?.response.status === 401) {
+        toast.error("Please login to delete product");
+        navigate("/login");
+      } else {
+        toast.error("Delete product failed");
+      }
     },
   });
 };
