@@ -19,15 +19,6 @@ const CustomBag = () => {
   const [textElements, setTextElements] = useState([]);
   const [editingText, setEditingText] = useState(null);
 
-  console.log("selectedBag", selectedBag);
-
-  console.log("selectedStickers", selectedStickers);
-
-  const handleExport = (dataUrl) => {
-    // Send the dataUrl to your backend or handle it as needed
-    console.log("Exported Image URL:", dataUrl);
-  };
-
   const handleStepChange = (step) => {
     setCurrentStep(step);
   };
