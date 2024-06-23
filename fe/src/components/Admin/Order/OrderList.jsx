@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useGetAllOrders } from "../../../api/orders";
 import OrderListLine from "./OrderListLine";
+import { useAllUser } from "../../../api/User/user";
 
 export default function OrderList() {
   const { data: orders, isFetching, isLoading, refetch } = useGetAllOrders();
+  const { data: users } = useAllUser();
   const [isUpdate, setIsUpdate] = useState(false);
-  console.log(orders, "orders");
+  console.log(orders, users, "orders");
 
-  // const triggerReload = () => {
-  //   console.log("trigger reload");
-  //   refetch();
-  // };
-
+  const combinedList = orders?.map((order) => {
+    // Find the user that matches the order's user_id
+    const user = users?.find((user) => user._id === order.user_id);
+    // Return a new object that combines the order with the username
+    // If the user is found, add the username, otherwise, username is undefined
+    return {
+      ...order,
+      username: user ? user.username : undefined,
+    };
+  });
   useEffect(() => {
     console.log(isUpdate, "is update");
     if (isUpdate) {
@@ -24,17 +31,19 @@ export default function OrderList() {
   return (
     <div>
       <div className="w-full flex p-3 text-sm text-black">
-        <div className="w-1/6 px-3">Order key</div>
+        <div className="w-1/6 pr-3 pl-9">Username</div>
+
+        <div className="w-1/4 pr-3 pl-9">Order Detail</div>
+
         <div className="w-[13%] px-3">Value</div>
-        <div className="w-1/5 px-3">Order Detail</div>
-        <div className="w-[13%] px-3">Payment</div>
-        <div className="w-[13%] px-3">Status</div>
+        <div className="w-[10%] px-3">Payment</div>
+        <div className="w-[10%] px-3">Status</div>
       </div>
       {isLoading ? ( // Changed to !isLoading to correctly display when not loading
         <div>Loading</div>
       ) : (
         <div>
-          {orders?.map((order) =>
+          {combinedList?.map((order) =>
             order.order_key ? (
               <OrderListLine
                 key={order.order_key} // Added key prop for list rendering

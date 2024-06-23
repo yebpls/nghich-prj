@@ -8,7 +8,11 @@ import {
 } from "../../../api/address";
 import { useAddUserAddressMutation } from "../../../api/User/address";
 
-export default function AddAddress() {
+export default function AddAddress({
+  className,
+  isAddAddress,
+  setIsAddAddress,
+}) {
   const [provinceCode, setProvinceCode] = useState(); //DEFAULT PROVINCE
   const [districtCode, setDistrictCode] = useState(); //DEFAULT DISTRICT
   const [wardCode, setWardCode] = useState(); //DEFAULT WARD
@@ -101,11 +105,7 @@ export default function AddAddress() {
   //ADD NEW ADDRESS
   const addAddress = (data) => {
     console.log("data", data);
-    // await addAddressMutation(data);
-    // if (addSuccess) {
-    //   setIsModalOpen(false);
-    //   reset();
-    // }
+    addAddressMutation(data);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -153,11 +153,25 @@ export default function AddAddress() {
       `${selectedWard?.label}, ${selectedDistrict?.label}, ${selectedProvince?.label}`
     );
   }, [selectedProvince, selectedDistrict, selectedWard]);
+  useEffect(() => {
+    if (addSuccess) {
+      setIsAddAddress(true);
+      setIsModalOpen(false);
+      reset();
+    }
+  }, [addSuccess]);
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
-        Add new address
-      </Button>
+      {className ? (
+        <button className={className} onClick={showModal}>
+          Add new
+        </button>
+      ) : (
+        <Button type="primary" onClick={showModal}>
+          Add new address
+        </Button>
+      )}
+
       <Modal
         title="New Address"
         open={isModalOpen}

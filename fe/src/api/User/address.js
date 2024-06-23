@@ -52,12 +52,12 @@ const getAllAddress = async () => {
 
 //GET WARD QUERY BY USE GET WARD FUNCTION
 export const useGetAddresses = () => {
-  const { data, isLoading, isFetching, error } = useQuery(
+  const { data, isLoading, isFetching, error, refetch } = useQuery(
     "userAddress",
     getAllAddress
   );
   // console.log("check addresses:", data);
-  return { data, isLoading, isFetching, error };
+  return { data, isLoading, isFetching, error, refetch };
 };
 
 //ADD ADDRESS

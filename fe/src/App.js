@@ -30,6 +30,8 @@ import ProductManage from "./pages/AdminManage/ProductManage";
 import OrderManage from "./pages/AdminManage/OrderManage";
 import CustomerManage from "./pages/AdminManage/CustomerManage";
 import Settings from "./pages/AdminManage/Settings";
+import MyCustom from "./pages/CustomV2/GetCustom/getMyCustom";
+import UserBanned from "./pages/UserAccount/UserBanned";
 
 function App() {
   const { setRole } = useAccountStore((state) => state);
@@ -57,6 +59,7 @@ function App() {
           {/* Main routes */}
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
+            <Route path="/reject" element={<UserBanned />} />
             <Route path="/products" element={<ProductPage />} />
             <Route
               path="/productDetail/:productId"
@@ -66,6 +69,7 @@ function App() {
             {/* <Route path="/customize" element={<CustomBag />} /> */}
             <Route path="/customize" element={<CustomBagV2 />} />
             <Route path="/collection" element={<CollectionPage />} />
+            <Route path="/my-custom" component={<MyCustom />} />
             {/* USER ROLE */}
             <Route
               path="/user"
