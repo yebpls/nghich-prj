@@ -4,7 +4,6 @@ import http from "../config/http";
 
 // GET CUSTOM BAGS FUNCTION
 const getCustom = async () => {
-    debugger
   const { data } = await http.get(API_ENDPOINTS.GET_CUSTOM);
   console.log("query custom bags:", data);
   return data.data;

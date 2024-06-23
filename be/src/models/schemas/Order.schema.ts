@@ -7,6 +7,12 @@ export interface OrderDetail {
   price_final: number;
 }
 
+export interface CustomDetail {
+  custom_id: ObjectId;
+  quantity: number;
+  price_final: number;
+}
+
 interface OrderType {
   _id?: ObjectId;
   order_key?: string;

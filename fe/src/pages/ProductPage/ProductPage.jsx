@@ -29,7 +29,7 @@ const ProductPage = () => {
                 FILTER BY
               </h3>
               <div className="filter-list">
-                <h4 className="filter-type text-[20px]">FILTER TYPE LABEL</h4>
+                <h4 className="filter-type text-[20px]">COLLECTION</h4>
                 <ul className="filter">
                   <li className="filter-item ml-5">
                     <input
@@ -39,7 +39,7 @@ const ProductPage = () => {
                       id=""
                     />
                     <span className="filter-label text-[16px] ml-3">
-                      Filter label
+                      Ném Collection (10)
                     </span>
                   </li>
                   <li className="filter-item ml-5">
@@ -50,7 +50,7 @@ const ProductPage = () => {
                       id=""
                     />
                     <span className="filter-label text-[16px] ml-3">
-                      Filter label
+                      Phá Collection (12)
                     </span>
                   </li>
                   <li className="filter-item ml-5">
@@ -61,7 +61,7 @@ const ProductPage = () => {
                       id=""
                     />
                     <span className="filter-label text-[16px] ml-3">
-                      Filter label
+                      Z!P Collection (9)
                     </span>
                   </li>
                   <li className="filter-item ml-5">
@@ -72,11 +72,11 @@ const ProductPage = () => {
                       id=""
                     />
                     <span className="filter-label text-[16px] ml-3">
-                      Filter label
+                      KICK Collection (11)
                     </span>
                   </li>
                 </ul>
-                <h4 className="filter-type text-[20px]">FILTER TYPE LABEL</h4>
+                <h4 className="filter-type text-[20px]">FORM & SIZE</h4>
                 <ul className="filter">
                   <li className="filter-item ml-5">
                     <input
@@ -86,7 +86,7 @@ const ProductPage = () => {
                       id=""
                     />
                     <span className="filter-label text-[16px] ml-3">
-                      Filter label
+                      Vertical rectangle (23)
                     </span>
                   </li>
                   <li className="filter-item ml-5">
@@ -97,7 +97,7 @@ const ProductPage = () => {
                       id=""
                     />
                     <span className="filter-label text-[16px] ml-3">
-                      Filter label
+                      Horizontal rectangle (2)
                     </span>
                   </li>
                   <li className="filter-item ml-5">
@@ -108,7 +108,7 @@ const ProductPage = () => {
                       id=""
                     />
                     <span className="filter-label text-[16px] ml-3">
-                      Filter label
+                      Square (1)
                     </span>
                   </li>
                   <li className="filter-item ml-5">
@@ -119,11 +119,11 @@ const ProductPage = () => {
                       id=""
                     />
                     <span className="filter-label text-[16px] ml-3">
-                      Filter label
+                      Others (9)
                     </span>
                   </li>
                 </ul>
-                <h4 className="filter-type text-[20px]">FILTER TYPE LABEL</h4>
+                <h4 className="filter-type text-[20px]">MATERIALS</h4>
                 <ul className="filter  ">
                   <li className="filter-item ml-5">
                     <input
@@ -133,7 +133,7 @@ const ProductPage = () => {
                       id=""
                     />
                     <span className="filter-label text-[16px] ml-3">
-                      Filter label
+                      Canvas (34)
                     </span>
                   </li>
                   <li className="filter-item ml-5">
@@ -144,29 +144,7 @@ const ProductPage = () => {
                       id=""
                     />
                     <span className="filter-label text-[16px] ml-3">
-                      Filter label
-                    </span>
-                  </li>
-                  <li className="filter-item ml-5">
-                    <input
-                      className="w-[16px] h-[16px]"
-                      type="checkbox"
-                      name=""
-                      id=""
-                    />
-                    <span className="filter-label text-[16px] ml-3">
-                      Filter label
-                    </span>
-                  </li>
-                  <li className="filter-item ml-5">
-                    <input
-                      className="w-[16px] h-[16px]"
-                      type="checkbox"
-                      name=""
-                      id=""
-                    />
-                    <span className="filter-label text-[16px] ml-3">
-                      Filter label
+                      Leather (12)
                     </span>
                   </li>
                 </ul>

@@ -200,22 +200,22 @@ const HomePage = () => {
               <ul className="highlight w-[85%]">
                 <li className="highlight-item pb-2">
                   <div className="item-wrapper bg-white p-3 rounded-lg">
-                    item
+                    CUSTOMIZE YOUR OWN TOTE
                   </div>
                 </li>
                 <li className="highlight-item pb-2">
                   <div className="item-wrapper bg-white p-3 rounded-lg">
-                    item
+                    PRINT IN YOUR BAG
                   </div>
                 </li>
                 <li className="highlight-item pb-2">
                   <div className="item-wrapper bg-white p-3 rounded-lg">
-                    item
+                    DESIGN WHAT YOUR REALY WANT FOR YOURSELF
                   </div>
                 </li>
                 <li className="highlight-item pb-2">
                   <div className="item-wrapper bg-white p-3 rounded-lg">
-                    item
+                    DESIGN WHAT YOUR REALY WANT FOR YOURSELF
                   </div>
                 </li>
               </ul>
@@ -303,112 +303,85 @@ const HomePage = () => {
               </div>
               <div className="content-box w-[70%] py-[30px]">
                 <h1 className="text-25px text-pink_1">
-                  CUSTOM DESIGN OPTIONS:
+                  Marketing and Branding Services
                 </h1>
                 <br />
-                <p className="text-14px text-black">PERSONALIZATION:</p>
+                <p className="text-14px text-black">Custom Embroidery</p>
                 <p className="text-12px text-gray_2">
-                  Allow customers to add their own photos, artwork, or text to
-                  the tote bag. Personalized designs make the bag unique and
-                  meaningful.
+                  Embroider logos, names, or intricate designs for a premium
+                  look2.
                 </p>
                 <br />
-                <p className="text-14px text-black">COLOR CHOICES:</p>
+                <p className="text-14px text-black">Promotional Products</p>
                 <p className="text-12px text-gray_2">
-                  Offer a range of colors for the bag itself and any design
-                  elements.
+                  Create branded tote bags for businesses to use as giveaways or
+                  promotional items.
                 </p>
                 <br />
-                <p className="text-14px text-black">TYPOGRAPHY:</p>
+                <p className="text-14px text-black">Personalized Gifts</p>
                 <p className="text-12px text-gray_2">
-                  Let customers choose fonts and add custom text (names, quotes,
-                  slogans).
+                  Design custom tote bags for special occasions (birthdays,
+                  weddings, etc.).
                 </p>
                 <br />
-                <p className="text-14px text-black">GRAPHICS AND ICONS:</p>
+                <p className="text-14px text-black">
+                  Delivery and Satisfaction Guarantee
+                </p>
                 <p className="text-12px text-gray_2">
-                  Durable Materials: Use high-quality materials like cotton
-                  canvas or eco-friendly fabrics.
+                  Free Shipping: Offer free standard shipping to encourage
+                  orders.
                   <br />
-                  Sturdy Construction: Reinforce seams and handles to ensure the
-                  bag lasts.
+                  Express Delivery: Provide faster shipping options for those in
+                  a hurry.
                   <br />
-                  Print Quality: Ensure crisp and vibrant printing for the
-                  custom designs.
+                  Customer Happiness Guarantee: Assure customers that you’ll
+                  address any issues with their order.
                 </p>
               </div>
             </div>
             <div className="section-right sm:col-span-1  flex justify-center flex-wrap">
               <div className="content-box w-[70%] py-[30px]">
-                <h1 className="text-25px text-pink_1">
-                  CUSTOM DESIGN OPTIONS:
-                </h1>
+                <h1 className="text-25px text-pink_1">Material and Quality</h1>
                 <br />
-                <p className="text-14px text-black">PERSONALIZATION:</p>
+                <p className="text-14px text-black">Durable Materials</p>
                 <p className="text-12px text-gray_2">
-                  Allow customers to add their own photos, artwork, or text to
-                  the tote bag. Personalized designs make the bag unique and
-                  meaningful.
+                  Use high-quality materials like cotton canvas or eco-friendly
+                  fabrics.
                 </p>
                 <br />
-                <p className="text-14px text-black">COLOR CHOICES:</p>
+                <p className="text-14px text-black">Sturdy Construction</p>
                 <p className="text-12px text-gray_2">
-                  Offer a range of colors for the bag itself and any design
-                  elements.
+                   Reinforce seams and handles to ensure the bag lasts.
                 </p>
                 <br />
-                <p className="text-14px text-black">TYPOGRAPHY:</p>
+                <p className="text-14px text-black">Print Quality</p>
                 <p className="text-12px text-gray_2">
-                  Let customers choose fonts and add custom text (names, quotes,
-                  slogans).
-                </p>
-                <br />
-                <p className="text-14px text-black">GRAPHICS AND ICONS:</p>
-                <p className="text-12px text-gray_2">
-                  Durable Materials: Use high-quality materials like cotton
-                  canvas or eco-friendly fabrics.
-                  <br />
-                  Sturdy Construction: Reinforce seams and handles to ensure the
-                  bag lasts.
-                  <br />
-                  Print Quality: Ensure crisp and vibrant printing for the
-                  custom designs.
+                  Ensure crisp and vibrant printing for the custom designs.
                 </p>
               </div>
               <div className="content-box w-[70%] py-[30px]">
-                <h1 className="text-25px text-pink_1">
-                  CUSTOM DESIGN OPTIONS:
-                </h1>
+                <h1 className="text-25px text-pink_1">Additional Feature</h1>
                 <br />
-                <p className="text-14px text-black">PERSONALIZATION:</p>
+                <p className="text-14px text-black">Inner Pockets</p>
                 <p className="text-12px text-gray_2">
-                  Allow customers to add their own photos, artwork, or text to
-                  the tote bag. Personalized designs make the bag unique and
-                  meaningful.
+                  Include pockets for organization.
                 </p>
                 <br />
-                <p className="text-14px text-black">COLOR CHOICES:</p>
+                <p className="text-14px text-black">Lining</p>
                 <p className="text-12px text-gray_2">
-                  Offer a range of colors for the bag itself and any design
-                  elements.
+                  Consider adding a lining for extra durability and style.
                 </p>
                 <br />
-                <p className="text-14px text-black">TYPOGRAPHY:</p>
+                <p className="text-14px text-black">Closure Options</p>
                 <p className="text-12px text-gray_2">
-                  Let customers choose fonts and add custom text (names, quotes,
-                  slogans).
+                  Offer zippers, snaps, or open-top designs.
                 </p>
                 <br />
-                <p className="text-14px text-black">GRAPHICS AND ICONS:</p>
                 <p className="text-12px text-gray_2">
-                  Durable Materials: Use high-quality materials like cotton
-                  canvas or eco-friendly fabrics.
-                  <br />
-                  Sturdy Construction: Reinforce seams and handles to ensure the
-                  bag lasts.
-                  <br />
-                  Print Quality: Ensure crisp and vibrant printing for the
-                  custom designs.
+                  Remember, the key is to align your services with your brand’s
+                  identity and the preferences of your target audience. Whether
+                  it’s functional features, customization, or eco-conscious
+                  materials, make sure your tote bags stand out!
                 </p>
               </div>
             </div>
