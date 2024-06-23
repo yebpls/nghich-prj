@@ -10,6 +10,7 @@ import http from "../../config/http";
 import html2canvas from "html2canvas";
 import Compressor from "compressorjs";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CustomBagV2 = () => {
   const [step, setStep] = useState(1);
@@ -35,6 +36,8 @@ const CustomBagV2 = () => {
   });
   const [isTextSubmitted, setIsTextSubmitted] = useState(false);
   const [activeTab, setActiveTab] = useState("1");
+
+  const navigate = useNavigate();
 
   const IMGUR_CLIENT_ID = "884e8514127eed3";
 
@@ -84,6 +87,7 @@ const CustomBagV2 = () => {
         message: "Success",
         description: "Custom bag posted successfully!",
       });
+      navigate("/my-custom");
     },
     onError: (error) => {
       console.error("Failed to post custom bag:", error);
@@ -193,7 +197,7 @@ const CustomBagV2 = () => {
 
   return (
     <div>
-      <Sidebar />
+      {/* <Sidebar /> */}
       {step === 1 && <BagSlider onBagSelect={handleBagSelect} />}
       {step === 2 && (
         <div>

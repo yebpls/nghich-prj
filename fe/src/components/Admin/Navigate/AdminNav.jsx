@@ -22,7 +22,8 @@ const AdminNav = () => {
         <div>{item.label}</div>
       ))}
       <a
-        className="px-2 font-normal py-1 my-1 text-sm text-red-500 hover:text-white hover:border-0 hover:bg-red-500 max-w-fit border-[1px] border-red-500 rounded-lg cursor-pointer"
+        className="      p-4 py-3 my-4 w-full text-lg text-black font-semibold hover:text-white hover:bg-pink-400 cursor-pointer
+"
         onClick={adminLogout}
       >
         Logout

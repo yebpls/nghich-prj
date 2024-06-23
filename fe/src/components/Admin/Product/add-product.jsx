@@ -10,7 +10,7 @@ import { productFieldInput } from "../../../data/product-field";
 import schemaAddProduct from "../../../yup/schemaAddProduct";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-export default function AddProduct() {
+export default function AddProduct({ isUpdate, setIsUpdate }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [material, setMaterial] = useState();
   const [collection, setCollection] = useState();
@@ -56,12 +56,14 @@ export default function AddProduct() {
       collection_id: collection,
     };
     await addProductMutation(addData);
+  };
+  useEffect(() => {
     if (isSuccess) {
+      setIsUpdate(true);
       setIsModalOpen(false);
       reset();
     }
-  };
-
+  }, [isSuccess]);
   useEffect(() => {
     if (materials.length > 0) {
       setMaterial(materials[0].value);

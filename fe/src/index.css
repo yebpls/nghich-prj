@@ -75,7 +75,7 @@ button {
 }
 
 :where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-content {
-  background-color: #10101069 !important;
+  /* background-color: #10101069 !important; */
 }
 
 :where(.css-dev-only-do-not-override-m4timi).ant-modal .ant-modal-close {
@@ -95,8 +95,7 @@ button {
   padding: 0 0 0 0;
   font-size: medium;
 }
-:where(.css-dev-only-do-not-override-m4timi).ant-collapse
-  .ant-collapse-content
-  > .ant-collapse-content-box {
-  padding: 0 0;
+
+:where(.css-dev-only-do-not-override-m4timi).ant-modal {
+  padding-bottom: 0;
 }

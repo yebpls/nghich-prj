@@ -36,7 +36,7 @@ export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
   const items = [
     {
       key: "1",
-      label: "Order List",
+      label: order.order_key,
       children: (
         <div className="">
           {order.order_details?.map((item) => (
@@ -52,14 +52,11 @@ export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
   ];
   return (
     <div className="p-3 flex w-full" key={order.order_key}>
-      <div className="px-3 w-1/6">
-        <h2>{order.order_key}</h2>
+      <div className="w-1/4 px-3">
+        <Collapse ghost accordion items={items} />
       </div>
       <div className="px-3 w-[13%]">
         <p>{total_price}</p>
-      </div>
-      <div className="w-1/5 px-3">
-        <Collapse ghost accordion items={items} />
       </div>
       <div className="px-3 w-[13%]">
         <p>

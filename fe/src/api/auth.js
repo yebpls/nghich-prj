@@ -25,34 +25,29 @@ export const useLoginMutation = () => {
   const setLogin = useLoginStore((state) => state.login);
   const { setRole } = useAccountStore((state) => state);
 
-  return useMutation(
-    async (input) => {
-      const data = await login(input);
+  return useMutation((input) => login(input), {
+    onSuccess: async (data) => {
       Cookies.set("auth_token", data?.access_token);
-      return data;
-    },
-    {
-      onSuccess: async (data) => {
-        let token = data.access_token;
-        token = await jwtDecode(token);
-        setRole(token.role);
-        if (token.role === 1) {
-          navigate("/user");
-          toast.success("Hello User");
-        } else {
-          navigate("/admin");
-          toast.success("Hello Admin");
-        }
 
-        setLogin();
-        console.log(data, "login success");
-      },
-      onError: (error) => {
-        toast.error("login fail");
-        console.log(error, "login fail");
-      },
-    }
-  );
+      let token = data.access_token;
+      token = await jwtDecode(token);
+      setRole(token.role);
+      if (token.role === 1) {
+        navigate("/user");
+        toast.success("Hello User");
+      } else {
+        navigate("/admin");
+        toast.success("Hello Admin");
+      }
+
+      setLogin();
+      console.log(data, "login success");
+    },
+    onError: (error) => {
+      toast.error("login fail");
+      console.log(error, "login fail");
+    },
+  });
 };
 
 //REGISTER FUNCTION

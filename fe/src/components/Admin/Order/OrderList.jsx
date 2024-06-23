@@ -7,11 +7,6 @@ export default function OrderList() {
   const [isUpdate, setIsUpdate] = useState(false);
   console.log(orders, "orders");
 
-  // const triggerReload = () => {
-  //   console.log("trigger reload");
-  //   refetch();
-  // };
-
   useEffect(() => {
     console.log(isUpdate, "is update");
     if (isUpdate) {
@@ -24,9 +19,9 @@ export default function OrderList() {
   return (
     <div>
       <div className="w-full flex p-3 text-sm text-black">
-        <div className="w-1/6 px-3">Order key</div>
+        <div className="w-1/4 pr-3 pl-9">Order Detail</div>
+
         <div className="w-[13%] px-3">Value</div>
-        <div className="w-1/5 px-3">Order Detail</div>
         <div className="w-[13%] px-3">Payment</div>
         <div className="w-[13%] px-3">Status</div>
       </div>
