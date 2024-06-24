@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { Card, Row, Col, Spin, notification, Button, Modal, Input } from "antd";
+import { Card, Row, Col, Spin, notification, Button } from "antd";
 import http from "../../../config/http";
 import { API_ENDPOINTS } from "../../../api/api-endpoint";
 import {
   deleteCustomBag,
   useGetCustom,
+  useGetCustomPublic,
   useMakeCustomPublicMutation,
-  useUpdateCustomNameMutation,
 } from "../../../api/custom";
 import { useNavigate } from "react-router-dom";
 import CartCustom from "../OrderCustom/CartCustom";
@@ -15,7 +15,7 @@ import styled from "styled-components";
 import { format } from "date-fns";
 import BreadcrumbWithBackButton from "../../../components/UI/Breadcrum";
 import moment from "moment/moment";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import ConfirmButton from "../../../components/UI/ModalConfirm";
 
 const CustomButton = styled(Button)`
@@ -23,7 +23,7 @@ const CustomButton = styled(Button)`
   color: black;
   border: 1px solid black;
   border-radius: 8px; /* Adjust the value as needed for roundness */
-  width: 76% !important;
+  width: 100% !important;
   margin: 13px 2px;
 
   &:hover {
@@ -46,34 +46,6 @@ const CustomDelButton = styled(ConfirmButton)`
   }
 `;
 
-const StyledModal = styled(Modal)`
-  .ant-modal-title {
-    color: #cef53d !important; /* Change the color to your desired color */
-  }
-
-  .ant-modal-close {
-    color: rgb(0 0 0 / 45%) !important;
-  }
-
-  .ant-modal-content {
-    background-color: #00000059 !important;
-  }
-`;
-
-const CustomEditButton = styled(Button)`
-  background-color: gray;
-  color: white;
-  border: 1px solid black;
-  border-radius: 8px; /* Adjust the value as needed for roundness */
-  width: 10% !important;
-  font-size: 14px;
-
-  &:hover {
-    background-color: white !important;
-    color: black;
-  }
-`;
-
 const AddCusButton = styled(Button)`
   background-color: #ff78c5;
   color: black;
@@ -93,12 +65,9 @@ const ColorSwatch = ({ color }) => (
   ></div>
 );
 
-const MyCustom = () => {
-  const { data, isLoading, error, refetch } = useGetCustom();
+const ListCustomPublic = () => {
+  const { data, isLoading, error, refetch } = useGetCustomPublic();
   const navigate = useNavigate();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [productName, setProductName] = useState("");
-  const [customBagIdEdit, setCustomBagIdEdit] = useState(null);
 
   const [prices, setPrices] = useState(400000);
   const [cartItems, setCartItems] = useState(() => {
@@ -167,93 +136,12 @@ const MyCustom = () => {
     });
   };
 
-  const handleRemoveItem = (key) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.key !== key));
-  };
-
-  const handleUpdateQuantity = (key, quantity) => {
-    if (quantity <= 0) return;
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.key === key
-          ? { ...item, quantity, subtotal: item.price * quantity }
-          : item
-      )
-    );
-  };
-
-  const total = cartItems.reduce((sum, item) => sum + item.subtotal, 0);
-
-  const { mutate: deleteBagMutation } = useMutation(deleteCustomBag, {
-    onSuccess: () => {
-      notification.success({
-        message: "Success",
-        description: "Custom bag deleted successfully.",
-      });
-      refetch(); // Refetch custom bags after deletion
-    },
-    onError: (error) => {
-      console.error("Failed to delete custom bag:", error);
-      notification.error({
-        message: "Error",
-        description: "Failed to delete custom bag. Please try again later.",
-      });
-    },
-  });
-
-  const handleDeleteBag = (customBagId) => {
-    deleteBagMutation(customBagId);
-  };
-
-  const hideNameModal = () => {
-    setModalVisible(false);
-  };
-
-  const onUpdateNameSuccess = () => {
-    hideNameModal();
-  };
-
-  const onUpdateNameError = (error) => {
-    console.error("Failed to update custom name:", error);
-  };
-
-  const { mutate: makeCustomPublicMutation } = useMakeCustomPublicMutation();
-
-  const handleMakeCustomPublic = (customBagId) => {
-    makeCustomPublicMutation(customBagId);
-  };
-
-  const { mutate: updateCustomNameMutation } = useUpdateCustomNameMutation(
-    onUpdateNameSuccess,
-    onUpdateNameError
-  );
-
-  const showNameModal = (id) => {
-    setCustomBagIdEdit(id); // Set the customBagId
-    setModalVisible(true);
-  };
-
-  const handleSaveProductName = () => {
-    if (customBagIdEdit) {
-      updateCustomNameMutation({
-        customBagId: customBagIdEdit,
-        name: productName,
-      });
-    }
-  };
-
   return (
     <div style={{ padding: "20px" }} className="max-w-[1250px] mx-auto">
-      <div className=" mb-8">
-        <BreadcrumbWithBackButton currentTab={"My List Customize"} />
-      </div>
       <div className="flex justify-between items-center mb-5 mx-10">
-        <h1 className="uppercase font-semibold text-center text-xl my-4 text-black">
-          My List Custom Bags
+        <h1 className="amatic-sc-bold  text-[40px] my-10 text-black text-center">
+          CUSTOMIZE AS YOU LIKE{" "}
         </h1>
-        <AddCusButton type="primary" onClick={handleCreateCustomBag}>
-          Create Custom Bag
-        </AddCusButton>
       </div>
       <hr className="my-2 mb-10" />
       {isLoading ? (
@@ -297,16 +185,10 @@ const MyCustom = () => {
                     <p className="font- text-gray-500 mt-4 text-xs">
                       #{customBag._id}
                     </p>
-                    <div className="flex justify-between mr-1">
-                      <p className="font-bold text-black-900  ">
-                        Name: {customBag.name ? customBag.name : "No Name"}
-                      </p>
-                      <CustomEditButton
-                        onClick={() => showNameModal(customBag._id)}
-                      >
-                        <EditOutlined className="pl-1" />{" "}
-                      </CustomEditButton>
-                    </div>
+                    <p className="font-bold text-black-900  ">
+                      Product name:{" "}
+                      {customBag.name ? customBag.name : "No Name"}
+                    </p>
 
                     <div className="flex justify-between mr-2">
                       <div className="font-bold text-black-900 flex items-center">
@@ -342,22 +224,6 @@ const MyCustom = () => {
                     >
                       Add to Cart
                     </CustomButton>
-
-                    <CustomDelButton
-                      onClick={() => handleDeleteBag(customBag._id)}
-                      className="mt-4"
-                      content="This action will delete the current custom."
-                      title="Are you sure you want to delete this custom?"
-                    >
-                      <DeleteOutlined className="text-lg text-white mb-1" />
-                    </CustomDelButton>
-                    <button
-                      onClick={() => handleMakeCustomPublic(customBag._id)}
-                      type="button"
-                      class=" w-full text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:ring-pink-300 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                    >
-                      Public Custom
-                    </button>
                   </Card>
                 </Col>
               );
@@ -391,27 +257,15 @@ const MyCustom = () => {
 
             <span
               className="text-sm font-medium cursor-pointer"
-              onClick={() => navigate("/customize")}
+              onClick={() => navigate("/my-custom")}
             >
               Customize my bag
             </span>
           </a>
         </div>
       )}
-      <StyledModal
-        title="Enter Product Name"
-        open={modalVisible}
-        onOk={handleSaveProductName}
-        onCancel={hideNameModal}
-      >
-        <Input
-          placeholder="Change Bag Custom Name"
-          value={productName}
-          onChange={(e) => setProductName(e.target.value)}
-        />
-      </StyledModal>
     </div>
   );
 };
 
-export default MyCustom;
+export default ListCustomPublic;

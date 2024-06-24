@@ -11,24 +11,25 @@ import html2canvas from "html2canvas";
 import Compressor from "compressorjs";
 import ConfirmButton from "../../components/UI/ModalConfirm";
 
-const MaskContainer = styled.div`
-  width: 450px;
-  height: 500px;
-  position: relative;
-  overflow: hidden;
-  background-color: #e2e8f0;
-  background-image: url("/images/bagsBody/BagTransparentBg.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  mask-image: url("/images/bagsBody/BagTransparentBg.png");
-  -webkit-mask-image: url("/images/bagsBody/BagTransparentBg.png");
-  mask-size: contain;
-  -webkit-mask-size: contain;
-  mask-position: center;
-  -webkit-mask-position: center;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
+const StyledButton = styled(ConfirmButton)`
+  background-color: #cef53d;
+  color: black;
+  border: 1px solid black;
+  border-radius: 8px; /* Adjust the value as needed for roundness */
+
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+
+  .ant-btn-primary {
+    background: #ff16c7d4 !important;
+  }
+  width: 300px;
+
+  .ant-modal .ant-modal-content {
+    width: 500px;
+  }
 `;
 
 const BagImage = ({
@@ -298,13 +299,13 @@ const BagImage = ({
         ) : null}
       </div>
 
-      <ConfirmButton
+      <StyledButton
         onClick={handleExportImage}
         className="mt-4"
         title="Are you sure you want to export this image?"
       >
         Export Image
-      </ConfirmButton>
+      </StyledButton>
       {imageURL && (
         <div className="mt-4">
           <p>Image URL:</p>
