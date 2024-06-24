@@ -43,6 +43,11 @@ const ClipArtTab = ({ onImageSelect }) => {
     setIsModalVisible(false);
   };
 
+  const handleSelectImage = (image) => {
+    onImageSelect(image);
+    setIsMyImagesModalVisible(false);
+  };
+
   const filteredItems = items.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -161,12 +166,21 @@ const ClipArtTab = ({ onImageSelect }) => {
         <Row gutter={[16, 16]}>
           {uploadedImages.map((image, index) => (
             <Col key={index} span={8}>
-              <Image
-                src={image}
-                alt={`uploaded-img-${index}`}
-                onClick={() => onImageSelect(image)}
-                style={{ cursor: "pointer" }}
-              />
+              <div className="relative">
+                <Image
+                  src={image}
+                  alt={`uploaded-img-${index}`}
+                  width={100}
+                  height={100}
+                  className="cursor-pointer"
+                />
+                <Button
+                  className="absolute bottom-0 left-0"
+                  onClick={() => handleSelectImage(image)}
+                >
+                  Select
+                </Button>
+              </div>
             </Col>
           ))}
         </Row>

@@ -3,6 +3,7 @@ import { Table, Button, Radio, Row, Col, notification, Steps } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./OrderCustom.css";
 import BreadcrumbWithBackButton from "../../../components/UI/Breadcrum";
+import CustomSteps from "../../../components/UI/StepCartCustom";
 
 const { Step } = Steps;
 
@@ -74,8 +75,9 @@ const CartCustom = () => {
             }}
           />
           <div>
-            <p className="font-semibold">{record.name}</p>
-            <p>Color: {record.color}</p>
+            <p className="font-semibold">
+              {record.name ? record.name : `#${record.key}`}
+            </p>
             <Button
               type="link"
               className="text-gray-400 font-semibold"
@@ -159,11 +161,7 @@ const CartCustom = () => {
         <h1 className="text-2xl font-semibold mb-16 text-center">
           My Cart Order Custom Bag
         </h1>
-        <Steps current={0} className="my-10 custom-steps">
-          <Step title="Shopping cart" />
-          <Step title="Checkout Details" />
-          <Step title="Order complete" />
-        </Steps>
+        <CustomSteps current={0} />
         {/* <h1 className="text-xl font-semibold mb-10 ">
           Shopping Cart Custom Bag
         </h1> */}
