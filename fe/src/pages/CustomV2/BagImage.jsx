@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { useDrop } from "react-dnd";
 import html2canvas from "html2canvas";
 import Compressor from "compressorjs";
+import ConfirmButton from "../../components/UI/ModalConfirm";
 
 const MaskContainer = styled.div`
   width: 450px;
@@ -29,6 +30,7 @@ const MaskContainer = styled.div`
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
 `;
+
 const BagImage = ({
   color,
   imageUrl,
@@ -296,9 +298,13 @@ const BagImage = ({
         ) : null}
       </div>
 
-      <Button onClick={handleExportImage} className="mt-4">
+      <ConfirmButton
+        onClick={handleExportImage}
+        className="mt-4"
+        title="Are you sure you want to export this image?"
+      >
         Export Image
-      </Button>
+      </ConfirmButton>
       {imageURL && (
         <div className="mt-4">
           <p>Image URL:</p>

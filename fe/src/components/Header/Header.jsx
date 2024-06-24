@@ -11,6 +11,7 @@ import { mdiTicket } from "@mdi/js";
 import {
   faArrowRight,
   faBagShopping,
+  faPaintRoller,
   faShoppingCart,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
@@ -26,6 +27,13 @@ import { toast } from "react-toastify";
 
 const Header = () => {
   const { countCart } = useCartStore((state) => state);
+
+  // Ensure countCart is passed from the CheckoutDetails component
+  const countCartCustom = JSON.parse(
+    localStorage.getItem("cartItemsCus")
+  )?.reduce((count, item) => count + item.quantity, 0);
+  console.log("countCartCustom", countCartCustom);
+
   const { isLogin, login, logout } = useLoginStore();
   const { role } = useAccountStore();
   const navigate = useNavigate();
@@ -51,21 +59,21 @@ const Header = () => {
       <Menu.Item key="1" icon={<FontAwesomeIcon icon={faUser} />}>
         <NavLink to="/user/user-profile">User Profile</NavLink>
       </Menu.Item>
-      <Menu.Item key="2" icon={<FontAwesomeIcon icon={faAddressCard} />}>
-        <NavLink to="/user/user-address">User Address</NavLink>
+      <Menu.Item key="8" icon={<FontAwesomeIcon icon={faPaintRoller} />}>
+        <NavLink to="/customize">Custom Bag</NavLink>
       </Menu.Item>
+      <Menu.Item key="6" icon={<FontAwesomeIcon icon={faBagShopping} />}>
+        <NavLink to="/my-custom">My List Customize</NavLink>
+      </Menu.Item>
+
       <Menu.Item key="3" icon={<FontAwesomeIcon icon={faShoppingCart} />}>
         <NavLink to="/user/user-order">User Order</NavLink>
       </Menu.Item>
-      <Menu.Item key="4" icon={<FontAwesomeIcon icon={faFileAlt} />}>
-        <NavLink to="/user/user-draft">User Draft</NavLink>
-      </Menu.Item>
+
       <Menu.Item key="5" icon={<FontAwesomeIcon icon={faHeart} />}>
         <NavLink to="/user/user-wishlist">User Wishlist</NavLink>
       </Menu.Item>
-      <Menu.Item key="6" icon={<FontAwesomeIcon icon={faBagShopping} />}>
-        <NavLink to="/my-custom">My Bag Custom</NavLink>
-      </Menu.Item>
+
       <Menu.Item
         key="7"
         icon={<FontAwesomeIcon icon={faSignOutAlt} />}
@@ -95,7 +103,7 @@ const Header = () => {
           </Link>
         </div>
       </div>
-      <nav className="header-navigation p-4 pb-0 ">
+      <nav className="header-navigation p-4 mx-10 pb-0 ">
         <div className="container mx-[auto] my-0 flex flex-wrap">
           <div className="header-navigation-left text-left w-[33%]">
             <Link to="/">
@@ -189,6 +197,15 @@ const Header = () => {
 
                   <span className="text-xs mb-5 border border-black rounded-full bg-black text-white w-5 h-5 flex items-center justify-center">
                     {countCart}
+                  </span>
+                </Link>
+              </li>
+              <li className="menu-item">
+                <Link to="/my-cart-custom" className="h-6 flex items-center">
+                  <img className="w-7" src="/images/iconCustom.png" />
+
+                  <span className="text-xs mb-5 border border-black rounded-full bg-black text-white w-5 h-5 flex items-center justify-center">
+                    {countCartCustom ?? 0}
                   </span>
                 </Link>
               </li>

@@ -1,12 +1,30 @@
 // src/components/contentTabs/ClipArtTab.js
 import React, { useState } from "react";
-import { Modal, Input, Row, Col, Image, Button } from "antd";
+import { Modal, Input, Row, Col, Image, Button, Upload } from "antd";
 import items from "../../../data/Items";
-import { RightOutlined } from "@ant-design/icons";
+import { PlusOutlined, RightOutlined } from "@ant-design/icons";
+import styled from "styled-components";
+
+const StyledModal = styled(Modal)`
+  .ant-modal-title {
+    color: #cef53d !important; /* Change the color to your desired color */
+  }
+
+  .ant-modal-close {
+    color: rgb(0 0 0 / 45%) !important;
+  }
+
+  .ant-modal-content {
+    background-color: #00000059 !important;
+  }
+`;
 
 const ClipArtTab = ({ onImageSelect }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isUploadModalVisible, setIsUploadModalVisible] = useState(false);
+  const [isMyImagesModalVisible, setIsMyImagesModalVisible] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState([]);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -28,6 +46,28 @@ const ClipArtTab = ({ onImageSelect }) => {
   const filteredItems = items.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const showUploadModal = () => {
+    setIsUploadModalVisible(true);
+  };
+
+  const showMyImagesModal = () => {
+    setIsMyImagesModalVisible(true);
+  };
+
+  const handleUploadCancel = () => {
+    setIsUploadModalVisible(false);
+  };
+
+  const handleMyImagesCancel = () => {
+    setIsMyImagesModalVisible(false);
+  };
+
+  const handleUploadChange = ({ fileList }) => {
+    setUploadedImages(
+      fileList.map((file) => URL.createObjectURL(file.originFileObj))
+    );
+  };
 
   return (
     <div>
@@ -57,29 +97,29 @@ const ClipArtTab = ({ onImageSelect }) => {
           <div>
             <Button
               type="link"
-              onClick={showModal}
+              onClick={showUploadModal}
               className="text-lg font-semibold"
             >
               UPLOAD IMAGES
             </Button>
             <p className="ml-4">Upload Your Own Pictures Or Logo</p>
           </div>
-          <p className="mr-6" onClick={showModal}>
+          <p className="mr-6" onClick={showUploadModal}>
             <RightOutlined />
           </p>
         </div>
-        <div className=" py-4 flex justify-between items-center">
+        <div className="py-4 flex justify-between items-center">
           <div>
             <Button
               type="link"
-              onClick={showModal}
+              onClick={showMyImagesModal}
               className="text-lg font-semibold"
             >
               MY IMAGES
             </Button>
             <p className="ml-4">Choose From Your Saved Images</p>
           </div>
-          <p className="mr-6" onClick={showModal}>
+          <p className="mr-6" onClick={showMyImagesModal}>
             <RightOutlined />
           </p>
         </div>
@@ -94,9 +134,47 @@ const ClipArtTab = ({ onImageSelect }) => {
         </p>
       </div>
 
-      <Modal
+      <StyledModal
+        title="Upload Images"
+        open={isUploadModalVisible}
+        onCancel={handleUploadCancel}
+        footer={null}
+      >
+        <Upload
+          listType="picture-card"
+          multiple={true}
+          onChange={handleUploadChange}
+        >
+          <div>
+            <PlusOutlined />
+            <div style={{ marginTop: 8 }}>Upload</div>
+          </div>
+        </Upload>
+      </StyledModal>
+
+      <StyledModal
+        title="My Images"
+        open={isMyImagesModalVisible}
+        onCancel={handleMyImagesCancel}
+        footer={null}
+      >
+        <Row gutter={[16, 16]}>
+          {uploadedImages.map((image, index) => (
+            <Col key={index} span={8}>
+              <Image
+                src={image}
+                alt={`uploaded-img-${index}`}
+                onClick={() => onImageSelect(image)}
+                style={{ cursor: "pointer" }}
+              />
+            </Col>
+          ))}
+        </Row>
+      </StyledModal>
+
+      <StyledModal
         title="Clip Art"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
@@ -128,7 +206,7 @@ const ClipArtTab = ({ onImageSelect }) => {
             </Col>
           ))}
         </Row>
-      </Modal>
+      </StyledModal>
     </div>
   );
 };

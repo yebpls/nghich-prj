@@ -110,3 +110,53 @@ export const useSetDefaultAddress = () => {
     },
   });
 };
+
+// UPDATE ADDRESS
+async function updateAddress(input) {
+  const { address_id, ...body } = input;
+  const { data } = await http.put(
+    `${API_ENDPOINTS.UPDATE_ADDRESS}/${address_id}`,
+    body
+  );
+  return data.data;
+}
+
+export const useUpdateAddressMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((input) => updateAddress(input), {
+    onSuccess: (data) => {
+      console.log(data, "update address success");
+      queryClient.invalidateQueries("userAddress");
+      toast.success("update address success");
+    },
+    onError: (error, data) => {
+      console.log(error.response.data.errors, data, "update address fail");
+      toast.error("update address fail");
+    },
+  });
+};
+
+// DELETE ADDRESS
+async function deleteAddress(address_id) {
+  const { data } = await http.delete(
+    `${API_ENDPOINTS.DELETE_ADDRESS}/${address_id}`
+  );
+  return data.data;
+}
+
+export const useDeleteAddressMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((address_id) => deleteAddress(address_id), {
+    onSuccess: (data) => {
+      console.log(data, "delete address success");
+      queryClient.invalidateQueries("userAddress");
+      toast.success("delete address success");
+    },
+    onError: (error, data) => {
+      console.log(error.response.data.errors, data, "delete address fail");
+      toast.error("delete address fail");
+    },
+  });
+};
