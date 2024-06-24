@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import {
   AddCustomReqBody,
+  CreateCustomReqParams,
   DeleteCustomReqParams,
   UpdateNameCustomReqBody,
   UpdateNameCustomReqParams,
@@ -9,13 +10,14 @@ import customService from "~/services/customs.services";
 import { TokenPayload } from "~/models/requests/Users.requests";
 
 export const addNewCustomController = async (
-  req: Request,
+  req: Request<CreateCustomReqParams>,
   res: Response,
   next: NextFunction
 ) => {
+  const { color } = req.params;
   const { user_id } = req.decoded_authorization as TokenPayload;
   const image = req;
-  const custom = await customService.addCustom(user_id, image);
+  const custom = await customService.addCustom(user_id, color, image);
   return res.json({
     message: "Add new custom successfully",
     data: custom,

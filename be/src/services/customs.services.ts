@@ -7,7 +7,7 @@ import HTTP_STATUS from "~/constants/httpStatus";
 import { deleteFileFromS3 } from "~/utils/s3";
 
 class CustomService {
-  async addCustom(user_id: string, image: Request) {
+  async addCustom(user_id: string, color: string, image: Request) {
     const url = await mediasService.uploadImage(image);
     const custom_id = await databaseService.customs.insertOne({
       _id: new ObjectId(),
@@ -15,6 +15,7 @@ class CustomService {
       url: url[0].url,
       name: "",
       created_at: new Date(),
+      color: color,
     });
     const custom = await databaseService.customs.findOne({
       _id: custom_id.insertedId,
