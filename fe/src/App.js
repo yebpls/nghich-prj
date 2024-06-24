@@ -32,6 +32,9 @@ import CustomerManage from "./pages/AdminManage/CustomerManage";
 import Settings from "./pages/AdminManage/Settings";
 import MyCustom from "./pages/CustomV2/GetCustom/getMyCustom";
 import UserBanned from "./pages/UserAccount/UserBanned";
+import CartCustom from "./pages/CustomV2/OrderCustom/CartCustom";
+import CheckoutDetails from "./pages/CustomV2/OrderCustom/CheckoutDetails";
+import OrderComplete from "./pages/CustomV2/OrderCustom/OrderComplete";
 
 function App() {
   const { setRole } = useAccountStore((state) => state);
@@ -69,7 +72,10 @@ function App() {
             {/* <Route path="/customize" element={<CustomBag />} /> */}
             <Route path="/customize" element={<CustomBagV2 />} />
             <Route path="/collection" element={<CollectionPage />} />
-            <Route path="/my-custom" component={<MyCustom />} />
+            <Route path="/my-custom" element={<MyCustom/>} />
+            <Route path="/my-cart-custom" element={<CartCustom />} />
+            <Route path="/checkout-custom" element={<CheckoutDetails />} />
+            <Route path="/order-custom-complete" element={<OrderComplete />} />
             {/* USER ROLE */}
             <Route
               path="/user"

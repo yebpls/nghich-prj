@@ -1,20 +1,42 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
+import {
+  faAddressCard,
+  faFileAlt,
+  faHeart,
+  faUser,
+} from "@fortawesome/free-regular-svg-icons";
 import { useEffect } from "react";
 import { mdiTicket } from "@mdi/js";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRight,
+  faBagShopping,
+  faPaintRoller,
+  faShoppingCart,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import "./Header.css";
 import { useLoginStore } from "../../zustand-store/loginState";
 import { useCartStore } from "../../zustand-store/cartState";
 import { getToken } from "../../config/http";
 import { useAccountStore } from "../../zustand-store/AccountInfoState";
 import SideNav from "./SideNav";
+import { Dropdown, Menu } from "antd";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const { countCart } = useCartStore((state) => state);
+
+  // Ensure countCart is passed from the CheckoutDetails component
+  const countCartCustom = JSON.parse(
+    localStorage.getItem("cartItemsCus")
+  )?.reduce((count, item) => count + item.quantity, 0);
+  console.log("countCartCustom", countCartCustom);
+
   const { isLogin, login, logout } = useLoginStore();
   const { role } = useAccountStore();
+  const navigate = useNavigate();
   console.log("isLogin", isLogin);
   const isToken = getToken();
   useEffect(() => {
@@ -24,6 +46,44 @@ const Header = () => {
       logout();
     }
   }, [isToken]);
+
+  const handleLogout = () => {
+    Cookies.remove("auth_token");
+    toast.success("Logout successfully");
+    logout();
+    navigate("/");
+  };
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="1" icon={<FontAwesomeIcon icon={faUser} />}>
+        <NavLink to="/user/user-profile">User Profile</NavLink>
+      </Menu.Item>
+      <Menu.Item key="8" icon={<FontAwesomeIcon icon={faPaintRoller} />}>
+        <NavLink to="/customize">Custom Bag</NavLink>
+      </Menu.Item>
+      <Menu.Item key="6" icon={<FontAwesomeIcon icon={faBagShopping} />}>
+        <NavLink to="/my-custom">My List Customize</NavLink>
+      </Menu.Item>
+
+      <Menu.Item key="3" icon={<FontAwesomeIcon icon={faShoppingCart} />}>
+        <NavLink to="/user/user-order">User Order</NavLink>
+      </Menu.Item>
+
+      <Menu.Item key="5" icon={<FontAwesomeIcon icon={faHeart} />}>
+        <NavLink to="/user/user-wishlist">User Wishlist</NavLink>
+      </Menu.Item>
+
+      <Menu.Item
+        key="7"
+        icon={<FontAwesomeIcon icon={faSignOutAlt} />}
+        onClick={handleLogout}
+      >
+        Log Out
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <header className="header ">
       <div className="header-promotion text-white relative bg-[#FF78C5] p-2">
@@ -43,7 +103,7 @@ const Header = () => {
           </Link>
         </div>
       </div>
-      <nav className="header-navigation p-4 pb-0 ">
+      <nav className="header-navigation p-4 mx-10 pb-0 ">
         <div className="container mx-[auto] my-0 flex flex-wrap">
           <div className="header-navigation-left text-left w-[33%]">
             <Link to="/">
@@ -140,18 +200,29 @@ const Header = () => {
                   </span>
                 </Link>
               </li>
+              <li className="menu-item">
+                <Link to="/my-cart-custom" className="h-6 flex items-center">
+                  <img className="w-7" src="/images/iconCustom.png" />
+
+                  <span className="text-xs mb-5 border border-black rounded-full bg-black text-white w-5 h-5 flex items-center justify-center">
+                    {countCartCustom ?? 0}
+                  </span>
+                </Link>
+              </li>
               {isLogin ? (
                 <li className="menu-item">
-                  <Link
-                    to={role === 0 ? "/admin" : "/user"}
-                    className="h-6 w-6 flex items-center justify-center border border-black rounded-full"
-                  >
-                    <FontAwesomeIcon
-                      size="1x"
-                      className="text-black"
-                      icon={faUser}
-                    />
-                  </Link>
+                  <Dropdown overlay={menu} trigger={["click"]}>
+                    <Link
+                      to={role === 0 ? "/admin" : "/user"}
+                      className="h-6 w-6 flex items-center justify-center border border-black rounded-full"
+                    >
+                      <FontAwesomeIcon
+                        size="1x"
+                        className="text-black"
+                        icon={faUser}
+                      />
+                    </Link>
+                  </Dropdown>
                 </li>
               ) : (
                 <li className="menu-item">

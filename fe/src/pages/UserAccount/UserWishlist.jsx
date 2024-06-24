@@ -50,15 +50,18 @@ export default function UserWishlist() {
     <div>
       <p className="text-xl p-3 font-bold">Wishlist</p>
       <div>
-          <div className="w-full text-left">
-            <div className="pb-5 border-b border-slate-400 text-md flex">
-              <p className="pl-10 font-extralight w-1/2">Product</p>
-              <p className="font-extralight w-1/4">Price</p>
-              <p className="font-extralight w-1/4">Action</p>
-            </div>
-            {isFetching ? (
-              Array.from({ length: 3 }).map((_, index) => (
-                <div className="flex border-b border-slate-400 w-full" key={index}>
+        <div className="w-full text-left">
+          <div className="pb-5 border-b border-slate-400 text-md flex">
+            <p className="pl-10 font-extralight w-1/2">Product</p>
+            <p className="font-extralight w-1/4">Price</p>
+            <p className="font-extralight w-1/4">Action</p>
+          </div>
+          {isFetching
+            ? Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  className="flex border-b border-slate-400 w-full"
+                  key={index}
+                >
                   <div className="w-1/2 flex">
                     <div className="py-9">
                       <svg
@@ -106,8 +109,7 @@ export default function UserWishlist() {
                   </div>
                 </div>
               ))
-            ) : (
-              wishlist?.map((item) => (
+            : wishlist?.map((item) => (
                 <div
                   className="flex border-b border-slate-400 w-full"
                   key={item._id}
@@ -151,21 +153,25 @@ export default function UserWishlist() {
                   </div>
                   <div className="w-1/4 flex justify-between ">
                     <p className="my-auto text-black text-sm lg:text-md">
-                      {item.price
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                      {item?.price?.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
                     </p>
                   </div>
                   <div className="w-1/4 flex justify-between ">
-                    <a className="bg-black my-auto text-sm lg:text-md text-white px-3 py-1 rounded-md cursor-pointer" onClick={()=>{handleAddToCart(item)}}>
+                    <a
+                      className="bg-black my-auto text-sm lg:text-md text-white px-3 py-1 rounded-md cursor-pointer"
+                      onClick={() => {
+                        handleAddToCart(item);
+                      }}
+                    >
                       Add to cart
                     </a>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
-        
+              ))}
+        </div>
       </div>
     </div>
   );
