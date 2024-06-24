@@ -13,6 +13,7 @@ import ClipArtTab from "./contentTabs/ClipArtTab";
 import InputTextTab from "./contentTabs/InputTextTab";
 import DecorationTab from "./contentTabs/DecorationTab";
 import BagImage from "./BagImage";
+import CustomSteps from "../../components/UI/StepCartCustom";
 
 const { TabPane } = Tabs;
 
@@ -153,39 +154,41 @@ const BagSelected = ({
   ];
 
   return (
-    <div className="flex h-screen items-center text-white">
-      <div className="w-1/2 flex justify-end mr-10">
-        <BagImage
-          imageUrl="/images/bagsBody/BagTransparentBg.png"
-          color={selectedColor}
-          stickers={stickers}
-          onDrop={handleDrop}
-          onResize={handleResize}
-          onDeleteSticker={handleDeleteSticker}
-          textItems={textItems}
-          onTextRemove={handleRemoveText}
-          onTextClick={handleTextClick}
-          imageURL={imageURL}
-          setImageURL={setImageURL}
-          handleExportImage={handleExportImage}
-        />
+    <>
+      <div className="flex items-center text-white">
+        <div className="w-1/2 flex justify-end mr-10">
+          <BagImage
+            imageUrl="/images/bagsBody/BagTransparentBg.png"
+            color={selectedColor}
+            stickers={stickers}
+            onDrop={handleDrop}
+            onResize={handleResize}
+            onDeleteSticker={handleDeleteSticker}
+            textItems={textItems}
+            onTextRemove={handleRemoveText}
+            onTextClick={handleTextClick}
+            imageURL={imageURL}
+            setImageURL={setImageURL}
+            handleExportImage={handleExportImage}
+          />
+        </div>
+        <div className="w-1/2 p-4 ">
+          <Tabs
+            defaultActiveKey="1"
+            tabPosition="top"
+            centered
+            className="h-[650px] w-[450px] bg-gray-100"
+            items={tabItems}
+          />
+          <Button
+            onClick={onSwapProduct}
+            className="mt-4 bg-gray-800 text-white p-2 rounded-md hover:bg-gray-700 w-[200px]"
+          >
+            Swap Product
+          </Button>
+        </div>
       </div>
-      <div className="w-1/2 p-4 ">
-        <Tabs
-          defaultActiveKey="1"
-          tabPosition="top"
-          centered
-          className="h-[650px] w-[450px] bg-gray-100"
-          items={tabItems}
-        />
-        <Button
-          onClick={onSwapProduct}
-          className="mt-4 bg-gray-800 text-white p-2 rounded-md hover:bg-gray-700 w-[200px]"
-        >
-          Swap Product
-        </Button>
-      </div>
-    </div>
+    </>
   );
 };
 

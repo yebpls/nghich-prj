@@ -52,12 +52,12 @@ const getAllAddress = async () => {
 
 //GET WARD QUERY BY USE GET WARD FUNCTION
 export const useGetAddresses = () => {
-  const { data, isLoading, isFetching, error } = useQuery(
+  const { data, isLoading, isFetching, error,refetch } = useQuery(
     "userAddress",
     getAllAddress
   );
   // console.log("check addresses:", data);
-  return { data, isLoading, isFetching, error };
+  return { data, isLoading, isFetching, error,refetch  };
 };
 
 //ADD ADDRESS
@@ -111,30 +111,36 @@ export const useSetDefaultAddress = () => {
   });
 };
 
-// UPDATE ADDRESS
-async function updateAddress(input) {
-  const { address_id, ...body } = input;
-  const { data } = await http.put(
-    `${API_ENDPOINTS.UPDATE_ADDRESS}/${address_id}`,
-    body
+
+// UPDATE ADDRESS FUNCTION
+export const updateAddress = async ({ address_id, address, phoneNumber }) => {
+  const { data } = await http.patch(
+    `${API_ENDPOINTS.UPDATE_ADDRESS}${address_id}`,
+    { address, phoneNumber }
   );
-  return data.data;
-}
+  return data;
+};
+
 
 export const useUpdateAddressMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation((input) => updateAddress(input), {
+  return useMutation(updateAddress, {
     onSuccess: (data) => {
       console.log(data, "update address success");
       queryClient.invalidateQueries("userAddress");
       toast.success("update address success");
     },
-    onError: (error, data) => {
-      console.log(error.response.data.errors, data, "update address fail");
+    onError: (error) => {
+      console.log(error.response.data.errors, "update address fail");
       toast.error("update address fail");
     },
   });
+};
+// DELETE CUSTOM BAG FUNCTION
+export const deleteAddress2 = async (address_id) => {
+  const { data } = await http.delete(`${API_ENDPOINTS.DELETE_ADDRESS}${address_id}`);
+  return data;
 };
 
 // DELETE ADDRESS
