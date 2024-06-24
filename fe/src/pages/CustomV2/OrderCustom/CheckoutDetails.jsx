@@ -11,6 +11,7 @@ import {
 } from "../../../api/User/address";
 import { useMakeOrder } from "../../../api/orders";
 import BreadcrumbWithBackButton from "../../../components/UI/Breadcrum";
+import CustomSteps from "../../../components/UI/StepCartCustom";
 // import "./OrderCustom.css";
 
 const { Step } = Steps;
@@ -119,11 +120,8 @@ const CheckoutDetails = () => {
       <h1 className="text-2xl font-semibold mb-10 text-center">
         My Cart Order Custom Bag
       </h1>
-      <Steps current={1} className="mb-6 custom-steps">
-        <Step title="Shopping cart" />
-        <Step title="Checkout Details" />
-        <Step title="Order complete" />
-      </Steps>
+      <CustomSteps current={1} />
+
       <div className="flex">
         <div className="w-3/5 pr-4">
           <h2 className="text-xl font-semibold mb-4">Cash On Delivery (COD)</h2>

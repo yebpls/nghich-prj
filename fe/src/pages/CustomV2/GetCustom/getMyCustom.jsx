@@ -78,7 +78,6 @@ const MyCustom = () => {
       key: customBag._id,
       product: customBag.name || "Untitled Bag",
       image: customBag.url,
-      color: "Grey", // Assuming color is grey, you can modify as per your requirement
       quantity: 1,
       price: prices[customBag._id],
       subtotal: prices[customBag._id],

@@ -2,6 +2,7 @@ import { Steps } from "antd";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import BreadcrumbWithBackButton from "../../../components/UI/Breadcrum";
+import CustomSteps from "../../../components/UI/StepCartCustom";
 
 const { Step } = Steps;
 
@@ -19,11 +20,8 @@ const OrderComplete = () => {
       <h1 className="text-2xl font-semibold mb-10 text-center">
         My Cart Order Custom Bag
       </h1>
-      <Steps current={2} className="mb-6 custom-steps">
-        <Step title="Shopping cart" />
-        <Step title="Checkout Details" />
-        <Step title="Order complete" />
-      </Steps>
+      <CustomSteps current={3} />
+
       <div className="flex item-center mx-auto justify-center">
         <div className="w-1/3">
           <div class="flex items-center justify-center text-center">
@@ -68,35 +66,40 @@ const OrderComplete = () => {
                     />
                   ))}
                 </div>
-                <a class="inline-flex items-center px-4 py-2 text-white bg-[#4848FF] border border-indigo-600 rounded rounded-full hover:bg-indigo-700 focus:outline-none focus:ring">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="w-3 h-3 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M7 16l-4-4m0 0l4-4m-4 4h18"
-                    />
-                  </svg>
+                <div className="flex">
+                  <a class="inline-flex items-center px-4 py-2 text-white bg-[#4848FF] border border-indigo-600 rounded rounded-full hover:bg-indigo-700 focus:outline-none focus:ring">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-3 h-3 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M7 16l-4-4m0 0l4-4m-4 4h18"
+                      />
+                    </svg>
 
-                  <span
-                    className="text-sm font-medium cursor-pointer"
-                    onClick={() => navigate("/")}
-                  >
-                    Home
-                  </span>
-                </a>
-                <span className="text-sm font-medium cursor-pointer">
-                  <img src="/images/iconCustom.png " />
-                  <span onClick={() => navigate("/my-custom")}>
-                    My List Customize
-                  </span>
-                </span>
+                    <span
+                      className="text-sm font-medium cursor-pointer"
+                      onClick={() => navigate("/")}
+                    >
+                      Home
+                    </span>
+                  </a>
+                  <div className="text-sm font-medium cursor-pointer flex items-center bg-[#cff53e] border border-black-600 rounded rounded-full hover:bg-[#FF78C5] hover:text-white py-1 ml-4 px-4">
+                    <img src="/images/iconCustom.png " className="w-8 mr-2" />
+                    <span
+                      onClick={() => navigate("/my-custom")}
+                      className="text-sm fonyt-semibold"
+                    >
+                      My List Customize
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
