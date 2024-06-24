@@ -14,6 +14,8 @@ export const API_ENDPOINTS = {
   GET_USER_ADDRESSES: "/users/addresses",
   ADD_USER_ADDRESSES: "/users/address",
   SET_DEFAULT_ADDRESS: "/users/address/default/",
+  UPDATE_ADDRESS: "/users/address/",
+  DELETE_ADDRESS: "/users/address/",
   ORDERS: "/orders",
   POST_CUSTOM: "/customs",
   GET_CUSTOM: "/customs",

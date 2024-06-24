@@ -54,7 +54,7 @@ button {
 
 .custom-tab-icon {
   font-size: 24px;
-  color: white !important;
+  color: rgb(255, 255, 255) !important;
 }
 
 :where(.css-dev-only-do-not-override-m4timi).ant-tabs > .ant-tabs-nav {
@@ -98,4 +98,14 @@ button {
 
 :where(.css-dev-only-do-not-override-m4timi).ant-modal {
   padding-bottom: 0;
+}
+
+
+:where(.css-dev-only-do-not-override-m4timi).ant-table-wrapper .ant-table-thead >tr>th{
+  background: #ffffff !important;
+  border-bottom: 1px solid #000000 !important;
+}
+
+:where(.css-dev-only-do-not-override-m4timi).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
+  background: #000000 !important;
 }
