@@ -49,3 +49,9 @@ export enum TransactionStatus {
   FAILED = "FAILED",
   REFUNDED = "REFUNDED",
 }
+
+export enum CustomPublicStatus {
+  Private,
+  Pending,
+  Public,
+}

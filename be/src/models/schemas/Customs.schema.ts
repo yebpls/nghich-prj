@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { CustomPublicStatus } from "~/constants/enum";
 
 interface CustomType {
   _id: ObjectId;
@@ -7,6 +8,7 @@ interface CustomType {
   created_at?: Date;
   url: string;
   color?: string;
+  public_status?: CustomPublicStatus;
 }
 
 export default class Custom {
@@ -16,6 +18,7 @@ export default class Custom {
   created_at?: Date;
   url: string;
   color?: string;
+  public_status?: CustomPublicStatus;
 
   constructor(custom: CustomType) {
     const date = new Date();
@@ -25,5 +28,6 @@ export default class Custom {
     this.created_at = custom.created_at || date;
     this.url = custom.url || "";
     this.color = custom.color || "";
+    this.public_status = custom.public_status || CustomPublicStatus.Private;
   }
 }
