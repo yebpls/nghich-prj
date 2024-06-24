@@ -90,12 +90,11 @@ export const useMakeCustomPublicMutation = () => {
   });
 };
 
-// PUBLIC CUSTOM FUNCTION
+// Assuming http is imported correctly and API_ENDPOINTS is defined
 export const updateCustomName = async ({ customBagId, name }) => {
   const { data } = await http.put(`${API_ENDPOINTS.PUT_CUSTOM_NAME}${customBagId}`, { name });
   return data;
 };
-
 export const useUpdateCustomNameMutation = (onSuccess, onError) => {
   const queryClient = useQueryClient();
 
