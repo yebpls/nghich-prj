@@ -32,6 +32,7 @@ const CheckOutPage = () => {
     }
     console.log("please order", orderState);
   };
+
   useEffect(() => {
     if (addressData) {
       initializeItems(addressData);

@@ -23,12 +23,12 @@ customRouter.get(
 
 /**
  * Description: Add new custom
- * Path: /customs/
+ * Path: /customs/:color
  * Method: POST
  * Header: { Authorization: Bearer <access_token> }
  */
 customRouter.post(
-  "/",
+  "/:color",
   accessTokenValidator,
   // addNewCustomValidator,
   wrapRequestHandler(addNewCustomController)
