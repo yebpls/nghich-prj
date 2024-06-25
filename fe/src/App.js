@@ -15,6 +15,7 @@ import UserDraft from "./pages/UserAccount/UserDraft";
 import UserWishlist from "./pages/UserAccount/UserWishlist";
 import CollectionPage from "./pages/HomePage/CollectionPage";
 import OrderUser from "./pages/OrderPage/OrderUser";
+import Contact from "./pages/ContactUs/ContactUs";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             />
             <Route path="/cart" element={<OrderUser />} />
             <Route path="/customize" element={<CustomBag />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/collection" element={<CollectionPage />} />
             <Route path="/user" element={<UserLayout />}>
               <Route index element={<Navigate to="/user/user-profile" />} />
