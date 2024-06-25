@@ -82,9 +82,10 @@ const CheckoutDetails = () => {
   const handleSubmit = () => {
     const orderCustom = {
       custom_detail: cartItems.map((item) => ({
-        product_id: item.key,
+        custom_id: item.key,
         price_final: item.price,
         quantity: item.quantity,
+        image: item.image,
       })),
       address_id: selectedAddress,
       payment_type: 0, // You can change this value based on your requirement
@@ -93,6 +94,7 @@ const CheckoutDetails = () => {
     };
 
     console.log("please order", orderCustom);
+    console.log("cartItems", cartItems);
     debugger;
 
     if (orderCustom) {
