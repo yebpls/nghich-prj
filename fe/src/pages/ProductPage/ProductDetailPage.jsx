@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useGetProductById, useGetProducts } from "../../api/product";
 import { toast } from "react-toastify";
 import { useCartStore } from "../../zustand-store/cartState";
@@ -17,6 +17,11 @@ const ProductDetailPage = () => {
   const { data: product, isLoading, error } = useGetProductById(productId);
   const { data: products } = useGetProducts();
   const { mutate: addWishlist } = useAddWishlist();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   const handleAddWishlist = (id) => {
     addWishlist(id);
   };
@@ -252,7 +257,7 @@ const ProductDetailPage = () => {
           <div className=" flex flex-wrap">
           {products.map((x, i) => (
               <div key={i} className={`w-1/4 ${i>3?"hidden":" "} text-xs text-slate-600`}>
-                <Link>
+              <Link to={`/productDetail/${x._id}`}>
                   <div className="product-list-item p-3">
                     <div className="product-img ">
                       <img className="h-72 w-64" src={x.images[0]?.url} alt="" />
