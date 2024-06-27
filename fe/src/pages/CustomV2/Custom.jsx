@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BagSlider from "./BagSlider";
 import Sidebar from "./SideBar";
 import BagSelected from "./BagSelector";
 import { useGetUserProfile } from "../../api/User/user";
 import { API_ENDPOINTS } from "../../api/api-endpoint";
-import { useMutation } from "react-query";
-import { Button, notification } from "antd";
+import { useMutation, useQueryClient } from "react-query";
+import { Button, Input, Modal, notification } from "antd";
 import http from "../../config/http";
 import html2canvas from "html2canvas";
 import Compressor from "compressorjs";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import CustomBagSteps from "../../components/UI/StepCustomBag";
+import {
+  usePostCustomBagMutation,
+  useUpdateCustomNameMutation,
+} from "../../api/custom";
 
 const CustomBagV2 = () => {
   const [step, setStep] = useState(1);
@@ -21,6 +26,12 @@ const CustomBagV2 = () => {
   const [textItems, setTextItems] = useState([]);
   const [imageURL, setImageURL] = useState(null);
   const [compressedBlob, setCompressedBlob] = useState(null);
+  const steps = ["Select Bag", "Customize Bag", "Review & Order"];
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [productName, setProductName] = useState("");
+  const [bagId, setBagId] = useState(null);
+  const postCalled = useRef(false);
 
   const [currentText, setCurrentText] = useState("");
   const [textStyle, setTextStyle] = useState({
@@ -43,6 +54,47 @@ const CustomBagV2 = () => {
 
   const { data: userData, isFetching, error, refetch } = useGetUserProfile();
 
+  // Function to handle showing the modal
+  const showNameModal = () => {
+    setModalVisible(true);
+  };
+
+  // Function to handle hiding the modal
+  const hideNameModal = () => {
+    setModalVisible(false);
+  };
+
+  const onUpdateNameSuccess = () => {
+    hideNameModal();
+  };
+
+  const onUpdateNameError = (error) => {
+    console.error("Failed to update custom name:", error);
+  };
+
+  const { mutate: updateCustomNameMutation } = useUpdateCustomNameMutation(
+    onUpdateNameSuccess,
+    onUpdateNameError
+  );
+
+  const handleSaveProductName = () => {
+    updateCustomNameMutation({ customBagId: bagId, name: productName });
+  };
+
+  const onSuccess = (data) => {
+    setBagId(data._id); // Assuming the bag ID is in the _id field
+    showNameModal();
+  };
+
+  const onError = (error) => {
+    console.error("Failed to post custom bag:", error);
+  };
+
+  const { mutate: postCustomBagMutation } = usePostCustomBagMutation(
+    onSuccess,
+    onError
+  );
+
   const handlePostCustomBag = () => {
     if (userData && compressedBlob) {
       const file = new File([compressedBlob], "custom-bag.jpg", {
@@ -52,51 +104,18 @@ const CustomBagV2 = () => {
       formData.append("user_id", userData._id);
       formData.append("image", file);
 
-      customBagMutation(formData);
+      postCustomBagMutation({ input: formData, selectedColor });
     } else {
       console.error("User data or image Blob is missing");
     }
   };
 
   useEffect(() => {
-    if (compressedBlob) {
+    if (compressedBlob && !postCalled.current) {
+      postCalled.current = true;
       handlePostCustomBag();
     }
   }, [compressedBlob]);
-
-  // Custom Bag API call
-  const postCustomBag = async (input) => {
-    try {
-      const response = await http.post(API_ENDPOINTS.POST_CUSTOM, input, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        timeout: 60000, // Increase timeout to 60 seconds
-      });
-      return response.data.data;
-    } catch (error) {
-      console.error("Failed to post custom bag:", error);
-      throw error;
-    }
-  };
-
-  const { mutate: customBagMutation } = useMutation(postCustomBag, {
-    onSuccess: (data) => {
-      console.log("Custom bag posted successfully:", data);
-      notification.success({
-        message: "Success",
-        description: "Custom bag posted successfully!",
-      });
-      navigate("/my-custom");
-    },
-    onError: (error) => {
-      console.error("Failed to post custom bag:", error);
-      notification.error({
-        message: "Error",
-        description: "Failed to post custom bag. Please try again later.",
-      });
-    },
-  });
 
   const handleBagSelect = (bagId) => {
     setSelectedBagId(bagId);
@@ -193,11 +212,22 @@ const CustomBagV2 = () => {
       "image/jpeg",
       0.6
     );
+    setStep(3);
+  };
+
+  const handleViewOrder = () => {
+    navigate("/my-custom");
   };
 
   return (
     <div>
+      <h1 className="amatic-sc-bold  text-[40px] my-10 text-black text-center">
+        Let Custom Your Bag !
+      </h1>
       {/* <Sidebar /> */}
+      <div className="p-4 max-w-7xl mx-auto">
+        <CustomBagSteps current={step - 1} steps={steps} />
+      </div>
       {step === 1 && <BagSlider onBagSelect={handleBagSelect} />}
       {step === 2 && (
         <div>
@@ -224,6 +254,82 @@ const CustomBagV2 = () => {
           />
         </div>
       )}
+      {step === 3 && (
+        <div>
+          <div className="flex justify-center">
+            {/* <Button type="primary" className="w-1/2">
+              View My Custom Bag
+            </Button> */}
+            <div class="flex flex-col items-center ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="text-green-600 w-28 h-28"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+
+              <h1 class="text-4xl font-bold mt-4">Yay !</h1>
+              <p>Your design custom bag have been done!</p>
+
+              <div className="flex my-10">
+                <a class="inline-flex items-center px-4 py-2 text-white bg-[#4848FF] border border-indigo-600 rounded rounded-full hover:bg-indigo-700 focus:outline-none focus:ring">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-3 h-3 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M7 16l-4-4m0 0l4-4m-4 4h18"
+                    />
+                  </svg>
+
+                  <span
+                    className="text-sm font-medium cursor-pointer"
+                    onClick={() => setStep(1)}
+                  >
+                    Continue Customize
+                  </span>
+                </a>
+                <div className="text-sm font-medium cursor-pointer flex items-center bg-[#cff53e] border border-black-600 rounded rounded-full hover:bg-[#FF78C5] hover:text-white py-1 ml-4 px-4">
+                  <img src="/images/iconCustom.png " className="w-8 mr-2" />
+                  <span
+                    onClick={handleViewOrder}
+                    className="text-sm fonyt-semibold"
+                  >
+                    My List Customize
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <Modal
+        title="Enter Product Name"
+        open={modalVisible}
+        onOk={handleSaveProductName}
+        onCancel={hideNameModal}
+      >
+        <Input
+          placeholder="Enter product name"
+          value={productName}
+          onChange={(e) => setProductName(e.target.value)}
+        />
+      </Modal>
     </div>
   );
 };

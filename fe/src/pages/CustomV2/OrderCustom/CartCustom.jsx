@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./OrderCustom.css";
 import BreadcrumbWithBackButton from "../../../components/UI/Breadcrum";
 import CustomSteps from "../../../components/UI/StepCartCustom";
+import { EyeOutlined } from "@ant-design/icons";
 
 const { Step } = Steps;
 
@@ -154,13 +155,28 @@ const CartCustom = () => {
 
   return (
     <>
-      <div className="p-4 max-w-7xl mx-auto">
-        <div className=" mb-8">
+      <div className="p-4 max-w-5xl mx-auto">
+        <div className=" mb-2">
           <BreadcrumbWithBackButton currentTab={"Shopping Cart Custom Bag"} />
         </div>
-        <h1 className="text-2xl font-semibold mb-16 text-center">
-          My Cart Order Custom Bag
-        </h1>
+        <div className="flex justify-end">
+          <div className="text-sm  text-right font-medium w-[200px] cursor-pointer text-black border-black flex items-center bg-[#FF78C5] border border-black-600 rounded rounded-full hover:bg-[#cff53e]  py-1 ml-4 px-4 py-2">
+            <EyeOutlined className="text-[20px] mr-2" />
+
+            <span
+              onClick={() => navigate("/my-custom")}
+              className="text-sm fonyt-semibold"
+            >
+              My List Customize
+            </span>
+          </div>
+        </div>
+        <div className="page-name text-center pt-7">
+          <h1 className="text-lg uppercase text-black">
+            My Cart Order Custom Bag
+          </h1>
+        </div>
+        <h1 className="text-2xl font-semibold mb-5 text-center"></h1>
         <CustomSteps current={0} />
         {/* <h1 className="text-xl font-semibold mb-10 ">
           Shopping Cart Custom Bag

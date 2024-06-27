@@ -20,7 +20,7 @@ const OrderComplete = () => {
       <h1 className="text-2xl font-semibold mb-10 text-center">
         My Cart Order Custom Bag
       </h1>
-      <CustomSteps current={3} />
+      <CustomSteps current={2} />
 
       <div className="flex item-center mx-auto justify-center">
         <div className="w-1/3">

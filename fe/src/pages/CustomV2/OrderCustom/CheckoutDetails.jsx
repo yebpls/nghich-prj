@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Steps, Radio, Button, Spin, Form, Input, Modal } from "antd";
+import {
+  Steps,
+  Radio,
+  Button,
+  Spin,
+  Form,
+  Input,
+  Modal,
+  notification,
+} from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import {
+  deleteAddress2,
   useAddUserAddressMutation,
-  useDeleteAddressMutation,
   useGetAddresses,
   useSetDefaultAddress,
   useUpdateAddressMutation,
@@ -12,19 +21,44 @@ import {
 import { useMakeOrder } from "../../../api/orders";
 import BreadcrumbWithBackButton from "../../../components/UI/Breadcrum";
 import CustomSteps from "../../../components/UI/StepCartCustom";
+import { useMutation } from "react-query";
+import styled from "styled-components";
+import ConfirmButton from "../../../components/UI/ModalConfirm";
+
 // import "./OrderCustom.css";
 
 const { Step } = Steps;
 
+const StyledModal = styled(Modal)`
+  .ant-modal-title {
+    color: black !important; /* Change the color to your desired color */
+  }
+
+  .ant-modal-close {
+    color: #00000059 !important;
+  }
+`;
+
+const StyledButton = styled(ConfirmButton)`
+  border-color: #ffffff !important;
+  box-shadow: none !important;
+`;
+
 const CheckoutDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { data: addresses, isLoading } = useGetAddresses();
+  const { data: addresses, isLoading, refetch } = useGetAddresses();
   const [selectedAddress, setSelectedAddress] = useState(null);
   const addUserAddressMutation = useAddUserAddressMutation();
   const setDefaultAddressMutation = useSetDefaultAddress();
   const updateAddressMutation = useUpdateAddressMutation();
-  const deleteAddressMutation = useDeleteAddressMutation();
+
+  const [shipMethod, setShipMethod] = useState(null);
+
+  // const deleteAddressMutation = useDeleteAddressMutation();
+
+  console.log("addresses", addresses);
+  console.log("selectedAddress", selectedAddress);
 
   const [cartItems, setCartItems] = useState(
     JSON.parse(localStorage.getItem("cartItemsCus")) || []
@@ -48,6 +82,28 @@ const CheckoutDetails = () => {
     }
   }, [addresses]);
 
+  const { mutate: deleteAddressMutation } = useMutation(deleteAddress2, {
+    onSuccess: () => {
+      notification.success({
+        message: "Success",
+        description: "Custom bag deleted successfully.",
+      });
+      refetch(); // Refetch custom bags after deletion
+    },
+    onError: (error) => {
+      console.error("Failed to delete custom bag:", error);
+      notification.error({
+        message: "Error",
+        description: "Failed to delete custom bag. Please try again later.",
+      });
+    },
+  });
+
+  const handleDeleteAddress = (address_id) => {
+    debugger;
+    deleteAddressMutation(address_id);
+  };
+
   const handleAddAddress = (values) => {
     addUserAddressMutation.mutate(values);
     setIsModalVisible(false);
@@ -61,10 +117,6 @@ const CheckoutDetails = () => {
       });
       setIsEditModalVisible(false);
     }
-  };
-
-  const handleDeleteAddress = (address_id) => {
-    deleteAddressMutation.mutate(address_id);
   };
 
   const handleEditClick = (address) => {
@@ -97,17 +149,17 @@ const CheckoutDetails = () => {
     console.log("cartItems", cartItems);
     debugger;
 
-    if (orderCustom) {
-      makeOrder(orderCustom, {
-        onSuccess: () => {
-          clearCart();
-          navigate("/order-custom-complete", { state: { cartItems, total } });
-        },
-        onError: (error) => {
-          console.error("Order failed:", error);
-        },
-      });
-    }
+    // if (orderCustom) {
+    //   makeOrder(orderCustom, {
+    //     onSuccess: () => {
+    //       clearCart();
+    //       navigate("/order-custom-complete", { state: { cartItems, total } });
+    //     },
+    //     onError: (error) => {
+    //       console.error("Order failed:", error);
+    //     },
+    //   });
+    // }
   };
 
   if (isLoading) {
@@ -164,13 +216,14 @@ const CheckoutDetails = () => {
 
                   <div className="absolute top-2 right-2 flex ">
                     <EditOutlined
-                      className="cursor-pointer text-blue-200 hover:text-blue-600 mr-4 text-xl"
+                      className="cursor-pointer mt-2 text-blue-200 hover:text-blue-600 mr-4 text-xl"
                       onClick={() => handleEditClick(address)}
                     />
-                    <DeleteOutlined
-                      className="cursor-pointer text-red-200 hover:text-blue-600  text-xl"
+                    <StyledButton
                       onClick={() => handleDeleteAddress(address._id)}
-                    />
+                    >
+                      <DeleteOutlined className="cursor-pointer text-red-200 hover:text-blue-600  text-xl" />
+                    </StyledButton>
                   </div>
                 </div>
               ))}
@@ -183,7 +236,7 @@ const CheckoutDetails = () => {
           >
             Add new
           </Button>
-          <Modal
+          <StyledModal
             title="Add Address"
             open={isModalVisible}
             onCancel={() => setIsModalVisible(false)}
@@ -203,7 +256,31 @@ const CheckoutDetails = () => {
                 name="phoneNumber"
                 label="Phone Number"
                 rules={[
-                  { required: true, message: "Please enter the phone number" },
+                  () => ({
+                    validator(_, value) {
+                      if (!value) {
+                        return Promise.reject(
+                          new Error("Please enter the phone number")
+                        );
+                      }
+                      if (value.length !== 10) {
+                        return Promise.reject(
+                          new Error("Phone number must be 10 digits")
+                        );
+                      }
+                      if (!/^[0-9]+$/.test(value)) {
+                        return Promise.reject(
+                          new Error("Each digit must be a number")
+                        );
+                      }
+                      if (!/^[0-9][35789]/.test(value)) {
+                        return Promise.reject(
+                          new Error("The second digit must be 3, 5, 7, 8, or 9")
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
                 ]}
               >
                 <Input />
@@ -218,8 +295,8 @@ const CheckoutDetails = () => {
                 </Button>
               </Form.Item>
             </Form>
-          </Modal>
-          <Modal
+          </StyledModal>
+          <StyledModal
             title="Edit Address"
             open={isEditModalVisible}
             onCancel={() => setIsEditModalVisible(false)}
@@ -229,6 +306,10 @@ const CheckoutDetails = () => {
               form={editForm}
               layout="vertical"
               onFinish={handleUpdateAddress}
+              onFieldsChange={() => {
+                // Trigger re-render when fields change to update button disabled state
+                editForm.isFieldsTouched();
+              }}
             >
               <Form.Item
                 name="address"
@@ -243,7 +324,31 @@ const CheckoutDetails = () => {
                 name="phoneNumber"
                 label="Phone Number"
                 rules={[
-                  { required: true, message: "Please enter the phone number" },
+                  () => ({
+                    validator(_, value) {
+                      if (!value) {
+                        return Promise.reject(
+                          new Error("Please enter the phone number")
+                        );
+                      }
+                      if (value.length !== 10) {
+                        return Promise.reject(
+                          new Error("Phone number must be 10 digits")
+                        );
+                      }
+                      if (!/^[0-9]+$/.test(value)) {
+                        return Promise.reject(
+                          new Error("Each digit must be a number")
+                        );
+                      }
+                      if (!/^[0-9][35789]/.test(value)) {
+                        return Promise.reject(
+                          new Error("The second digit must be 3, 5, 7, 8, or 9")
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
                 ]}
               >
                 <Input />
@@ -253,12 +358,13 @@ const CheckoutDetails = () => {
                   type="primary"
                   htmlType="submit"
                   loading={updateAddressMutation.isLoading}
+                  disabled={!editForm.isFieldsTouched()}
                 >
                   Update Address
                 </Button>
               </Form.Item>
             </Form>
-          </Modal>
+          </StyledModal>
         </div>
 
         <div className="cart-left w-full h-fit  lg:w-2/5 pr-0 lg:pr-10 p-3 lg:px-3 border-[1px] border-pink-300 rounded-lg  mb-4">

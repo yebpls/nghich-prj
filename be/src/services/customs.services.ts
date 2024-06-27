@@ -5,9 +5,10 @@ import { ObjectId } from "mongodb";
 import { ErrorWithStatus } from "~/models/Errors";
 import HTTP_STATUS from "~/constants/httpStatus";
 import { deleteFileFromS3 } from "~/utils/s3";
+import { CustomPublicStatus } from "~/constants/enum";
 
 class CustomService {
-  async addCustom(user_id: string, image: Request) {
+  async addCustom(user_id: string, color: string, image: Request) {
     const url = await mediasService.uploadImage(image);
     const custom_id = await databaseService.customs.insertOne({
       _id: new ObjectId(),
@@ -15,6 +16,7 @@ class CustomService {
       url: url[0].url,
       name: "",
       created_at: new Date(),
+      color: color,
     });
     const custom = await databaseService.customs.findOne({
       _id: custom_id.insertedId,
@@ -58,6 +60,53 @@ class CustomService {
     });
 
     return { message: "Delete custom successfully!!!" };
+  }
+  async getAllCustomView() {
+    const customs = await databaseService.customs.find().toArray();
+    return customs;
+  }
+
+  async requestPublicCustom(custom_id: string) {
+    const custom = await databaseService.customs.findOneAndUpdate(
+      { _id: new ObjectId(custom_id) },
+      { $set: { public_status: CustomPublicStatus.Pending } },
+      { returnDocument: "after" }
+    );
+    if (!custom) {
+      throw new ErrorWithStatus("Custom not found", HTTP_STATUS.NOT_FOUND);
+    }
+    return custom;
+  }
+
+  async acceptPublicCustom(custom_id: string) {
+    const custom = await databaseService.customs.findOneAndUpdate(
+      { _id: new ObjectId(custom_id) },
+      { $set: { public_status: CustomPublicStatus.Public } },
+      { returnDocument: "after" }
+    );
+    if (!custom) {
+      throw new ErrorWithStatus("Custom not found", HTTP_STATUS.NOT_FOUND);
+    }
+    return custom;
+  }
+
+  async privatePublicCustom(custom_id: string) {
+    const custom = await databaseService.customs.findOneAndUpdate(
+      { _id: new ObjectId(custom_id) },
+      { $set: { public_status: CustomPublicStatus.Private } },
+      { returnDocument: "after" }
+    );
+    if (!custom) {
+      throw new ErrorWithStatus("Custom not found", HTTP_STATUS.NOT_FOUND);
+    }
+    return custom;
+  }
+
+  async getAllPublicCustom() {
+    const customs = await databaseService.customs
+      .find({ public_status: CustomPublicStatus.Public })
+      .toArray();
+    return customs;
   }
 }
 

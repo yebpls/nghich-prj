@@ -55,14 +55,14 @@ const StyledSteps = styled(Steps)`
   }
 `;
 
-const CustomSteps = ({ current }) => {
+const CustomBagSteps = ({ current, steps }) => {
   return (
-    <StyledSteps current={current} className="my-10 custom-steps ">
-      <Step title="Shopping cart" />
-      <Step title="Checkout Details" />
-      <Step title="Order complete" />
+    <StyledSteps current={current} className="mt-3 custom-steps">
+      {steps.map((step, index) => (
+        <Step key={index} title={step} />
+      ))}
     </StyledSteps>
   );
 };
 
-export default CustomSteps;
+export default CustomBagSteps;

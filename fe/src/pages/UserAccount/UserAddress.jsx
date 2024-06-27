@@ -7,6 +7,8 @@ import AddressCard from "../../components/User/Address/address-card";
 
 export default function UserAddress() {
   const [isAddAddress, setIsAddAddress] = useState(false);
+  const [isUpdateAdress, setIsUpdateAddress] = useState(false);
+
   const {
     data: addressData,
     isLoading: addressLoading,
@@ -24,7 +26,13 @@ export default function UserAddress() {
       <AddAddress setIsAddAddress={setIsAddAddress} />
       <div className="md:grid md:grid-cols-2">
         {addressData &&
-          addressData.map((item) => <AddressCard key={item._id} item={item} />)}
+          addressData.map((item) => (
+            <AddressCard
+              key={item._id}
+              item={item}
+              setIsAddAddress={setIsUpdateAddress}
+            />
+          ))}
       </div>
     </div>
   );

@@ -1,8 +1,13 @@
 import { Router } from "express";
 import {
+  acceptPublicCustomController,
   addNewCustomController,
   deleteCustomController,
   getAllCustomController,
+  getAllCustomViewController,
+  getAllPublicCustomController,
+  privateCustomController,
+  requestPublicCustomController,
   updateNameCustomController,
 } from "~/controllers/customs.controllers";
 import { accessTokenValidator } from "~/middlewares/users.middlewares";
@@ -23,12 +28,12 @@ customRouter.get(
 
 /**
  * Description: Add new custom
- * Path: /customs/
+ * Path: /customs/:color
  * Method: POST
  * Header: { Authorization: Bearer <access_token> }
  */
 customRouter.post(
-  "/",
+  "/:color",
   accessTokenValidator,
   // addNewCustomValidator,
   wrapRequestHandler(addNewCustomController)
@@ -59,6 +64,59 @@ customRouter.delete(
   accessTokenValidator,
   // addNewCustomValidator,
   wrapRequestHandler(deleteCustomController)
+);
+
+/**
+ * Description: Get all custom
+ * Path: /all
+ * Method: GET
+ */
+customRouter.get("/all", wrapRequestHandler(getAllCustomViewController));
+
+/**
+ * Description: Request public custom
+ * Path: /request-public/:custom_id
+ * Method: PUT
+ * Header: { Authorization: Bearer <access_token> }
+ */
+customRouter.put(
+  "/request-public/:custom_id",
+  accessTokenValidator,
+  wrapRequestHandler(requestPublicCustomController)
+);
+
+/**
+ * Description: Accept public custom
+ * Path: /accept-public/:custom_id
+ * Method: PUT
+ * Header: { Authorization: Bearer <access_token> }
+ */
+customRouter.put(
+  "/accept-public/:custom_id",
+  accessTokenValidator,
+  wrapRequestHandler(acceptPublicCustomController)
+);
+
+/**
+ * Description: Accept public custom
+ * Path: /request-public/:custom_id
+ * Method: PUT
+ * Header: { Authorization: Bearer <access_token> }
+ */
+customRouter.put(
+  "/private-custom/:custom_id",
+  accessTokenValidator,
+  wrapRequestHandler(privateCustomController)
+);
+
+/**
+ * Description: Get All Public Custom
+ * Path: /all-public
+ * Method: GET
+ */
+customRouter.get(
+  "/all-public",
+  wrapRequestHandler(getAllPublicCustomController)
 );
 
 export default customRouter;

@@ -19,7 +19,6 @@ export default function AddAddress({
   const [selectedProvince, setSelectedProvince] = useState({});
   const [selectedDistrict, setSelectedDistrict] = useState({});
   const [selectedWard, setSelectedWard] = useState({});
-  const [addressView, setAddressView] = useState();
   const [street, setStreet] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
@@ -84,31 +83,27 @@ export default function AddAddress({
   const setStreetsValue = (newValue) => {
     setValue("streets", newValue);
     if (isAddressApiAvailable) {
-      setAddressView(addressView);
       setStreet(newValue);
-      setValue("address", `${newValue}, ${addressView}`);
     } else {
-      setAddressView(getValues("streets"));
       setValue("address", newValue);
     }
-    console.log("addressView", newValue, addressView);
   };
 
   //ADD NEW ADDRESS
   const addAddress = (data) => {
-    const address = `${data.streets}${
+    const addressAdd = `${data.streets}${
       selectedWard?.value === "" ? "" : `, ${selectedWard?.label}`
     }, ${selectedDistrict?.label}, ${selectedProvince?.label} ... $$${
       selectedProvince?.value
     }+${selectedDistrict?.value}+${selectedWard?.value}`;
 
     const addressData = {
-      address: address,
+      address: addressAdd,
       phoneNumber: data.phoneNumber,
     };
     console.log(addressData, "addressData");
 
-    // addAddressMutation(data);
+    addAddressMutation(addressData);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -139,17 +134,6 @@ export default function AddAddress({
       setSelectedWard({ label: "", value: "" });
     }
   }, [wardFetching, selectedDistrict]);
-
-  //SET ADDRESS VIEW FOR PROVINCE, DISTRICT AND WARD
-  useEffect(() => {
-    if (selectedWard?.value === "") {
-      setAddressView(`${selectedDistrict?.label}, ${selectedProvince?.label}`);
-    } else {
-      setAddressView(
-        `${selectedWard?.label}, ${selectedDistrict?.label}, ${selectedProvince?.label}`
-      );
-    }
-  }, [selectedProvince, selectedDistrict, selectedWard]);
   useEffect(() => {
     if (addSuccess) {
       setIsAddAddress(true);
@@ -255,14 +239,6 @@ export default function AddAddress({
               {errors.street?.message}
             </div>
           </div>
-          <input
-            type="hidden"
-            {...register("address")}
-            value={`${addressView}`}
-          />
-          <p className="w-full text-sm font-thin">
-            Address: {street}, {addressView}
-          </p>
           <div className="flex justify-end">
             <button
               type="button"

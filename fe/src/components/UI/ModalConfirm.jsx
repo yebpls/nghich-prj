@@ -26,12 +26,12 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const ConfirmButton = ({ onClick, className, children, title }) => {
+const ConfirmButton = ({ onClick, className, children, title, content }) => {
   const showConfirm = () => {
     confirm({
       title: title || "Are you sure you want to export the image?",
       icon: <ExclamationCircleOutlined />,
-      content: "This action will export the current image.",
+      content: content || "This action will export the current image.",
       okText: "Yes",
       cancelText: "No",
       onOk() {
@@ -41,9 +41,14 @@ const ConfirmButton = ({ onClick, className, children, title }) => {
   };
 
   return (
-    <StyledButton onClick={showConfirm} className={className}>
+    <Button
+      onClick={showConfirm}
+      className={className}
+      title={title}
+      content={content}
+    >
       {children}
-    </StyledButton>
+    </Button>
   );
 };
 
