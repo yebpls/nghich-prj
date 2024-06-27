@@ -36,6 +36,7 @@ import CartCustom from "./pages/CustomV2/OrderCustom/CartCustom";
 import CheckoutDetails from "./pages/CustomV2/OrderCustom/CheckoutDetails";
 import OrderComplete from "./pages/CustomV2/OrderCustom/OrderComplete";
 import CustomPage from "./pages/CustomV2/MainCustomPage/CustomPage";
+import Contact from "./pages/ContactUs/ContactUs";
 
 function App() {
   const { setRole } = useAccountStore((state) => state);
@@ -70,8 +71,8 @@ function App() {
               element={<ProductDetailPage />}
             />
             <Route path="/cart" element={<OrderUser />} />
-            {/* <Route path="/customize" element={<CustomBag />} /> */}
-            <Route path="/customize" element={<CustomPage />} />
+            <Route path="/customize" element={<CustomBag />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/collection" element={<CollectionPage />} />
             <Route path="/my-custom" element={<MyCustom/>} />
             <Route path="/my-cart-custom" element={<CartCustom />} />
