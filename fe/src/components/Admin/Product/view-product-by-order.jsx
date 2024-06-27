@@ -6,12 +6,12 @@ import { create } from "zustand";
 import EditProduct from "./edit-product";
 import UploadProductImage from "./upload-file";
 import { ref } from "yup";
+import { Spin } from "antd";
 
 export default function ProductByOrder({
   orders,
   products,
-  isFetching,
-  isUpdate,
+  isLoading,
   setIsUpdate,
 }) {
   const newOrders = orders?.flatMap((data) => {
@@ -112,8 +112,8 @@ export default function ProductByOrder({
           <div className="w-1/2 text-pink-500">Sold</div>
         </div>
       </div>
-      {isFetching ? (
-        <div>Loading...</div>
+      {isLoading ? (
+        <Spin size="large" />
       ) : (
         <div>
           {productList &&

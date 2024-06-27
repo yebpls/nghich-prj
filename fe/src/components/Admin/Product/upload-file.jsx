@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { getToken } from "../../../config/http";
+import { useQueryClient } from "react-query";
 
 export default function UploadProductImage({ product_id }) {
+  const queryClient = useQueryClient();
   const token = getToken();
   const [file, setFile] = useState(null);
 
@@ -21,6 +23,7 @@ export default function UploadProductImage({ product_id }) {
     });
     if (resp.status === 200) {
       toast.success("Upload success");
+      queryClient.invalidateQueries("products");
     }
     console.log("resp", resp);
   };

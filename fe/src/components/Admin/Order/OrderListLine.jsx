@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useGetAllOrders, useUpdateOrderStatus } from "../../../api/orders";
-import { Collapse } from "antd";
+import { Collapse, Image } from "antd";
 
 export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
   const { mutate: updateOrderStatus, isSuccess } = useUpdateOrderStatus();
@@ -40,8 +40,14 @@ export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
       children: (
         <div className="">
           {order.order_details?.map((item) => (
-            <div key={item._id} className="flex text-sm">
-              <p className=" text-slate-500">
+            <div key={item._id} className="flex text-sm text-center">
+              <Image
+                width={50}
+                src={item?.product?.images[0]?.url}
+                className="rounded-lg"
+              />
+
+              <p className="text-slate-500 flex items-center justify-center ml-1">
                 {item.product.name}: {item.quantity}
               </p>
             </div>
@@ -52,13 +58,41 @@ export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
   ];
   return (
     <div className="p-3 flex w-full" key={order.order_key}>
+      <div className="w-1/6 pr-3 pl-9">{order.user.username}</div>
+
       <div className="w-1/4 px-3">
-        <Collapse ghost accordion items={items} />
+        <Collapse
+          ghost
+          accordion
+          items={[
+            {
+              key: "1",
+              label: order.order_key,
+              children: (
+                <div className="">
+                  {order.order_details?.map((item) => (
+                    <div key={item._id} className="flex text-sm text-center">
+                      <Image
+                        width={50}
+                        src={item?.product?.images[0]?.url}
+                        className="rounded-lg"
+                      />
+
+                      <p className="text-slate-500 flex items-center justify-center ml-1">
+                        {item.product.name}: {item.quantity}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ),
+            },
+          ]}
+        />
       </div>
       <div className="px-3 w-[13%]">
         <p>{total_price}</p>
       </div>
-      <div className="px-3 w-[13%]">
+      <div className="px-3 w-[10%]">
         <p>
           {(() => {
             switch (order.payment_type) {
@@ -74,7 +108,7 @@ export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
           })()}
         </p>
       </div>
-      <div className="px-3 w-[13%]">
+      <div className="px-3 w-[10%]">
         <p>
           {(() => {
             switch (order.order_status) {

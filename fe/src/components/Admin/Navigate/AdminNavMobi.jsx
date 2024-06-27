@@ -40,6 +40,10 @@ const AdminNavMobi = () => {
             <Link to="/admin/customer-management">Customer Management</Link>
           ),
         },
+        {
+          key: "5",
+          label: <Link to="/admin/custom-management">Custom Management</Link>,
+        },
         // {
         //   key: "5",
         //   label: <Link to="/admin/settings">Settings</Link>,

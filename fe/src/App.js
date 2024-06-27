@@ -37,6 +37,7 @@ import CheckoutDetails from "./pages/CustomV2/OrderCustom/CheckoutDetails";
 import OrderComplete from "./pages/CustomV2/OrderCustom/OrderComplete";
 import CustomPage from "./pages/CustomV2/MainCustomPage/CustomPage";
 import Contact from "./pages/ContactUs/ContactUs";
+import CustomManage from "./pages/AdminManage/CustomManage";
 
 function App() {
   const { setRole } = useAccountStore((state) => state);
@@ -74,7 +75,7 @@ function App() {
             <Route path="/customize" element={<CustomBag />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/collection" element={<CollectionPage />} />
-            <Route path="/my-custom" element={<MyCustom/>} />
+            <Route path="/my-custom" element={<MyCustom />} />
             <Route path="/my-cart-custom" element={<CartCustom />} />
             <Route path="/checkout-custom" element={<CheckoutDetails />} />
             <Route path="/order-custom-complete" element={<OrderComplete />} />
@@ -115,6 +116,7 @@ function App() {
               element={<ProductManage />}
             />
             <Route path="/admin/order-management" element={<OrderManage />} />
+            <Route path="/admin/custom-management" element={<CustomManage />} />
             <Route
               path="/admin/customer-management"
               element={<CustomerManage />}

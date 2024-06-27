@@ -41,7 +41,12 @@ const ConfirmButton = ({ onClick, className, children, title, content }) => {
   };
 
   return (
-    <Button onClick={showConfirm} className={className}>
+    <Button
+      onClick={showConfirm}
+      className={className}
+      title={title}
+      content={content}
+    >
       {children}
     </Button>
   );

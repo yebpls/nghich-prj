@@ -52,12 +52,12 @@ const getAllAddress = async () => {
 
 //GET WARD QUERY BY USE GET WARD FUNCTION
 export const useGetAddresses = () => {
-  const { data, isLoading, isFetching, error,refetch } = useQuery(
+  const { data, isLoading, isFetching, error, refetch } = useQuery(
     "userAddress",
     getAllAddress
   );
   // console.log("check addresses:", data);
-  return { data, isLoading, isFetching, error,refetch  };
+  return { data, isLoading, isFetching, error, refetch };
 };
 
 //ADD ADDRESS
@@ -71,8 +71,12 @@ async function addUserAddress(input) {
 }
 //REGISTER MUTATION BY USE REGISTER FUNCTION
 export const useAddUserAddressMutation = () => {
+  const queryClient = useQueryClient();
+
   return useMutation((input) => addUserAddress(input), {
     onSuccess: (data) => {
+      queryClient.invalidateQueries("userAddress");
+
       console.log(data, "add success");
       toast.success("add success");
     },
@@ -111,7 +115,6 @@ export const useSetDefaultAddress = () => {
   });
 };
 
-
 // UPDATE ADDRESS FUNCTION
 export const updateAddress = async ({ address_id, address, phoneNumber }) => {
   const { data } = await http.patch(
@@ -120,7 +123,6 @@ export const updateAddress = async ({ address_id, address, phoneNumber }) => {
   );
   return data;
 };
-
 
 export const useUpdateAddressMutation = () => {
   const queryClient = useQueryClient();
@@ -139,14 +141,16 @@ export const useUpdateAddressMutation = () => {
 };
 // DELETE CUSTOM BAG FUNCTION
 export const deleteAddress2 = async (address_id) => {
-  const { data } = await http.delete(`${API_ENDPOINTS.DELETE_ADDRESS}${address_id}`);
+  const { data } = await http.delete(
+    `${API_ENDPOINTS.DELETE_ADDRESS}${address_id}`
+  );
   return data;
 };
 
 // DELETE ADDRESS
 async function deleteAddress(address_id) {
   const { data } = await http.delete(
-    `${API_ENDPOINTS.DELETE_ADDRESS}/${address_id}`
+    `${API_ENDPOINTS.DELETE_ADDRESS}${address_id}`
   );
   return data.data;
 }

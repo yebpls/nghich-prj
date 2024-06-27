@@ -6,8 +6,8 @@ import { useGetProducts } from "../../api/product";
 
 export default function ProductManage() {
   const [isUpdate, setIsUpdate] = useState(false);
-  const { data: orders, isFetching } = useGetAllOrders();
-  const { data: products, isLoading, refetch } = useGetProducts();
+  const { data: orders, isFetching, isLoading } = useGetAllOrders();
+  const { data: products, refetch } = useGetProducts();
 
   useEffect(() => {
     console.log(isUpdate, "is update");
@@ -30,7 +30,7 @@ export default function ProductManage() {
       <ProductByOrder
         orders={orders}
         products={products}
-        isFetching={isFetching}
+        isLoading={isLoading}
         isUpdate={isUpdate}
         setIsUpdate={setIsUpdate}
       />
