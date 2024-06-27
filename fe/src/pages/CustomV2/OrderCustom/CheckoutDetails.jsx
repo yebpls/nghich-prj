@@ -134,17 +134,21 @@ const CheckoutDetails = () => {
   const handleSubmit = () => {
     const orderCustom = {
       custom_detail: cartItems.map((item) => ({
-        product_id: item.key,
+        custom_id: item.key,
         price_final: item.price,
         quantity: item.quantity,
+        image: item.image,
+        color: item.color,
+        name: item.name,
       })),
       address_id: selectedAddress,
       payment_type: 0, // You can change this value based on your requirement
-      ship_method: 1, // You can change this value based on your requirement
+      ship_method: 1, // You can change this value based   on your requirement
       subtotal: total,
     };
 
     console.log("please order", orderCustom);
+    console.log("cartItems", cartItems);
     debugger;
 
     if (orderCustom) {
@@ -254,7 +258,31 @@ const CheckoutDetails = () => {
                 name="phoneNumber"
                 label="Phone Number"
                 rules={[
-                  { required: true, message: "Please enter the phone number" },
+                  () => ({
+                    validator(_, value) {
+                      if (!value) {
+                        return Promise.reject(
+                          new Error("Please enter the phone number")
+                        );
+                      }
+                      if (value.length !== 10) {
+                        return Promise.reject(
+                          new Error("Phone number must be 10 digits")
+                        );
+                      }
+                      if (!/^[0-9]+$/.test(value)) {
+                        return Promise.reject(
+                          new Error("Each digit must be a number")
+                        );
+                      }
+                      if (!/^[0-9][35789]/.test(value)) {
+                        return Promise.reject(
+                          new Error("The second digit must be 3, 5, 7, 8, or 9")
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
                 ]}
               >
                 <Input />
@@ -298,7 +326,31 @@ const CheckoutDetails = () => {
                 name="phoneNumber"
                 label="Phone Number"
                 rules={[
-                  { required: true, message: "Please enter the phone number" },
+                  () => ({
+                    validator(_, value) {
+                      if (!value) {
+                        return Promise.reject(
+                          new Error("Please enter the phone number")
+                        );
+                      }
+                      if (value.length !== 10) {
+                        return Promise.reject(
+                          new Error("Phone number must be 10 digits")
+                        );
+                      }
+                      if (!/^[0-9]+$/.test(value)) {
+                        return Promise.reject(
+                          new Error("Each digit must be a number")
+                        );
+                      }
+                      if (!/^[0-9][35789]/.test(value)) {
+                        return Promise.reject(
+                          new Error("The second digit must be 3, 5, 7, 8, or 9")
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
                 ]}
               >
                 <Input />
