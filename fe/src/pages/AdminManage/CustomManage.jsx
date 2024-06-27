@@ -5,12 +5,14 @@ import {
 } from "../../api/custom";
 import { Button, Image, Space, Table } from "antd";
 import { useAllUser } from "../../api/User/user";
+import useColumnFilters from "../../components/Table/utils";
 
 export default function CustomManage() {
   const { data: customBags } = useGetAllCustomBags();
   const { mutate: acceptCustomPublic } = useAcceptCustomPublicMutation();
   const { data: users } = useAllUser();
   console.log(customBags, "custom bags");
+  const { getColumnSearchProps } = useColumnFilters();
   const combinedData = customBags?.map((customBag) => {
     const user = users?.find((user) => user._id === customBag.user_id);
     return {
@@ -26,12 +28,14 @@ export default function CustomManage() {
       title: "Image",
       dataIndex: "url",
       key: "url",
+
       render: (url) => <Image width={132} src={url} className="rounded-lg" />,
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      ...getColumnSearchProps("name", "Search"),
       render: (name) => (
         <div>{name ? name : <p className="text-slate-400">Empty Name</p>}</div>
       ),

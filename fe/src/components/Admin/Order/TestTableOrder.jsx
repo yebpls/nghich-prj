@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Collapse, Table, Image } from "antd";
 import { useGetAllOrders, useUpdateOrderStatus } from "../../../api/orders";
 import { useAllUser } from "../../../api/User/user";
+import useColumnFilters from "../../Table/utils";
 
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
@@ -9,7 +10,7 @@ const onChange = (pagination, filters, sorter, extra) => {
 export default function TestTable() {
   const { data: orders, isFetching, isLoading, refetch } = useGetAllOrders();
   const { mutate: updateOrderStatus, isSuccess } = useUpdateOrderStatus();
-
+  const { getColumnSearchProps } = useColumnFilters();
   const handleUpdateStatus = (value) => {
     console.log(value.id, value.status, "id, status");
     switch (value.status) {
@@ -58,6 +59,7 @@ export default function TestTable() {
       title: "Username",
       dataIndex: "username",
       width: "13%",
+      ...getColumnSearchProps("username", "Search"),
     },
     {
       title: "Value",
