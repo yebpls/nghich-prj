@@ -138,10 +138,12 @@ const CheckoutDetails = () => {
         price_final: item.price,
         quantity: item.quantity,
         image: item.image,
+        color: item.color,
+        name: item.name,
       })),
       address_id: selectedAddress,
       payment_type: 0, // You can change this value based on your requirement
-      ship_method: 1, // You can change this value based on your requirement
+      ship_method: 1, // You can change this value based   on your requirement
       subtotal: total,
     };
 
@@ -149,17 +151,17 @@ const CheckoutDetails = () => {
     console.log("cartItems", cartItems);
     debugger;
 
-    // if (orderCustom) {
-    //   makeOrder(orderCustom, {
-    //     onSuccess: () => {
-    //       clearCart();
-    //       navigate("/order-custom-complete", { state: { cartItems, total } });
-    //     },
-    //     onError: (error) => {
-    //       console.error("Order failed:", error);
-    //     },
-    //   });
-    // }
+    if (orderCustom) {
+      makeOrder(orderCustom, {
+        onSuccess: () => {
+          clearCart();
+          navigate("/order-custom-complete", { state: { cartItems, total } });
+        },
+        onError: (error) => {
+          console.error("Order failed:", error);
+        },
+      });
+    }
   };
 
   if (isLoading) {

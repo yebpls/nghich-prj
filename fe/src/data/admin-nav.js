@@ -49,23 +49,23 @@ export const items = [
         label: (
           <NavLink
             className={({ isActive }) => style(isActive)}
+            to="/admin/custom-management"
+          >
+            Custom Management
+          </NavLink>
+        ),
+      },
+      {
+        key: "5",
+        label: (
+          <NavLink
+            className={({ isActive }) => style(isActive)}
             to="/admin/customer-management"
           >
             Customer Management
           </NavLink>
         ),
       },
-      // {
-      //   key: "5",
-      //   label: (
-      //     <NavLink
-      //       className={({ isActive }) => style(isActive)}
-      //       to="/admin/settings"
-      //     >
-      //       Setting
-      //     </NavLink>
-      //   ),
-      // },
     ],
   },
 ];
