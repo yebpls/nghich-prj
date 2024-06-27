@@ -98,6 +98,39 @@ class OrderServices {
           },
         },
         {
+          $lookup: {
+            from: "users",
+            localField: "user_id",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: {
+            path: "$user",
+            includeArrayIndex: "0",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $addFields: {
+            address: {
+              $arrayElemAt: [
+                {
+                  $filter: {
+                    input: "$user.addresses",
+                    as: "address",
+                    cond: {
+                      $eq: ["$$address._id", "$address_id"],
+                    },
+                  },
+                },
+                0,
+              ],
+            },
+          },
+        },
+        {
           $addFields: {
             order_details: {
               $map: {
@@ -142,6 +175,16 @@ class OrderServices {
           $project: {
             "order_details.product_id": 0,
             product_details_info: 0,
+            "user.password": 0,
+            "user.updated_at": 0,
+            "user.created_at": 0,
+            "user.email_verify_token": 0,
+            "user.forgot_password_token": 0,
+            "user.addresses": 0,
+            "user.role": 0,
+            "user.wishList": 0,
+            user_id: 0,
+            address_id: 0,
           },
         },
       ])
@@ -175,6 +218,39 @@ class OrderServices {
           },
         },
         {
+          $lookup: {
+            from: "users",
+            localField: "user_id",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: {
+            path: "$user",
+            includeArrayIndex: "0",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $addFields: {
+            address: {
+              $arrayElemAt: [
+                {
+                  $filter: {
+                    input: "$user.addresses",
+                    as: "address",
+                    cond: {
+                      $eq: ["$$address._id", "$address_id"],
+                    },
+                  },
+                },
+                0,
+              ],
+            },
+          },
+        },
+        {
           $addFields: {
             order_details: {
               $map: {
@@ -219,6 +295,16 @@ class OrderServices {
           $project: {
             "order_details.product_id": 0,
             product_details_info: 0,
+            "user.password": 0,
+            "user.updated_at": 0,
+            "user.created_at": 0,
+            "user.email_verify_token": 0,
+            "user.forgot_password_token": 0,
+            "user.addresses": 0,
+            "user.role": 0,
+            "user.wishList": 0,
+            user_id: 0,
+            address_id: 0,
           },
         },
       ])
@@ -251,6 +337,39 @@ class OrderServices {
           },
         },
         {
+          $lookup: {
+            from: "users",
+            localField: "user_id",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: {
+            path: "$user",
+            includeArrayIndex: "0",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $addFields: {
+            address: {
+              $arrayElemAt: [
+                {
+                  $filter: {
+                    input: "$user.addresses",
+                    as: "address",
+                    cond: {
+                      $eq: ["$$address._id", "$address_id"],
+                    },
+                  },
+                },
+                0,
+              ],
+            },
+          },
+        },
+        {
           $addFields: {
             order_details: {
               $map: {
@@ -295,6 +414,16 @@ class OrderServices {
           $project: {
             "order_details.product_id": 0,
             product_details_info: 0,
+            "user.password": 0,
+            "user.updated_at": 0,
+            "user.created_at": 0,
+            "user.email_verify_token": 0,
+            "user.forgot_password_token": 0,
+            "user.addresses": 0,
+            "user.role": 0,
+            "user.wishList": 0,
+            user_id: 0,
+            address_id: 0,
           },
         },
       ])
@@ -331,6 +460,39 @@ class OrderServices {
           },
         },
         {
+          $lookup: {
+            from: "users",
+            localField: "user_id",
+            foreignField: "_id",
+            as: "user",
+          },
+        },
+        {
+          $unwind: {
+            path: "$user",
+            includeArrayIndex: "0",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $addFields: {
+            address: {
+              $arrayElemAt: [
+                {
+                  $filter: {
+                    input: "$user.addresses",
+                    as: "address",
+                    cond: {
+                      $eq: ["$$address._id", "$address_id"],
+                    },
+                  },
+                },
+                0,
+              ],
+            },
+          },
+        },
+        {
           $addFields: {
             order_details: {
               $map: {
@@ -375,6 +537,16 @@ class OrderServices {
           $project: {
             "order_details.product_id": 0,
             product_details_info: 0,
+            "user.password": 0,
+            "user.updated_at": 0,
+            "user.created_at": 0,
+            "user.email_verify_token": 0,
+            "user.forgot_password_token": 0,
+            "user.addresses": 0,
+            "user.role": 0,
+            "user.wishList": 0,
+            user_id: 0,
+            address_id: 0,
           },
         },
       ])
