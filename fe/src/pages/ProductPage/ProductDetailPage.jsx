@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
-import { useGetProductById } from "../../api/product";
+import { useGetProductById, useGetProducts } from "../../api/product";
 import { toast } from "react-toastify";
 import { useCartStore } from "../../zustand-store/cartState";
 import { setCart } from "../../localStorage/handleCart";
@@ -15,10 +15,12 @@ const ProductDetailPage = () => {
   const { countCart, cartItems } = useCartStore((state) => state);
   const { productId } = useParams();
   const { data: product, isLoading, error } = useGetProductById(productId);
+  const { data: products } = useGetProducts();
   const { mutate: addWishlist } = useAddWishlist();
   const handleAddWishlist = (id) => {
     addWishlist(id);
   };
+  console.log(products);
   const handleAddToCart = (item) => {
     if (item) {
       addToCart(item, quantity);
@@ -108,9 +110,14 @@ const ProductDetailPage = () => {
                     </div>
                   ))}
                   <div className="color-img flex mt-5">
-                    {[...Array(4)].map((x, i) => (
+                  {[...Array(4)].map((x, i) => (
                       <div className="color-img-item">
-                        <img className="" src="/image c.png" alt="" srcset="" />
+                        <img
+                          className=""
+                          src={product?.images[0]?.url}
+                          alt=""
+                          srcset=""
+                        />
                       </div>
                     ))}
                   </div>
@@ -243,12 +250,12 @@ const ProductDetailPage = () => {
             </Link>
           </div>
           <div className=" flex flex-wrap">
-            {[...Array(4)].map((x, i) => (
-              <div className="w-1/4  text-xs text-slate-600">
+          {products.map((x, i) => (
+              <div key={i} className={`w-1/4 ${i>3?"hidden":" "} text-xs text-slate-600`}>
                 <Link>
                   <div className="product-list-item p-3">
                     <div className="product-img ">
-                      <img className="w-full" src="/image c.png" alt="" />
+                      <img className="h-72 w-64" src={x.images[0]?.url} alt="" />
                     </div>
                     <div className="product-info font-bold">
                       <div className="product-fig md:flex justify-between py-2">

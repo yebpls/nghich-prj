@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import CartCustom from "../OrderCustom/CartCustom";
 import styled from "styled-components";
-import { format } from "date-fns";
+
 import BreadcrumbWithBackButton from "../../../components/UI/Breadcrum";
 import moment from "moment/moment";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -178,8 +178,8 @@ const ListCustomPublic = () => {
                       }}
                     />
                     <p className="text-gray-600 text-xs mt-6">
-                      {" "}
-                      {formattedDate}
+
+                      {/* {formattedDate}  */}
                     </p>
 
                     <p className="font- text-gray-500 mt-4 text-xs">
@@ -209,10 +209,10 @@ const ListCustomPublic = () => {
                     <p className="mb-2 text-lg font-bold">
                       Price:{" "}
                       <span className="text-[#FF5733]">
-                        {prices[customBag._id]?.toLocaleString("vi-VN", {
+                        {/* {prices[customBag._id]?.toLocaleString("vi-VN", {
                           style: "currency",
                           currency: "VND",
-                        })}
+                        })} */}
                       </span>
                     </p>
 
