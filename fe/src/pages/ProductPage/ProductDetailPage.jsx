@@ -42,7 +42,7 @@ const ProductDetailPage = () => {
           </p>
         </div>
       </div> */}
-      <h1>cartCount: {countCart}</h1>
+      {/* <h1>cartCount: {countCart}</h1> */}
       <div className="product-detail pt-3 pb-10">
         <div className=" mx-auto my-0">
           <div className=" flex flex-wrap">

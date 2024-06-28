@@ -139,15 +139,15 @@ export default function UserWishlist() {
                       <div className="">
                         <img
                           className="lg:w-24 lg:h-28 w-20 h-24 p-3"
-                          src={item.images[0].url}
+                          src={item?.images[0]?.url}
                           alt=""
                         />
                       </div>
                       <div className="text-xs lg:text-sm py-9">
                         <p className="font-bold max-w-24 lg:max-w-none text-black">
-                          {item.name}
+                          {item?.name}
                         </p>
-                        <p>{item.color[0].name}</p>
+                        <p>{item?.color[0]?.name}</p>
                       </div>
                     </div>
                   </div>
