@@ -1,15 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useGetProducts } from "../../api/product";
-import { Rate } from "antd";
+import { Pagination, Rate } from "antd";
 import ProductCard from "../../components/Product/product-card";
 import ComSeo from "../../components/SEO/ComSeo";
+import { Input, List } from 'antd';
 
+const { Search } = Input;
 const ProductPage = () => {
   const { data: product } = useGetProducts();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(8);
+  const [filteredData, setFilteredData] = useState(product);
+  console.log(product, "product");
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    const filtered = product.filter((item) =>
+      item.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredData(filtered);
+    setCurrentPage(1);
+  };
+  useEffect(() => {
+    console.log(product, "product");
+    setFilteredData(product)
+  }, [product]);
+  const handleChangePage = (page, pageSize) => {
+    setCurrentPage(page);
+    setPageSize(pageSize);
+  };
+  const currentData = filteredData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
   return (
     <main className="main w-full lg:w-5/6 mx-auto">
       <ComSeo tile="Products" name="NGHỊCH COLLECTION" content="nghịch" />
@@ -155,23 +180,37 @@ const ProductPage = () => {
                 <h2 className="text-md md:text-lg lg:text-xl font-bold text-black">
                   NGHỊCH COLLECTION
                 </h2>
-                <div className="product-sort">
-                  <span className="sort mr-3">Sort by</span>
+                <div className="product-sort flex">
+
+                  <Search
+                    placeholder="Search for a name"
+                    enterButton="Search"
+                    size="large"
+                    onSearch={handleSearch}
+                  />
+                  {/* <span className="sort mr-3">Sort by</span>
                   <select className="border border-slate-400 py-2 rounded-md  w-full pl-3">
                     <option value="1">Sort filter 1</option>
                     <option value="2">Sort filter 2</option>
                     <option value="3">Sort filter 3</option>
-                  </select>
+                  </select> */}
                 </div>
               </div>
               <div className="product-list grid grid-cols-3 lg:grid-cols-4 text-black">
-                {product?.map((item) => (
+                {currentData?.map((item) => (
                   <ProductCard key={item._id} item={item} />
                 ))}
               </div>
               <div className="grid-records py-[50px] text-right text-black border-b">
-                showing <span className="font-bold">0</span> -{" "}
-                <span className="font-bold">N</span> results of N
+                {/* showing <span className="font-bold">0</span> -{" "}
+                <span className="font-bold">N</span> results of N */}
+                <Pagination
+                  current={currentPage}
+                  pageSize={pageSize}
+                  total={filteredData.length}
+                  onChange={handleChangePage}
+                  style={{ marginTop: '20px', textAlign: 'center' }}
+                />
               </div>
             </div>
           </div>
