@@ -84,11 +84,17 @@ export default function TestTable() {
                 label: item.order_key,
                 children: (
                   <div className="">
+                    <div className="text-sm text-slate-500">
+                      Phone Number: {item.address?.phoneNumber}
+                    </div>
+                    <div className="text-xs text-slate-500 my-1">
+                      Address: {item.address?.address?.split("...")[0]}
+                    </div>
+
+                    <div></div>
                     {
                       item.order_key.startsWith("CT") ? (
                         <div>
-                          <p>Custom tote</p>
-                          <p>{item.address.phoneNumber}</p>
                           {item.order_details?.map((item) => (
                             <div
                               key={item._id}
@@ -103,7 +109,10 @@ export default function TestTable() {
                                 <p className="text-slate-500 flex items-center  ml-1">
                                   {item?.name}: {item.quantity}
                                 </p>
-                                <div className="mx-1 text-lg w-fit flex">
+                                <div
+                                  className="mx-1 text-base w-fit flex"
+                                  style={{ color: `#${item.color}` }}
+                                >
                                   <p>color: {item.color}</p>
                                   <span style={{ color: `#${item.color}` }}>
                                     ■
