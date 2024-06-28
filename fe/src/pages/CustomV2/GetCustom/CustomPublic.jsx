@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
-import { Card, Row, Col, Spin, notification, Button } from "antd";
+import { Card, Row, Col, Spin, notification, Button, Image } from "antd";
 import http from "../../../config/http";
 import { API_ENDPOINTS } from "../../../api/api-endpoint";
 import {
@@ -110,9 +110,12 @@ const ListCustomPublic = () => {
       product: customBag.name || "Untitled Bag",
       image: customBag.url,
       quantity: 1,
+      color: customBag.color,
+      name: customBag.name,
       price: prices[customBag._id],
       subtotal: prices[customBag._id],
     };
+    console.log("customBag", customBag);
 
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.key === customBag._id);
@@ -159,7 +162,7 @@ const ListCustomPublic = () => {
                     bordered={false}
                     className="hover:scale-105 hover:shadow-xl"
                   >
-                    <img
+                    <Image
                       src={customBag.url}
                       alt={customBag.name || "Chưa có tên"}
                       style={{
@@ -177,22 +180,44 @@ const ListCustomPublic = () => {
                         WebkitMaskRepeat: "no-repeat",
                       }}
                     />
+                    {/* <img
+                      src={customBag.url}
+                      alt={customBag.name || "Chưa có tên"}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        maskImage:
+                          "url('/images/bagsBody/BagTransparentBg.png')",
+                        WebkitMaskImage:
+                          "url('/images/bagsBody/BagTransparentBg.png')",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                      }}
+                    /> */}
                     <p className="text-gray-600 text-xs mt-6">
                       {" "}
                       {formattedDate}
                     </p>
-
+                    {/* 
                     <p className="font- text-gray-500 mt-4 text-xs">
                       #{customBag._id}
-                    </p>
-                    <p className="font-bold text-black-900  ">
-                      Product name:{" "}
+                    </p> */}
+                    <p className=" text-black-900 font-semibold ">
                       {customBag.name ? customBag.name : "No Name"}
                     </p>
 
                     <div className="flex justify-between mr-2">
-                      <div className="font-bold text-black-900 flex items-center">
-                        <p className="mr-2">Color:</p>
+                      <div className=" flex items-center">
+                        <p
+                          className="mr-2"
+                          style={{ color: `#${customBag.color}` }}
+                        >
+                          Color:
+                        </p>
                         {customBag.color ? (
                           <ColorSwatch
                             key={customBag.color}
@@ -202,18 +227,13 @@ const ListCustomPublic = () => {
                           <p>No Color</p>
                         )}
                       </div>
-                      <p className=" font-bold text-black-900 mr-2 ">
-                        Quantity: 1
-                      </p>
+                      <p className="text-black-900 mr-2 ">Quantity: 1</p>
                     </div>
-                    <p className="mb-2 text-lg font-bold">
-                      Price:{" "}
-                      <span className="text-[#FF5733]">
-                        {prices[customBag._id]?.toLocaleString("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                        })}
-                      </span>
+                    <p className="mt-2 mr-2 text-lg text-right">
+                      {prices[customBag._id]?.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
                     </p>
 
                     <CustomButton
