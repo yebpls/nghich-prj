@@ -4,6 +4,9 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useLoginStore } from "../../../zustand-store/loginState";
 import { items } from "../../../data/admin-nav";
+import Sider from "antd/es/layout/Sider";
+import { Menu } from "antd";
+import { HomeOutlined, LogoutOutlined } from "@ant-design/icons";
 
 const AdminNav = () => {
   const navigate = useNavigate();
@@ -17,18 +20,51 @@ const AdminNav = () => {
   };
 
   return (
-    <div className="flex flex-col pt-9 pb-4 bg-[#CFF53E] h-full">
-      {items[0].children.map((item) => (
-        <div>{item.label}</div>
-      ))}
-      <a
-        className="      p-4 py-3 my-4 w-full text-lg text-black font-semibold hover:text-white hover:bg-pink-400 cursor-pointer
-"
-        onClick={adminLogout}
+    <Sider
+      width="16vw"
+      style={{
+        minWidth: "200px", // Độ rộng tối thiểu
+        maxWidth: "250px", // Độ rộng tối đa
+        height: "100vh",
+        background: "#CFF53E",
+        overflow: "auto",
+        position: "fixed",
+        left: 0,
+      }}
+    >
+      {/* Logo */}
+      <div className="flex items-center justify-center p-4">
+        <img
+          src="/images/logo_nghich_lg.png"
+          alt="Logo"
+          className="h-12 my-6"
+          onClick={() => navigate("/")}
+        />
+      </div>
+
+      {/* Menu */}
+      <Menu
+        mode="inline"
+        defaultSelectedKeys={["1"]}
+        style={{ background: "#CFF53E" }}
       >
-        Logout
-      </a>
-    </div>
+        {items[0].children.map((item) => (
+          <Menu.Item key={item.id} icon={<HomeOutlined />} className="py-8">
+            {item.label}
+          </Menu.Item>
+        ))}
+
+        {/* Logout */}
+        <Menu.Item
+          key="logout"
+          icon={<LogoutOutlined />}
+          className="text-lg text-black font-semibold hover:text-white hover:bg-pink-400 cursor-pointer"
+          onClick={adminLogout}
+        >
+          Logout
+        </Menu.Item>
+      </Menu>
+    </Sider>
   );
 };
 export default AdminNav;

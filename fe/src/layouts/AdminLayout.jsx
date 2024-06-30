@@ -13,7 +13,7 @@ export default function AdminLayout() {
         <div className="visible lg:invisible lg:w-0">
           <AdminNavMobi />
         </div>
-        <div className=" w-full min-h-screen lg:w-3/4 lg:mx-5 px-5 pt-16 lg:pt-0 ">
+        <div className=" w-full min-h-screen   pt-16 lg:pt-0 ">
           <Outlet />
         </div>
       </div>

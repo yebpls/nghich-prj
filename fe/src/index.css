@@ -121,3 +121,7 @@ button {
   font-weight: 700;
   font-style: normal;
 }
+
+:where(.css-dev-only-do-not-override-m4timi).ant-menu-light .ant-menu-item-selected{
+  background-color: #f472b6 !important;
+}
