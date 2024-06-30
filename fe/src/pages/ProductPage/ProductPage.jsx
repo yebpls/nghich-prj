@@ -7,12 +7,12 @@ import { useGetProducts } from "../../api/product";
 import { Pagination, Rate } from "antd";
 import ProductCard from "../../components/Product/product-card";
 import ComSeo from "../../components/SEO/ComSeo";
-import { Input, List } from 'antd';
+import { Input, List } from "antd";
 
 const { Search } = Input;
 const ProductPage = () => {
   const { data: product } = useGetProducts();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(8);
   const [filteredData, setFilteredData] = useState(product);
@@ -27,13 +27,16 @@ const ProductPage = () => {
   };
   useEffect(() => {
     console.log(product, "product");
-    setFilteredData(product)
+    setFilteredData(product);
   }, [product]);
   const handleChangePage = (page, pageSize) => {
     setCurrentPage(page);
     setPageSize(pageSize);
   };
-  const currentData = filteredData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const currentData = filteredData.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   return (
     <main className="main w-full lg:w-5/6 mx-auto">
@@ -181,7 +184,6 @@ const ProductPage = () => {
                   NGHỊCH COLLECTION
                 </h2>
                 <div className="product-sort flex">
-
                   <Search
                     placeholder="Search for a name"
                     enterButton="Search"
@@ -209,7 +211,7 @@ const ProductPage = () => {
                   pageSize={pageSize}
                   total={filteredData.length}
                   onChange={handleChangePage}
-                  style={{ marginTop: '20px', textAlign: 'center' }}
+                  style={{ marginTop: "20px", textAlign: "center" }}
                 />
               </div>
             </div>
