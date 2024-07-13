@@ -13,7 +13,7 @@ export const defaultErrorHandler = (
     return res.status(err.status).json(omit(err, ["status"]));
   }
   Object.getOwnPropertyNames(err).forEach((key) => {
-    Object.defineProperty(err, key, { enumerable: true });
+    Object.defineProperty(err, key, { enumerable: true, configurable: true });
   });
   res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
     message: err.message,
