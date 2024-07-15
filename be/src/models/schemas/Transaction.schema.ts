@@ -8,6 +8,7 @@ interface TransactionType {
   order_id: ObjectId;
   payment_type: PaymentType;
   amount: number;
+  transaction_image_url: string;
   status: TransactionStatus;
 }
 
@@ -18,6 +19,7 @@ export class Transaction {
   order_id: ObjectId;
   payment_type: PaymentType;
   amount: number;
+  transaction_image_url?: string;
   status: TransactionStatus;
 
   constructor(transaction: TransactionType) {
@@ -27,6 +29,7 @@ export class Transaction {
     this.user_id = transaction.user_id;
     this.order_id = transaction.order_id;
     this.amount = transaction.amount;
+    this.transaction_image_url = transaction.transaction_image_url || "";
     this.status = transaction.status;
   }
 }
