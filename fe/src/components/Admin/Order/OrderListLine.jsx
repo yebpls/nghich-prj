@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useGetAllOrders, useUpdateOrderStatus } from "../../../api/orders";
-import { Collapse, Image } from "antd";
+import { Collapse, Image, Tag } from "antd";
 
 export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
   const { mutate: updateOrderStatus, isSuccess } = useUpdateOrderStatus();
@@ -109,25 +109,37 @@ export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
         </p>
       </div>
       <div className="px-3 w-[10%]">
-        <p>
+        <Tag
+          color={(() => {
+            switch (order.order_status) {
+              case 0:
+                return { color: "orange", backgroundColor: "#FFF4E5" }; // Light orange background
+              case 1:
+                return { color: "blue", backgroundColor: "#E6F7FF" }; // Light blue background
+              case 2:
+                return { color: "pink", backgroundColor: "#FFF0F6" }; // Light pink background
+              case 3:
+                return { color: "red", backgroundColor: "#FFF1F0" }; // Light red background
+              default:
+                return { color: "default", backgroundColor: "#F5F5F5" }; // Default background
+            }
+          })()}
+        >
           {(() => {
             switch (order.order_status) {
               case 0:
-                return <p className="text-orange-400">Pending</p>;
+                return "Pending";
               case 1:
-                return <p className="text-blue-400">Shipping</p>;
-
+                return "Shipping";
               case 2:
-                return <p className="text-pink-400">Completed</p>;
-
+                return "Completed";
               case 3:
-                return <p className="text-red-400">Cancel</p>;
-
+                return "Cancel";
               default:
                 return "Unknown Status";
             }
           })()}
-        </p>
+        </Tag>
       </div>
 
       {/* <p>user id: {order.user_id}</p> */}

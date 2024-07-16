@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import CartCustom from "../OrderCustom/CartCustom";
 import styled from "styled-components";
-import { format } from "date-fns";
+
 import BreadcrumbWithBackButton from "../../../components/UI/Breadcrum";
 import moment from "moment/moment";
 import { DeleteOutlined } from "@ant-design/icons";
@@ -199,8 +199,7 @@ const ListCustomPublic = () => {
                       }}
                     /> */}
                     <p className="text-gray-600 text-xs mt-6">
-                      {" "}
-                      {formattedDate}
+                      {/* {formattedDate}  */}
                     </p>
                     {/* 
                     <p className="font- text-gray-500 mt-4 text-xs">

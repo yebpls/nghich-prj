@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Collapse, Table, Image } from "antd";
+import { Collapse, Table, Image, Tag } from "antd";
 import { useGetAllOrders, useUpdateOrderStatus } from "../../../api/orders";
 import { useAllUser } from "../../../api/User/user";
+import useColumnFilters from "../../Table/utils";
+import moment from "moment";
 
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
@@ -9,7 +11,7 @@ const onChange = (pagination, filters, sorter, extra) => {
 export default function TestTable() {
   const { data: orders, isFetching, isLoading, refetch } = useGetAllOrders();
   const { mutate: updateOrderStatus, isSuccess } = useUpdateOrderStatus();
-
+  const { getColumnSearchProps } = useColumnFilters();
   const handleUpdateStatus = (value) => {
     console.log(value.id, value.status, "id, status");
     switch (value.status) {
@@ -28,11 +30,12 @@ export default function TestTable() {
 
     updateOrderStatus({ orderId: value.id, input: { order_status: 3 } });
   };
-  const combinedList = orders?.map((order) => {
+  const combinedList = orders?.map((order, index) => {
     // Ensure order.order_key is defined before calling startsWith
     const orderKey = order.order_key || ""; // Fallback to an empty string if undefined
     return {
       ...order,
+      index: index + 1,
       total: orderKey.startsWith("PD")
         ? order.order_details
             ?.reduce((acc, item) => acc + item.price_final * item.quantity, 0)
@@ -57,9 +60,17 @@ export default function TestTable() {
   });
   const columns = [
     {
+      title: "STT",
+      width: 100,
+      dataIndex: "index",
+      key: "index",
+      render: (index) => <p className="text-center">{index}</p>, // Display index as-is
+    },
+    {
       title: "Username",
       dataIndex: "username",
       width: "13%",
+      ...getColumnSearchProps("username", "Search"),
     },
     {
       title: "Value",
@@ -176,31 +187,49 @@ export default function TestTable() {
       width: "30%",
     },
     {
+      title: "Create Date",
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (created_at) => {
+        const formattedDate = moment(created_at).format(
+          "MMMM Do YYYY, h:mm:ss a"
+        );
+        return <p className="w-fit mt-3 w-[70px] ">{formattedDate}</p>;
+      },
+    },
+    {
       title: "Status",
       dataIndex: "order_status",
       render: (status) => {
+        let tagColor, tagText;
+        switch (status) {
+          case 0:
+            tagColor = "orange";
+            tagText = "Pending";
+            break;
+          case 1:
+            tagColor = "blue";
+            tagText = "Shipping";
+            break;
+          case 2:
+            tagColor = "pink";
+            tagText = "Completed";
+            break;
+          case 3:
+            tagColor = "red";
+            tagText = "Cancel";
+            break;
+          default:
+            tagColor = "default";
+            tagText = "Unknown Status";
+        }
         return (
-          <p>
-            {(() => {
-              switch (status) {
-                case 0:
-                  return <p className="text-orange-400">Pending</p>;
-                case 1:
-                  return <p className="text-blue-400">Shipping</p>;
-
-                case 2:
-                  return <p className="text-pink-400">Completed</p>;
-
-                case 3:
-                  return <p className="text-red-400">Cancel</p>;
-
-                default:
-                  return "Unknown Status";
-              }
-            })()}
-          </p>
+          <Tag color={tagColor} style={{ minWidth: 80, textAlign: "center" }}>
+            {tagText}
+          </Tag>
         );
       },
+
       filters: [
         {
           text: "Pending",

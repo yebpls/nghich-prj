@@ -14,20 +14,23 @@ export default function CustomerListLine({ user, index, setIsUpdate }) {
         <div>
           {user.addresses
             ?.sort((a, b) => b.default - a.default)
-            .map((item) => (
+            .map((item, index) => (
               <div
                 key={item._id}
-                className={`text-xs m-1 p-2 rounded-lg border-[1px] border-slate-500  ${
+                className={`text-xs flex m-1 p-2 rounded-lg border-[1px] border-slate-500  ${
                   item.default
                     ? "text-lime-500 border-lime-500"
                     : " text-pink-500"
                 }`}
               >
-                <p className="text-lime-500 font-bold">
-                  {item.default ? "Default" : " "}
-                </p>
-                <p>{item.phoneNumber}</p>
-                <p>{item.address?.split("...")[0]}</p>
+                <p className="mr-2">{index + 1}.</p>
+                <div>
+                  <p className="text-lime-500 font-bold">
+                    {item.default ? "Default" : " "}
+                  </p>
+                  <p>{item.phoneNumber}</p>
+                  <p>{item.address?.split("...")[0]}</p>
+                </div>
               </div>
             ))}
         </div>
@@ -57,6 +60,7 @@ export default function CustomerListLine({ user, index, setIsUpdate }) {
             index % 2 === 0 ? "bg-white" : "bg-gray-200"
           }`}
         >
+          <div className="w-[4%] text-center">{index + 1}</div>
           <div className="w-[13%] p-3">{user.name}</div>
           <div className="w-[13%]  p-3">{user.username}</div>
           <div className="w-1/5  p-3">{user.email}</div>

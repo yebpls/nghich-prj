@@ -17,6 +17,7 @@ class CustomService {
       name: "",
       created_at: new Date(),
       color: color,
+      public_status: CustomPublicStatus.Private,
     });
     const custom = await databaseService.customs.findOne({
       _id: custom_id.insertedId,

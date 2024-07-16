@@ -85,7 +85,7 @@ export const requestPublicCustomController = async (
   const { custom_id } = req.params;
   const custom = await customService.requestPublicCustom(custom_id);
   return res.json({
-    message: "Request public custom successfully",
+    message: "Request public custom successfully!!!",
     data: custom,
   });
 };
@@ -98,7 +98,7 @@ export const acceptPublicCustomController = async (
   const { custom_id } = req.params;
   const custom = await customService.acceptPublicCustom(custom_id);
   return res.json({
-    message: "Request public custom successfully",
+    message: "Accept request public custom successfully!!!",
     data: custom,
   });
 };
@@ -111,7 +111,7 @@ export const privateCustomController = async (
   const { custom_id } = req.params;
   const custom = await customService.privatePublicCustom(custom_id);
   return res.json({
-    message: "Request public custom successfully",
+    message: "Set the custom to private successfully",
     data: custom,
   });
 };
@@ -123,7 +123,7 @@ export const getAllPublicCustomController = async (
 ) => {
   const customs = await customService.getAllPublicCustom();
   return res.json({
-    message: "Get all public customs view successfully",
+    message: "Get all public customs successfully",
     data: customs,
   });
 };
