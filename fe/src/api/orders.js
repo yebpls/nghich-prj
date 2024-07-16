@@ -56,6 +56,22 @@ export const useMakeOrder = () => {
   );
 };
 
+//Get Order by User
+const getOrderByUser = async () => {
+  const { data } = await http.get(API_ENDPOINTS.ORDER_BY_USER);
+  return data.data;
+};
+
+//Use Get Order by User
+export const useGetOrderByUser = () => {
+  const { data, isLoading, isFetching, error } = useQuery(
+    "userOrder",
+    getOrderByUser
+  );
+  // console.log("check addresses:", data);
+  return { data, isLoading, isFetching, error };
+};
+
 // UPDATE ORDER STATUS FUNCTION
 const updateOrderStatus = async (orderId, input) => {
   const response = await http.patch(

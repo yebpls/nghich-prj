@@ -19,7 +19,7 @@ export const useOrderState = create((set) => ({
   orderState: {
     order_details: [],
     address_id: "",
-    payment_type: 0,
+    payment_type: 1,
     ship_method: 1,
   },
   subtotal: calculateSubtotal(orderDetails),
