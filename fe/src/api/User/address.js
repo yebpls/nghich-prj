@@ -71,8 +71,12 @@ async function addUserAddress(input) {
 }
 //REGISTER MUTATION BY USE REGISTER FUNCTION
 export const useAddUserAddressMutation = () => {
+  const queryClient = useQueryClient();
+
   return useMutation((input) => addUserAddress(input), {
     onSuccess: (data) => {
+      queryClient.invalidateQueries("userAddress");
+
       console.log(data, "add success");
       toast.success("add success");
     },
@@ -107,6 +111,62 @@ export const useSetDefaultAddress = () => {
     onError: (error, data) => {
       console.log(error.response.data.errors, data, "set default address fail");
       toast.error("set default address fail");
+    },
+  });
+};
+
+// UPDATE ADDRESS FUNCTION
+export const updateAddress = async ({ address_id, address, phoneNumber }) => {
+  const { data } = await http.patch(
+    `${API_ENDPOINTS.UPDATE_ADDRESS}${address_id}`,
+    { address, phoneNumber }
+  );
+  return data;
+};
+
+export const useUpdateAddressMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(updateAddress, {
+    onSuccess: (data) => {
+      console.log(data, "update address success");
+      queryClient.invalidateQueries("userAddress");
+      toast.success("update address success");
+    },
+    onError: (error) => {
+      console.log(error.response.data.errors, "update address fail");
+      toast.error("update address fail");
+    },
+  });
+};
+// DELETE CUSTOM BAG FUNCTION
+export const deleteAddress2 = async (address_id) => {
+  const { data } = await http.delete(
+    `${API_ENDPOINTS.DELETE_ADDRESS}${address_id}`
+  );
+  return data;
+};
+
+// DELETE ADDRESS
+async function deleteAddress(address_id) {
+  const { data } = await http.delete(
+    `${API_ENDPOINTS.DELETE_ADDRESS}${address_id}`
+  );
+  return data.data;
+}
+
+export const useDeleteAddressMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation((address_id) => deleteAddress(address_id), {
+    onSuccess: (data) => {
+      console.log(data, "delete address success");
+      queryClient.invalidateQueries("userAddress");
+      toast.success("delete address success");
+    },
+    onError: (error, data) => {
+      console.log(error.response.data.errors, data, "delete address fail");
+      toast.error("delete address fail");
     },
   });
 };

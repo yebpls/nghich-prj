@@ -6,12 +6,12 @@ import { create } from "zustand";
 import EditProduct from "./edit-product";
 import UploadProductImage from "./upload-file";
 import { ref } from "yup";
+import { Spin } from "antd";
 
 export default function ProductByOrder({
   orders,
   products,
-  isFetching,
-  isUpdate,
+  isLoading,
   setIsUpdate,
 }) {
   const newOrders = orders?.flatMap((data) => {
@@ -104,7 +104,7 @@ export default function ProductByOrder({
   console.log("products", productList);
 
   return (
-    <div>
+    <div className="max-w-[1300px] w-[1400px] overflow-x-auto xxl:max-w-[1151px] xl:max-w-[969px] lg:max-w-[785px]">
       <div className="flex w-2/3">
         <div className="w-4/5"></div>
         <div className="w-1/5 flex text-sm">
@@ -112,14 +112,15 @@ export default function ProductByOrder({
           <div className="w-1/2 text-pink-500">Sold</div>
         </div>
       </div>
-      {isFetching ? (
-        <div>Loading...</div>
+      {isLoading ? (
+        <Spin size="large" />
       ) : (
         <div>
           {productList &&
-            productList?.map((item) => (
+            productList?.map((item, index) => (
               <div className="flex">
-                <div className="w-2/3 flex">
+                <div className="w-2/3 flex items-center">
+                  <p className="font-semibold mx-4">{index + 1}</p>
                   <div className="w-1/5 p-3">
                     {item.images[0]?.url ? (
                       <img src={item.images[0]?.url} alt="" />

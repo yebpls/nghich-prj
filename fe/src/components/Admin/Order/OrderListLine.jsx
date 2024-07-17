@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useGetAllOrders, useUpdateOrderStatus } from "../../../api/orders";
-import { Collapse, Image } from "antd";
+import { Collapse, Image, Tag } from "antd";
 
 export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
   const { mutate: updateOrderStatus, isSuccess } = useUpdateOrderStatus();
@@ -58,10 +58,36 @@ export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
   ];
   return (
     <div className="p-3 flex w-full" key={order.order_key}>
-      <div className="w-1/6 pr-3 pl-9">{order.username}</div>
+      <div className="w-1/6 pr-3 pl-9">{order.user.username}</div>
 
       <div className="w-1/4 px-3">
-        <Collapse ghost accordion items={items} />
+        <Collapse
+          ghost
+          accordion
+          items={[
+            {
+              key: "1",
+              label: order.order_key,
+              children: (
+                <div className="">
+                  {order.order_details?.map((item) => (
+                    <div key={item._id} className="flex text-sm text-center">
+                      <Image
+                        width={50}
+                        src={item?.product?.images[0]?.url}
+                        className="rounded-lg"
+                      />
+
+                      <p className="text-slate-500 flex items-center justify-center ml-1">
+                        {item.product.name}: {item.quantity}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ),
+            },
+          ]}
+        />
       </div>
       <div className="px-3 w-[13%]">
         <p>{total_price}</p>
@@ -83,25 +109,37 @@ export default function OrderListLine({ order, setIsUpdate, isUpdate }) {
         </p>
       </div>
       <div className="px-3 w-[10%]">
-        <p>
+        <Tag
+          color={(() => {
+            switch (order.order_status) {
+              case 0:
+                return { color: "orange", backgroundColor: "#FFF4E5" }; // Light orange background
+              case 1:
+                return { color: "blue", backgroundColor: "#E6F7FF" }; // Light blue background
+              case 2:
+                return { color: "pink", backgroundColor: "#FFF0F6" }; // Light pink background
+              case 3:
+                return { color: "red", backgroundColor: "#FFF1F0" }; // Light red background
+              default:
+                return { color: "default", backgroundColor: "#F5F5F5" }; // Default background
+            }
+          })()}
+        >
           {(() => {
             switch (order.order_status) {
               case 0:
-                return <p className="text-orange-400">Pending</p>;
+                return "Pending";
               case 1:
-                return <p className="text-blue-400">Shipping</p>;
-
+                return "Shipping";
               case 2:
-                return <p className="text-pink-400">Completed</p>;
-
+                return "Completed";
               case 3:
-                return <p className="text-red-400">Cancel</p>;
-
+                return "Cancel";
               default:
                 return "Unknown Status";
             }
           })()}
-        </p>
+        </Tag>
       </div>
 
       {/* <p>user id: {order.user_id}</p> */}

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { API_ENDPOINTS } from "./api-endpoint";
 import http from "../config/http";
 import { toast } from "react-toastify";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useCartStore } from "../zustand-store/cartState";
 import { useOrderNavState } from "../zustand-store/OrderNavState";
 
@@ -68,10 +68,13 @@ const updateOrderStatus = async (orderId, input) => {
 
 // USE ORDER STATUS MUTATION
 export const useUpdateOrderStatus = () => {
+  const queryClient = useQueryClient();
   return useMutation(
     async ({ orderId, input }) => await updateOrderStatus(orderId, input),
     {
       onSuccess: () => {
+        queryClient.invalidateQueries("adminOrders");
+
         toast.success("Order status updated successfully");
       },
       onError: (error) => {

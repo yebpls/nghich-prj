@@ -15,3 +15,11 @@ export interface UpdateNameCustomReqParams extends ParamsDictionary {
 export interface DeleteCustomReqParams extends ParamsDictionary {
   custom_id: string;
 }
+
+export interface CreateCustomReqParams extends ParamsDictionary {
+  color: string;
+}
+
+export interface RequestCustomPublicReqParams extends ParamsDictionary {
+  custom_id: string;
+}

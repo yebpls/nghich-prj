@@ -25,8 +25,9 @@ export default function CustomerList() {
   }, [isUpdate]);
   return (
     <div>
-      <div className="m-6">
+      <div className="m-6  max-w-[1300px]">
         <div className="w-full flex text-sm font-bold">
+          <div className="w-[4%] text-center p-3">STT</div>
           <div className="w-[13%] p-3">Name</div>
           <div className="w-[13%] p-3">Username</div>
           <div className="w-1/5 p-3">Email</div>
