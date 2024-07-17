@@ -12,8 +12,9 @@ export const defaultErrorHandler = (
   if (err instanceof ErrorWithStatus) {
     return res.status(err.status).json(omit(err, ["status"]));
   }
+  const errorInfo: any = {};
   Object.getOwnPropertyNames(err).forEach((key) => {
-    Object.defineProperty(err, key, { enumerable: true });
+    errorInfo[key] = err[key];
   });
   res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
     message: err.message,
