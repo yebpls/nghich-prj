@@ -49,7 +49,7 @@ export default function CartItem({ item }) {
                   {item.item?.name}
                 </h6>
                 <div className="product-color py-1   text-gray_2">
-                  Color: {item.item?.color[0].name}
+                  Color: {item.item?.color[0]?.name}
                 </div>
                 <button
                   className="text-gray_2 text-sm font-bold"

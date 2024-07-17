@@ -146,15 +146,15 @@ const CheckOutPage = () => {
                   </p>
                 </div>
               </div>
+              <div className="w-full flex mt-3">
+                <a
+                  className="mx-auto px-3 py-1 bg-pink-400 hover:bg-pink-500 text-white   rounded-md text-sm w-full cursor-pointer text-center "
+                  onClick={() => pleaseOrder()}
+                >
+                  Place Order
+                </a>
+              </div>
             </div>
-          </div>
-          <div className="w-full flex mt-3">
-            <a
-              className="mx-auto px-3 py-1 bg-pink-500 hover:bg-pink-400 text-black hover:text-slate-600 font-bold rounded-md text-xl cursor-pointer"
-              onClick={() => pleaseOrder()}
-            >
-              Place Order
-            </a>
           </div>
         </div>
       </div>
