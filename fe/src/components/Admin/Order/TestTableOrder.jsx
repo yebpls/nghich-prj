@@ -52,7 +52,9 @@ export default function TestTable() {
           : orderKey.startsWith("CT")
           ? order.custom_detail
           : null,
-        order_key: orderKey, // Use the safe variable here
+        order_key: orderKey,
+        address: order.address,
+        // Use the safe variable here
       },
     };
   });
@@ -93,17 +95,24 @@ export default function TestTable() {
                 label: item.order_key,
                 children: (
                   <div className="">
+                    <div className="text-sm text-slate-500">
+                      Phone Number: {item.address?.phoneNumber}
+                    </div>
+                    <div className="text-xs text-slate-500 my-1">
+                      Address: {item.address?.address?.split("...")[0]}
+                    </div>
+
+                    <div></div>
                     {
                       item.order_key.startsWith("CT") ? (
                         <div>
-                          <p>Custom tote</p>
                           {item.order_details?.map((item) => (
                             <div
                               key={item._id}
                               className="flex text-sm text-center my-1"
                             >
                               <Image
-                                width={50}
+                                width={100}
                                 src={item?.image}
                                 className="rounded-lg"
                               />
@@ -111,7 +120,10 @@ export default function TestTable() {
                                 <p className="text-slate-500 flex items-center  ml-1">
                                   {item?.name}: {item.quantity}
                                 </p>
-                                <div className="mx-1 w-fit flex">
+                                <div
+                                  className="mx-1 text-base w-fit flex"
+                                  style={{ color: `#${item.color}` }}
+                                >
                                   <p>color: {item.color}</p>
                                   <span style={{ color: `#${item.color}` }}>
                                     ■
@@ -123,6 +135,8 @@ export default function TestTable() {
                         </div> // Replace null with your desired JSX/content for "CT" condition
                       ) : item.order_key.startsWith("PD") ? (
                         <div>
+                          <p>{item?.address?.phoneNumber}</p>
+
                           {item.order_details?.map((item) => (
                             <div
                               key={item._id}
@@ -170,7 +184,7 @@ export default function TestTable() {
         return false;
       },
       filterSearch: true,
-      width: "25%",
+      width: "30%",
     },
     {
       title: "Create Date",
@@ -284,11 +298,11 @@ export default function TestTable() {
       title: "Action",
       render: (record) => {
         return (
-          <div className=" px-3 -py-1 ">
+          <div className=" ">
             {record?.order_status === 0 ? (
               <div className="flex text-sm">
                 <button
-                  className="bg-white mx-1 text-blue-400 border-[1px] border-blue-400 hover:bg-blue-400 hover:text-white px-5 font-light py-1 rounded-full"
+                  className="bg-white mx-1 text-blue-400 border-[1px] border-blue-400 hover:bg-blue-400 hover:text-white px-3 font-light py-1 rounded-full"
                   onClick={() =>
                     handleUpdateStatus({
                       id: record._id,
@@ -299,7 +313,7 @@ export default function TestTable() {
                   Shipping
                 </button>
                 <button
-                  className="bg-white mx-1 text-red-400 border-[1px] border-red-400 hover:bg-red-400 hover:text-white px-5 font-light py-1 rounded-full"
+                  className="bg-white mx-1 text-red-400 border-[1px] border-red-400 hover:bg-red-400 hover:text-white px-3 font-light py-1 rounded-full"
                   onClick={() =>
                     cancelOrder({ id: record._id, status: record.order_status })
                   }
@@ -335,7 +349,7 @@ export default function TestTable() {
           </div>
         );
       },
-      width: "20%",
+      width: "10%",
     },
   ];
   console.log(orders, "combinedListt");
