@@ -33,7 +33,7 @@ const ProductPage = () => {
     setCurrentPage(page);
     setPageSize(pageSize);
   };
-  const currentData = filteredData.slice(
+  const currentData = filteredData?.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
@@ -209,7 +209,7 @@ const ProductPage = () => {
                 <Pagination
                   current={currentPage}
                   pageSize={pageSize}
-                  total={filteredData.length}
+                  total={filteredData?.length}
                   onChange={handleChangePage}
                   style={{ marginTop: "20px", textAlign: "center" }}
                 />

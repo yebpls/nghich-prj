@@ -138,9 +138,7 @@ export default function ProductByOrder({
                         setIsUpdate={setIsUpdate}
                       />
                     </div>
-                    <p>
-                      {item.name}: {item._id}
-                    </p>
+                    <p>{item.name}</p>
                     <p className="text-xs py-3">{item.description}</p>
                   </div>
                   <div className="flex w-1/5">

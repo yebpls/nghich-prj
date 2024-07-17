@@ -32,7 +32,7 @@ export default function CartCheckOut({ item, index }) {
             <div className="product-col flex items-center">
               <img
                 className="w-12 md:w-16 lg:w-20 ml-3"
-                src={item?.images[0].url}
+                src={item?.images[0]?.url}
                 alt=""
                 srcset=""
               />
@@ -41,7 +41,7 @@ export default function CartCheckOut({ item, index }) {
                   {item?.name}
                 </h6>
                 <div className="product-color py-1   text-gray_2">
-                  Color: {item?.color[0].name}
+                  Color: {item?.color[0]?.name}
                 </div>
                 <div className="w-20">
                   <div className="text-center w-full my-auto text-md bg-[#CFF53E] rounded-md border-[1px] border-slate-500 flex flex-row">
@@ -70,11 +70,10 @@ export default function CartCheckOut({ item, index }) {
             </div>
           </div>
           <div className="w-1/5 my-auto">
-            {item?.price_final
-              ?.toLocaleString("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              })}
+            {item?.price_final?.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
           </div>
         </div>
       )}
