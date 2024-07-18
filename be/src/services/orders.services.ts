@@ -36,7 +36,7 @@ class OrderServices {
         subtotal: subtotal,
       };
 
-      const order = await databaseService.orders.insertOne({
+      const { insertedId } = await databaseService.orders.insertOne({
         _id: new ObjectId(),
         ..._body,
         order_key: orderKey,
@@ -44,6 +44,10 @@ class OrderServices {
         updated_at: new Date(),
         coupon_name: "",
         custom_id: "",
+      });
+
+      const order = await databaseService.orders.findOne({
+        _id: insertedId,
       });
 
       return order;
@@ -64,7 +68,7 @@ class OrderServices {
         ),
       };
 
-      const order = await databaseService.orders.insertOne({
+      const { insertedId } = await databaseService.orders.insertOne({
         _id: new ObjectId(),
         ..._body,
         order_key: orderKey,
@@ -74,6 +78,9 @@ class OrderServices {
         order_status: OrderStatus.Pending,
       });
 
+      const order = await databaseService.orders.findOne({
+        _id: insertedId,
+      });
       return order;
     }
   }
