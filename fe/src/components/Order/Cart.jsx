@@ -8,7 +8,7 @@ import { useCustomBagOrderState } from "../../zustand-store/customBagOrderState"
 import CustomBagCartItem from "./CustomBagCartItem";
 
 const CartPage = () => {
-  const { cartItems } = useCartStore((state) => state);
+  const { cartItems, subtotal } = useCartStore((state) => state);
   console.log("cartItems", cartItems);
 
   const {
@@ -16,9 +16,10 @@ const CartPage = () => {
     orderState: productOrderState,
     addNewOrderDetails: addProductOrderDetails,
     getSubtotal: getProductSubtotal,
-    subtotal: productSubtotal,
+    // subtotal: productSubtotal,
+    // subtotal,
   } = useOrderState((state) => state);
-
+  console.log("productOrderState", productOrderState, subtotal);
   // const {
   //   addPaymentType: addCustomBagPaymentType,
   //   orderState: customBagOrderState,
@@ -135,7 +136,10 @@ const CartPage = () => {
                     <div className="total flex justify-between mt-[50px] text-[30px] font-bold">
                       <h3>Total</h3>
                       <h3>
-                        {productSubtotal.toLocaleString("vi-VN", {
+                        {(productOrderState.payment_type === 0
+                          ? subtotal + 30000
+                          : subtotal
+                        ).toLocaleString("vi-VN", {
                           style: "currency",
                           currency: "VND",
                         })}

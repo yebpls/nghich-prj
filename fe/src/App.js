@@ -15,7 +15,6 @@ import UserDraft from "./pages/UserAccount/UserDraft";
 import UserWishlist from "./pages/UserAccount/UserWishlist";
 import CollectionPage from "./pages/HomePage/CollectionPage";
 import OrderUser from "./pages/OrderPage/OrderUser";
-import Contact from "./pages/ContactUs/ContactUs";
 import CustomBagV2 from "./pages/CustomV2/Custom";
 import ProtectRole from "./components/ProtectRoute/ProtectRole";
 import { useEffect } from "react";
@@ -75,7 +74,7 @@ function App() {
             <Route path="/cart" element={<OrderUser />} />
             <Route path="/customize" element={<CustomPage />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/contact" element={<Contact />} />
+            {/* <Route path="/contact" element={<Contact />} /> */}
             <Route path="/collection" element={<CollectionPage />} />
             <Route path="/my-custom" element={<MyCustom />} />
             <Route path="/my-cart-custom" element={<CartCustom />} />
