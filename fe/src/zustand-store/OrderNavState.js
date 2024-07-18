@@ -5,9 +5,9 @@ import { create } from "zustand";
 // 2: DOING
 // 3: DONE
 export const useOrderNavState = create((set) => ({
-  cartStatus: 3,
-  checkoutStatus: 3,
-  completeStatus: 2,
+  cartStatus: 2,
+  checkoutStatus: 1,
+  completeStatus: 1,
   viewCart: () => {
     set(() => ({ cartStatus: 2, checkoutStatus: 1, completeStatus: 1 }));
   },
