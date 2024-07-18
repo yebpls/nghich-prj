@@ -7,25 +7,25 @@ export default function CompletePage() {
   const { data: productData, isLoading: productLoading } = useGetProducts();
   const [OrderList, setOrderList] = useState([]);
 
-  // const { subtotal, orderState, addAddressId, addNewOrderDetails } =
-  //   useOrderState((state) => state);
-  const orderState = {
-    order_details: [
-      {
-        product_id: "664b23651fa659f95ff46e7d",
-        price_final: 800000,
-        quantity: 1,
-      },
-      {
-        product_id: "664b23771fa659f95ff46e80",
-        price_final: 750000,
-        quantity: 1,
-      },
-    ],
-    address_id: "667e109bc6f4b92005444389",
-    payment_type: 2,
-    ship_method: 1,
-  };
+  const { subtotal, orderState, addAddressId, addNewOrderDetails } =
+    useOrderState((state) => state);
+  // const orderState = {
+  //   order_details: [
+  //     {
+  //       product_id: "664b23651fa659f95ff46e7d",
+  //       price_final: 800000,
+  //       quantity: 1,
+  //     },
+  //     {
+  //       product_id: "664b23771fa659f95ff46e80",
+  //       price_final: 750000,
+  //       quantity: 1,
+  //     },
+  //   ],
+  //   address_id: "667e109bc6f4b92005444389",
+  //   payment_type: 2,
+  //   ship_method: 1,
+  // };
   useEffect(() => {
     if (productData) {
       const combinedArray = orderState?.order_details?.map((orderItem) => {
