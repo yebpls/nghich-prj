@@ -45,6 +45,8 @@ class ProductServices {
       );
     }
     const urls = await mediasService.uploadImage(req);
+    console.log("...");
+
     const images = urls.map((url) => ({
       _id: new ObjectId(),
       url: url.url,
