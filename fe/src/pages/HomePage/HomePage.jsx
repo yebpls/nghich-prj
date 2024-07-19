@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import ComSeo from "../../components/SEO/ComSeo";
+import ListCustomPublic from "../CustomV2/GetCustom/CustomPublic";
 
 const HomePage = () => {
   return (
@@ -249,7 +250,7 @@ const HomePage = () => {
         </div>
       </section>
       <section className="section py-8 bg-[#CEF53D] text-black">
-        <div className="container mx-[auto] my-0">
+        {/* <div className="container mx-[auto] my-0">
           <div className="content-wrapper border-b border-[#4848FF] pb-2">
             <h1 className="section-label font-bold text-[35px] text-white">
               <span className="text-[20px] text-gray_2">
@@ -259,7 +260,8 @@ const HomePage = () => {
               EXPLORE OUR PHOTOGRAPHY WORK
             </h1>
           </div>
-        </div>
+        </div> */}
+        <ListCustomPublic />
       </section>
       <section className="section py-8 text-black">
         <div className="container mx-[auto] my-0">
