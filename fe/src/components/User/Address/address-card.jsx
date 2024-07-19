@@ -24,7 +24,7 @@ export default function AddressCard({ item, setIsUpdateAddress }) {
     }
   };
   const handleDeleteAddress = (address_id) => {
-    debugger;
+    // debugger;
     deleteAddress(address_id);
   };
   return (

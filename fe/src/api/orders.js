@@ -29,10 +29,10 @@ const makeOrder = async (input) => {
   const { data } = await http.post(API_ENDPOINTS.ORDERS, input);
   console.log("login response", data);
 
-  return input;
+  return data;
 };
 
-//ORDER MUTATION BY USE ORDER FUNCTION
+// ORDER MUTATION BY USE ORDER FUNCTION
 export const useMakeOrder = () => {
   const { clearCart } = useCartStore((state) => state);
   const { complete } = useOrderNavState();
@@ -64,12 +64,12 @@ const getOrderByUser = async () => {
 
 //Use Get Order by User
 export const useGetOrderByUser = () => {
-  const { data, isLoading, isFetching, error } = useQuery(
+  const { data, isLoading, isFetching, error, refetch } = useQuery(
     "userOrder",
     getOrderByUser
   );
   // console.log("check addresses:", data);
-  return { data, isLoading, isFetching, error };
+  return { data, isLoading, isFetching, error, refetch };
 };
 
 // UPDATE ORDER STATUS FUNCTION

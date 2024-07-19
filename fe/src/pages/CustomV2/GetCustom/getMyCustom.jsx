@@ -179,7 +179,22 @@ const MyCustom = () => {
 
     notification.success({
       message: "Success",
-      description: `Item ${customBag.name} has been added to your cart.`,
+      description: (
+        <span>
+          Item {customBag.name} has been added to your custom cart.{" "}
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/my-cart-custom"); // hoặc router.push('/customize') nếu bạn đang sử dụng Next.js
+            }}
+            className="text-blue-500 underline"
+          >
+            View My Cart Custom
+          </a>{" "}
+          to checkout.
+        </span>
+      ),
     });
   };
 
@@ -273,7 +288,9 @@ const MyCustom = () => {
       </div>
       <hr className="my-2 mb-10" />
       {isLoading ? (
-        <Spin size="large" />
+        <div className="flex items-center justify-center h-screen">
+          <Spin size="large" />
+        </div>
       ) : data && data.length > 0 ? (
         <Row gutter={[16, 16]}>
           {data &&
