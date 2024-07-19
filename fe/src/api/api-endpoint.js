@@ -30,4 +30,5 @@ export const API_ENDPOINTS = {
   GET_ALL_USERS: "/users/all",
   BAN_USER: "/users/ban/",
   UNBAN_USER: "/users/unban/",
+  IMAGE_UPLOAD: "/transactions",
 };

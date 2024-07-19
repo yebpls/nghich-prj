@@ -26,7 +26,7 @@ export default function AddressItem({ item }) {
   };
 
   const handleDeleteAddress = (address_id) => {
-    debugger;
+    // debugger;
     deleteAddress(address_id);
   };
   return (
