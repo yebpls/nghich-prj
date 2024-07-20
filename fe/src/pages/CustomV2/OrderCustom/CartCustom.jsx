@@ -31,14 +31,12 @@ const CartCustom = () => {
 
   const [paymentMethod, setPaymentMethod] = useState("0");
 
-  console.log("cartItemsCus", cartItems);
-  console.log("paymentMethod", paymentMethod);
   useEffect(() => {
     console.log("Loaded Cart Items from Local Storage:", cartItems);
   }, []);
 
   useEffect(() => {
-    console.log("Cart Items Updated:", cartItems);
+    // console.log("Cart Items Updated:", cartItems);
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
     const updatedTotal = cartItems.reduce(
       (sum, item) => sum + item.subtotal,

@@ -37,8 +37,9 @@ const OrderComplete = () => {
   const [total, setTotal] = useState(location.state?.total || 0);
   const [orderId, setOrderId] = useState(location.state?.orderId || "");
   const [paymentMethod, setPaymentMethod] = useState(
-    location.state?.paymentMethod || 0
+    location.state?.paymentMethod || "0"
   );
+  console.log("paymentMethodComplete", location.state?.paymentMethod);
   const [isUploadModalVisible, setIsUploadModalVisible] = useState(false);
   const [fileList, setFileList] = useState([]);
   const { mutate: uploadImage } = useUploadImage(); // Get the mutate function from the hook
@@ -63,8 +64,9 @@ const OrderComplete = () => {
     }
 
     try {
-      debugger;
-      await uploadImage({ id: orderId, file: fileList[0].originFileObj }); // Use the mutation to upload the image
+      const file = fileList[0].originFileObj;
+      console.log("Uploading file:", file); // Log the file
+      await uploadImage({ id: orderId, file }); // Use the mutation to upload the image
       handleUploadCancel(); // Close modal on success
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -73,7 +75,6 @@ const OrderComplete = () => {
   };
 
   console.log("cartItemsCus", cartItems);
-  console.log("paymentMethod", paymentMethod);
   console.log("orderKey", orderKey);
   return (
     <div className="p-4 max-w-5xl mx-auto">
@@ -84,7 +85,7 @@ const OrderComplete = () => {
         My Cart Order Custom Bag
       </h1>
       <CustomSteps current={2} />
-      {paymentMethod === "0" ? (
+      {paymentMethod === 0 ? (
         <div className="flex item-center mx-auto justify-center">
           <div className="w-1/3">
             <div class="flex items-center justify-center text-center">

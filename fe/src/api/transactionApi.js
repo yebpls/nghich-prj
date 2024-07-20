@@ -6,12 +6,17 @@ import { API_ENDPOINTS } from "./api-endpoint";
 // Define the API endpoint for image upload
 // Define the API endpoint for image upload, with placeholder for the id
 const IMAGE_UPLOAD_ENDPOINT = (id) => `/transactions/${id}/image`;
+
 // Function to upload image
-const uploadImage = async (id, file) => {
+const uploadImage = async ({ id, file }) => {
   const formData = new FormData();
   formData.append("image", file);
 
-  const { data } = await http.post(IMAGE_UPLOAD_ENDPOINT, formData, {
+  // Ensure the URL is correctly constructed with the id
+  const endpoint = IMAGE_UPLOAD_ENDPOINT(id);
+  console.log("Uploading to endpoint:", endpoint);
+
+  const { data } = await http.post(endpoint, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -24,7 +29,7 @@ const uploadImage = async (id, file) => {
 export const useUploadImage = () => {
   return useMutation(
     async ({ id, file }) => {
-      const data = await uploadImage(id, file);
+      const data = await uploadImage({ id, file });
       return data;
     },
     {
