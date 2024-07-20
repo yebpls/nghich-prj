@@ -65,7 +65,7 @@ const CheckoutDetails = () => {
   );
   const [total, setTotal] = useState(location.state?.total || 0);
   const [paymentMethod, setPaymentMethod] = useState(
-    location.state?.paymentMethod || 0
+    location.state?.paymentMethod || "0"
   );
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
@@ -73,7 +73,7 @@ const CheckoutDetails = () => {
 
   const { mutate: makeOrder } = useMakeOrder();
 
-  console.log("paymentMethod", paymentMethod);
+  console.log("paymentMethodCheck", paymentMethod);
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
 
