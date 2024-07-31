@@ -34,22 +34,23 @@ const AdminNavMobi = () => {
 
         {
           key: "3",
-          label: (
-            <Link to="/admin/customer-management">Customer Management</Link>
-          ),
-        },
-        {
-          key: "4",
           label: <Link to="/admin/product-management">Product Management</Link>,
         },
         {
-          key: "5",
+          key: "4",
           label: <Link to="/admin/custom-management">Custom Management</Link>,
         },
         // {
         //   key: "5",
         //   label: <Link to="/admin/settings">Settings</Link>,
         // },
+
+        {
+          key: "5",
+          label: (
+            <Link to="/admin/customer-management">Customer Management</Link>
+          ),
+        },
         {
           key: "6",
           label: (

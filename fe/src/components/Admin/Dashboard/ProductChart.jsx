@@ -31,13 +31,38 @@ function ProductChartComponent({ data: productOrders }) {
     { costPrice: [], quantity: [], time: [], totalPrice: [] } // Initialize the accumulator
   );
 
-  console.log("groupedProductByDay", result, productOrders);
+  // Sort the result by time
+  const sortedResult = {
+    time: [],
+    quantity: [],
+    costPrice: [],
+    totalPrice: [],
+  };
+
+  const sortedIndices = result.time
+    .map((date, index) => ({ date, index }))
+    .sort(
+      (a, b) =>
+        new Date(a.date.split("-").reverse().join("-")) -
+        new Date(b.date.split("-").reverse().join("-"))
+    )
+    .map(({ index }) => index);
+
+  sortedIndices.forEach((index) => {
+    sortedResult.time.push(result.time[index]);
+    sortedResult.quantity.push(result.quantity[index]);
+    sortedResult.costPrice.push(result.costPrice[index]);
+    sortedResult.totalPrice.push(result.totalPrice[index]);
+  });
+
+  console.log("groupedProductByDay", sortedResult, productOrders);
+
   const data = {
-    labels: result ? result.time : [],
+    labels: sortedResult ? sortedResult.time : [],
     datasets: [
       {
         label: "Product Chart", // Change this label to whatever suits the new data
-        data: result ? result.totalPrice : [], // Assuming `totalPrice` is your new dataset
+        data: sortedResult ? sortedResult.totalPrice : [], // Assuming `totalPrice` is your new dataset
         fill: true, // Change this as needed
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgba(75, 192, 192, 1)", // Choose a different color for distinction
@@ -79,8 +104,8 @@ function ProductChartComponent({ data: productOrders }) {
         callbacks: {
           label: function (context) {
             const index = context.dataIndex;
-            const quantity = result.quantity[index];
-            const totalPrice = result.totalPrice[index];
+            const quantity = sortedResult.quantity[index];
+            const totalPrice = sortedResult.totalPrice[index];
             return `Quantity: ${quantity}, Total: ${totalPrice.toLocaleString()}đ`; // Format the tooltip as needed
           },
         },
