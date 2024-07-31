@@ -15,6 +15,7 @@ type ProductColor = {
 interface ProductType {
   _id: ObjectId;
   name: string;
+  cost_price: number;
   price: number;
   description: string;
   collection_id: ObjectId;
@@ -33,6 +34,7 @@ interface ProductType {
 export default class Product {
   _id: ObjectId;
   name: string;
+  cost_price: number;
   price: number;
   description: string;
   collection_id: ObjectId;
@@ -51,6 +53,7 @@ export default class Product {
     const date = new Date();
     this._id = product._id;
     this.name = product.name || "";
+    this.cost_price = product.cost_price || 0;
     this.price = product.price || 0;
     this.description = product.description || "";
     this.collection_id = product.collection_id;

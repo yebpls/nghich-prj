@@ -4,6 +4,7 @@ import { ProductStatus } from "~/constants/enum";
 
 export interface AddProductReqBody {
   name: string;
+  cost_price: number;
   price: number;
   description: string;
   collection_id: string;
@@ -63,6 +64,7 @@ export interface UpdateProductReqParams extends ParamsDictionary {
 
 export interface UpdateProductReqBody {
   name?: string;
+  cost_price?: number;
   price?: number;
   description?: string;
   width?: number;
