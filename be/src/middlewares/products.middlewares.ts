@@ -37,6 +37,14 @@ export const addProductValidator = validate(
           errorMessage: PRODUCTS_MESSAGES.NAME_IS_REQUIRED,
         },
       },
+      cost_price: {
+        isNumeric: {
+          errorMessage: "Cost Price must be a number",
+        },
+        notEmpty: {
+          errorMessage: "Cost Price is required",
+        },
+      },
       price: {
         isNumeric: {
           errorMessage: "Price must be a number",
@@ -121,6 +129,12 @@ export const updateProductValidator = validate(
     {
       name: {
         ...nameSchema,
+        optional: true,
+      },
+      cost_price: {
+        isNumeric: {
+          errorMessage: "Cost Price must be a number",
+        },
         optional: true,
       },
       price: {

@@ -70,6 +70,8 @@ const ListCustomPublic = () => {
   const navigate = useNavigate();
 
   const [prices, setPrices] = useState(400000);
+  const [limit, setLimit] = useState(8);
+
   const [cartItems, setCartItems] = useState(() => {
     const savedCartItems = localStorage.getItem("cartItemsCus");
     return savedCartItems ? JSON.parse(savedCartItems) : [];
@@ -135,8 +137,28 @@ const ListCustomPublic = () => {
 
     notification.success({
       message: "Success",
-      description: `Item ${customBag.name} has been added to your cart.`,
+      description: (
+        <span>
+          Item {customBag.name} has been added to your custom cart.{" "}
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/my-cart-custom"); // hoặc router.push('/customize') nếu bạn đang sử dụng Next.js
+            }}
+            className="text-blue-500 underline"
+          >
+            View My Cart Custom
+          </a>{" "}
+          to checkout.
+        </span>
+      ),
     });
+  };
+
+  const handleLoadMore = () => {
+    // Increase the limit by 3 each time the user wants to load more
+    setLimit(limit + 8);
   };
 
   return (
@@ -152,7 +174,7 @@ const ListCustomPublic = () => {
       ) : data && data.length > 0 ? (
         <Row gutter={[16, 16]}>
           {data &&
-            data.map((customBag) => {
+            data.slice(0, limit).map((customBag) => {
               const formattedDate = moment(customBag.created_at).format(
                 "MMMM Do YYYY, h:mm:ss a"
               );
@@ -282,6 +304,16 @@ const ListCustomPublic = () => {
             </span>
           </a>
         </div>
+      )}
+      {data && limit <= data.length && (
+        <button
+          className="bg-white rounded-md p-2 text-center w-[20%] mt-10 mx-auto border-2 border-gray-600	"
+          onClick={handleLoadMore}
+        >
+          <p className="text-[#677434] text-center text-sm font-semibold">
+            Load more
+          </p>
+        </button>
       )}
     </div>
   );

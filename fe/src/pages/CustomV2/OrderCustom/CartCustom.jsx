@@ -29,15 +29,14 @@ const CartCustom = () => {
       : 0;
   });
 
-  const [paymentMethod, setPaymentMethod] = useState("cod");
+  const [paymentMethod, setPaymentMethod] = useState("0");
 
-  console.log("cartItemsCus", cartItems);
   useEffect(() => {
     console.log("Loaded Cart Items from Local Storage:", cartItems);
   }, []);
 
   useEffect(() => {
-    console.log("Cart Items Updated:", cartItems);
+    // console.log("Cart Items Updated:", cartItems);
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
     const updatedTotal = cartItems.reduce(
       (sum, item) => sum + item.subtotal,
@@ -197,13 +196,13 @@ const CartCustom = () => {
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value)}
                 >
-                  <Radio value="cod" className="block mb-2">
+                  <Radio value="0" className="block mb-2">
                     Ship cod + 30.000vnd
                   </Radio>
-                  <Radio value="banking" className="block mb-2">
+                  <Radio value="1" className="block mb-2">
                     Banking
                   </Radio>
-                  <Radio value="momo" className="block mb-2">
+                  <Radio value="2" className="block mb-2">
                     MOMO
                   </Radio>
                 </Radio.Group>
@@ -223,7 +222,7 @@ const CartCustom = () => {
                   disabled={cartItems.length === 0}
                   onClick={() =>
                     navigate("/checkout-custom", {
-                      state: { cartItems, total },
+                      state: { cartItems, total, paymentMethod },
                     })
                   }
                 >

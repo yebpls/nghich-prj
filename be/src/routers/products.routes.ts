@@ -95,6 +95,7 @@ productsRouter.patch(
     "length",
     "material_id",
     "name",
+    "cost_price",
     "price",
     "quantity",
     "status",

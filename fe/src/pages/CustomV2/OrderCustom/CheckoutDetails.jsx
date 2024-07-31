@@ -64,12 +64,16 @@ const CheckoutDetails = () => {
     JSON.parse(localStorage.getItem("cartItemsCus")) || []
   );
   const [total, setTotal] = useState(location.state?.total || 0);
+  const [paymentMethod, setPaymentMethod] = useState(
+    location.state?.paymentMethod || "0"
+  );
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
 
   const { mutate: makeOrder } = useMakeOrder();
 
+  console.log("paymentMethodCheck", paymentMethod);
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
 
@@ -100,7 +104,7 @@ const CheckoutDetails = () => {
   });
 
   const handleDeleteAddress = (address_id) => {
-    debugger;
+    // debugger;
     deleteAddressMutation(address_id);
   };
 
@@ -142,20 +146,27 @@ const CheckoutDetails = () => {
         name: item.name,
       })),
       address_id: selectedAddress,
-      payment_type: 0, // You can change this value based on your requirement
-      ship_method: 1, // You can change this value based   on your requirement
+      payment_type: paymentMethod, // You can change this value based on your requirement
+      ship_method: 1, // You can change this value based on your requirement
       subtotal: total,
     };
 
     console.log("please order", orderCustom);
     console.log("cartItems", cartItems);
-    debugger;
 
     if (orderCustom) {
       makeOrder(orderCustom, {
-        onSuccess: () => {
+        onSuccess: (data) => {
           clearCart();
-          navigate("/order-custom-complete", { state: { cartItems, total } });
+          navigate("/order-custom-complete", {
+            state: {
+              cartItems,
+              total,
+              paymentMethod,
+              orderKey: data.data.order_key,
+              orderId: data.data._id,
+            },
+          });
         },
         onError: (error) => {
           console.error("Order failed:", error);
@@ -369,11 +380,11 @@ const CheckoutDetails = () => {
           </StyledModal>
         </div>
 
-        <div className="cart-left w-full h-fit  lg:w-2/5 pr-0 lg:pr-10 p-3 lg:px-3 border-[1px] border-pink-300 rounded-lg  mb-4">
+        <div className="cart-left w-full h-fit  lg:w-[55%] pr-0 lg:pr-10 p-3 lg:px-3 border-[1px] border-pink-300 rounded-lg  mb-4">
           <p className="text-lg my-2 font-semibold text-center">
             Order Summary
           </p>
-          <div className="w-full text-left ">
+          <div className="w-full text-left max-h-96 overflow-y-auto ">
             {cartItems.map((item, index) => (
               <div className="flex text-xs lg:text-base border-b-2 mx-2">
                 <div className="py-5 w-4/5">
