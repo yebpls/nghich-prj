@@ -220,7 +220,7 @@ export default function CustomManage() {
             title={"Are you sure you want to delete the custom?"}
             content={"This action will delete the current custom."}
           >
-            <DeleteOutlined className="cursor-pointer text-red-200 hover:text-blue-600  text-xl" />
+            <DeleteOutlined className="cursor-pointer text-red-200 hover:text-red-600  text-xl" />
           </StyledButton>
         </div>
       ),

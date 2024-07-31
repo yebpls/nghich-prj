@@ -1,31 +1,36 @@
 export const productFieldInput = [
   {
-    label: "Tên sản phẩm",
+    label: "Product Name",
     field: "name",
     tag: "input",
   },
   {
-    label: "Chi tiết sản phẩm",
+    label: "Detail",
     field: "detail",
     tag: "textarea",
   },
   {
-    label: "Mô tả sản phẩm",
+    label: "Description",
     field: "description",
     tag: "textarea",
   },
   {
-    label: "Giá sản phẩm",
+    label: "Cost Price",
+    field: "cost_price",
+    tag: "input",
+  },
+  {
+    label: "Sell Price",
     field: "price",
     tag: "input",
   },
   {
-    label: "Chiều rộng",
+    label: "Width",
     field: "width",
     tag: "input",
   },
   {
-    label: "Chiều dài",
+    label: "Length",
     field: "length",
     tag: "input",
   },

@@ -74,7 +74,7 @@ function App() {
             <Route path="/cart" element={<OrderUser />} />
             <Route path="/customize" element={<CustomPage />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/contact" element={<Contact />} />
+            {/* <Route path="/contact" element={<Contact />} /> */}
             <Route path="/collection" element={<CollectionPage />} />
             <Route path="/my-custom" element={<MyCustom />} />
             <Route path="/my-cart-custom" element={<CartCustom />} />

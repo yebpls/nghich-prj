@@ -6,7 +6,7 @@ import AdminNav from "../components/Admin/Navigate/AdminNav";
 export default function AdminLayout() {
   return (
     <>
-      <div className="flex w-full lg:pt-5 mx-auto">
+      <div className="flex w-full mx-auto">
         <div className="w-0 lg:w-1/4 invisible lg:visible">
           <AdminNav />
         </div>

@@ -1,18 +1,39 @@
 import yup from "./yupGlobal";
 
 const schemaAddProduct = yup.object().shape({
-  name: yup.string().required("Tên bắt buộc nhập "),
-  detail: yup.string().required("Nên có chi tiết"),
-  description: yup.string().required("Nên có mô tả"),
-  price: yup.number().typeError("Giá phải là số").required("Bắt buộc có giá"),
+  name: yup.string().required("Name is required"),
+  detail: yup.string().required("Details are required"),
+  description: yup.string().required("Description is required"),
+  cost_price: yup
+    .number()
+    .typeError("Price must be a number")
+    .required("Cost price is required")
+    .test(
+      "is-less-than-price",
+      "Must be less than sell price",
+      function (value) {
+        return value < this.parent.price;
+      }
+    ),
+  price: yup
+    .number()
+    .typeError("Price must be a number")
+    .required("Price is required")
+    .test(
+      "is-greater-than-cost-price",
+      "Must be greater than cost price",
+      function (value) {
+        return value > this.parent.cost_price;
+      }
+    ),
   width: yup
     .number()
-    .typeError("Chiều rộng phải là số")
-    .required("Phải có chiều rộng"),
+    .typeError("Width must be a number")
+    .required("Width is required"),
   length: yup
     .number()
-    .typeError("Chiều dài phải là số")
-    .required("Phải có chiều dài"),
+    .typeError("Length must be a number")
+    .required("Length is required"),
 });
 
 export default schemaAddProduct;
