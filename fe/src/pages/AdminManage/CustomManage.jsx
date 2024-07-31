@@ -237,7 +237,7 @@ export default function CustomManage() {
         <Table
           columns={columns}
           dataSource={combinedData}
-          scroll={{ x: "max-content", y: 600 }}
+          // scroll={{ x: "max-content", y: 600 }}
         />
       </div>
     </div>
