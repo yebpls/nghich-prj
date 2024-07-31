@@ -2,37 +2,12 @@ import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { useGetAllOrders } from "../../../api/orders";
 
-function ProfitChartComponent({ data: combinedOrders }) {
-  // if (!Array.isArray(orders)) {
-  //   console.error("Orders data is not an array or is undefined");
-  //   return null; // or handle the error as needed
-  // }
-
-  // const productOrders = orders.flatMap((data) => {
-  //   console.log(data, "detail");
-
-  //   return data?.order_detail?.order_details?.map((detail) => ({
-  //     ...detail,
-  //     created_at: data?.order_detail?.created_at,
-  //   }));
-  // });
-
-  // const customOrders = orders.flatMap((data) => {
-  //   return data?.order_detail?.custom_detail
-  //     ? data.order_detail.custom_detail.map((detail) => ({
-  //         _id: data?.order_detail?._id,
-  //         ...detail,
-  //         created_at: data?.order_detail?.created_at,
-  //       }))
-  //     : [];
-  // });
-
-  console.log("combinedOrders", combinedOrders);
+function ProductChartComponent({ data: productOrders }) {
   function getFormattedDate(date) {
     return `${date.getUTCDate()}-${date.getUTCMonth() + 1}`; // Formats the date as 'DD-MM'
   }
 
-  const result = combinedOrders?.reduce(
+  const result = productOrders?.reduce(
     (acc, item) => {
       const date = new Date(item?.created_at);
       const formattedDate = getFormattedDate(date);
@@ -46,9 +21,9 @@ function ProfitChartComponent({ data: combinedOrders }) {
         acc.costPrice.push(halfPrice); // Add halfPrice to costPrice
         acc.totalPrice.push(totalPrice);
       } else {
-        acc.quantity[dateIndex] += item.quantity;
-        acc.totalPrice[dateIndex] += totalPrice; // Update the respective element in costPrice
+        acc.totalPrice[dateIndex] += totalPrice;
         acc.costPrice[dateIndex] += halfPrice; // Update the respective element in costPrice
+        acc.quantity[dateIndex] += item.quantity;
       }
 
       return acc;
@@ -56,13 +31,12 @@ function ProfitChartComponent({ data: combinedOrders }) {
     { costPrice: [], quantity: [], time: [], totalPrice: [] } // Initialize the accumulator
   );
 
-  console.log("groupedProductByDay", result, combinedOrders);
-
+  console.log("groupedProductByDay", result, productOrders);
   const data = {
     labels: result ? result.time : [],
     datasets: [
       {
-        label: "Overall Chart", // Change this label to whatever suits the new data
+        label: "Product Chart", // Change this label to whatever suits the new data
         data: result ? result.totalPrice : [], // Assuming `totalPrice` is your new dataset
         fill: true, // Change this as needed
         backgroundColor: "rgba(75, 192, 192, 0.2)",
@@ -117,4 +91,4 @@ function ProfitChartComponent({ data: combinedOrders }) {
   return <Line data={data} options={options} />;
 }
 
-export default ProfitChartComponent;
+export default ProductChartComponent;

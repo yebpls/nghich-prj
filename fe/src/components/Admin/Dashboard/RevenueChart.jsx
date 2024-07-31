@@ -63,7 +63,7 @@ function RevenueChartComponent() {
     labels: result.time,
     datasets: [
       {
-        label: "Revenue Chart",
+        label: "Selling Chart",
         data: result.quantity,
         fill: true,
         backgroundColor: "rgba(75, 192, 192, 0.2)",

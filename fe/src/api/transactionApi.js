@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import http from "../config/http";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { API_ENDPOINTS } from "./api-endpoint";
 
 // Define the API endpoint for image upload
@@ -42,4 +42,20 @@ export const useUploadImage = () => {
       },
     }
   );
+};
+
+//GET ALL TRANSACTIONS
+const getAllTransactions = async () => {
+  try {
+    const response = await http.get(API_ENDPOINTS.TRANSACTION);
+    return response.data.data;
+  } catch (error) {
+    toast.error("Failed to fetch transactions");
+    throw error;
+  }
+};
+
+// Custom hook to use the fetchAllTransactions function
+export const useGetAllTransactions = () => {
+  return useQuery("transactions", getAllTransactions);
 };

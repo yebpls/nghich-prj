@@ -49,7 +49,9 @@ const AdminNav = () => {
         style={{ background: "#CFF53E" }}
       >
         {items[0].children.map((item) => (
-          <Menu.Item key={item.id} icon={<HomeOutlined />} className="py-8">
+          <Menu.Item key={item.id} className="py-8">
+            {/* <Menu.Item key={item.id} icon={<HomeOutlined />} className="py-8"> */}
+
             {item.label}
           </Menu.Item>
         ))}

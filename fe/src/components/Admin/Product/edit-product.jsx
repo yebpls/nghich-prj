@@ -88,6 +88,7 @@ export default function EditProduct({ updateItem, setIsUpdate }) {
       length: data.length,
       material_id: data.material_id,
       name: data.name,
+      cost_price: data.cost_price,
       price: data.price,
       quantity: data.quantity,
       status: data.status,
