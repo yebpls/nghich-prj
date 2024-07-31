@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Collapse, Table, Image, Modal, Tooltip } from "antd";
-import { useGetOrderByUser } from "../../api/orders";
+import { useGetOrderByUser, useUpdateOrderStatus } from "../../api/orders";
 import { set } from "react-hook-form";
 
 const onChange = (pagination, filters, sorter, extra) => {
@@ -9,6 +9,7 @@ const onChange = (pagination, filters, sorter, extra) => {
 export default function UserOrder() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalData, setModalData] = useState({});
+  const { mutate: updateOrderStatus, isSuccess } = useUpdateOrderStatus();
 
   const { data: orders, isFetching, isLoading, refetch } = useGetOrderByUser();
 
@@ -107,6 +108,20 @@ export default function UserOrder() {
                                 width={100}
                                 src={item?.image}
                                 className="rounded-lg"
+                                style={{
+                                  width: "100%",
+                                  height: "auto",
+                                  maskImage:
+                                    "url('/images/bagsBody/BagTransparentBg.png')",
+                                  WebkitMaskImage:
+                                    "url('/images/bagsBody/BagTransparentBg.png')",
+                                  maskSize: "contain",
+                                  WebkitMaskSize: "contain",
+                                  maskPosition: "center",
+                                  WebkitMaskPosition: "center",
+                                  maskRepeat: "no-repeat",
+                                  WebkitMaskRepeat: "no-repeat",
+                                }}
                               />
                               <div>
                                 <p className="text-slate-500 flex items-center  ml-1">
@@ -185,18 +200,35 @@ export default function UserOrder() {
             {(() => {
               switch (status) {
                 case 0:
-                  return <p className="text-orange-400">Pending</p>;
+                  return (
+                    <p className="text-orange-500 text-center font-semibold bg-orange-100 px-2 py-1 rounded-lg">
+                      Pending
+                    </p>
+                  );
                 case 1:
-                  return <p className="text-blue-400">Shipping</p>;
-
+                  return (
+                    <p className="text-blue-500 text-center font-semibold bg-blue-100 px-2 py-1 rounded-lg">
+                      Shipping
+                    </p>
+                  );
                 case 2:
-                  return <p className="text-pink-400">Completed</p>;
-
+                  return (
+                    <p className="text-pink-500 text-center font-semibold bg-pink-100 px-2 py-1 rounded-lg">
+                      Completed
+                    </p>
+                  );
                 case 3:
-                  return <p className="text-red-400">Cancel</p>;
-
+                  return (
+                    <p className="text-red-500 text-center font-semibold bg-red-100 px-2 py-1 rounded-lg">
+                      Cancel
+                    </p>
+                  );
                 default:
-                  return "Unknown Status";
+                  return (
+                    <p className="text-gray-500 text-center font-semibold bg-gray-100 px-2 py-1 rounded-lg">
+                      Unknown Status
+                    </p>
+                  );
               }
             })()}
           </p>
@@ -294,8 +326,68 @@ export default function UserOrder() {
       filterSearch: true,
       width: "15%",
     },
+    {
+      title: "Cancel",
+      render: (item) => {
+        console.log(item, "item");
+        return (
+          <button
+            className={`button-wishlist border border-black px-4 py-1 font-semibold rounded-lg ${
+              item.order_status === 3 || item.payment_type !== 0
+                ? "bg-gray-500 text-black"
+                : "bg-[#FF78C5] text-white"
+            }`}
+            onClick={() => showConfirm(item._id)}
+            disabled={item.order_status === 3 || item.payment_type !== 0}
+          >
+            Cancel
+          </button>
+        );
+      },
+      filters: [
+        {
+          text: "Shipcod",
+          value: "0",
+        },
+        {
+          text: "Banking",
+          value: "1",
+        },
+        {
+          text: "Momo",
+          value: "2",
+        },
+      ],
+      onFilter: (value, record) =>
+        record.payment_type.toString().startsWith(value.toString()),
+      filterSearch: true,
+      width: "15%",
+    },
   ];
   console.log(orders, "combinedListt");
+
+  const handleCancelOder = async (id) => {
+    console.log("idOrder", id);
+    await updateOrderStatus({ orderId: id, input: { order_status: 3 } });
+    refetch();
+  };
+
+  const showConfirm = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to cancel this order?",
+      content: "This action cannot be undone.",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        handleCancelOder(id);
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
+
   return (
     <div>
       <Modal
